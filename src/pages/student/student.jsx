@@ -1,7 +1,42 @@
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+
+import DashboardInfoCard from "../../components/dashboardInfoCard";
+import Header from "../../components/UserDashboard/Header";
+import { FolderClock, GraduationCap, NotebookPen } from "lucide-react";
+import { AppSidebar } from "../../components/app-sidebar";
+
 export default function Student() {
   return (
-    <div>
-      <h1>Student</h1>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <Header />
+        <div className="flex flex-1 flex-col gap-4 p-10 bg-background">
+          <div className="flex items-center justify-between flex-wrap gap-5 max-sm:justify-center">
+            {/* <div className=""> */}
+            <DashboardInfoCard
+              icon={<GraduationCap />}
+              detail={{ title: "Instructor", name: "Imran Shah" }}
+            />
+            <DashboardInfoCard
+              icon={<GraduationCap />}
+              iconClassName={"bg-[#C37955] text-primary-foreground"}
+              detail={{ title: "Batch", name: "11" }}
+            />
+            <DashboardInfoCard
+              icon={<NotebookPen />}
+              iconClassName={"bg-[#55A7C3] text-primary-foreground"}
+              detail={{ title: "Course", name: "WMA" }}
+            />
+            <DashboardInfoCard
+              icon={<FolderClock />}
+              iconClassName={"bg-[#55C38C] text-primary-foreground"}
+              detail={{ title: "Section", name: "TTS - (19 - 21)" }}
+            />
+          </div>
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
