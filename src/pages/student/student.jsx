@@ -13,7 +13,7 @@ export default function Student() {
       <SidebarInset>
         <Header />
         <div className="flex flex-1 flex-col gap-4 p-10 bg-background">
-          <div className="bg-muted/20 p-5 flex  items-center justify-between flex-wrap gap-3 max-sm:justify-center ">
+          <div className="bg-muted/20 p-5 flex  items-center justify-between flex-wrap gap-5 max-sm:justify-center ">
             {/* <div className=""> */}
             <DashboardInfoCard
               icon={<GraduationCap />}
@@ -35,7 +35,7 @@ export default function Student() {
               detail={{ title: "Section", name: "TTS - (19 - 21)" }}
             />
           </div>
-          <div className=" flex gap-5 max-lg:items-center max-lg:flex-col md:justify-between rounded-xl">
+          <div className=" p-5 flex gap-5 max-lg:items-center max-lg:flex-col md:justify-between xl:justify-around rounded-xl">
             <AssignmentsCard />
             <QuizCard />
           </div>
