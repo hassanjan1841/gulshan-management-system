@@ -7,8 +7,8 @@ export default function DashboardInfoCard({
   iconClassName,
 }) {
   return (
-    <div className=" bg-muted text-foreground rounded-xl py-3 px-2 min-w-[250px] max-w-[300px] w-full">
-      <div className=" flex items-center justify-center gap-5 ">
+    <div className=" bg-muted text-foreground rounded-xl py-3 px-2 sm:min-w-[150px] sm:max-w-[230px] w-full">
+      <div className=" flex items-center justify-start sm:justify-center gap-5 max-sm:pl-5 ">
         <div>
           {avatarImage && (
             <Avatar className="h-16 w-16">

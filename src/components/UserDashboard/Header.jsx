@@ -5,6 +5,7 @@ import { Bell, Settings } from "lucide-react";
 import SearchInput from "../../components/SearchInput";
 import AvatarWithMenu from "../../components/AvatarWithMenu";
 import { ModeToggle } from "../mode-toggle";
+import StudentProfileSheet from "./ProfileSheet";
 
 export default function Header() {
   return (
@@ -16,22 +17,15 @@ export default function Header() {
           <h1 className="capitalize text-xl">overview</h1>
         </div>
         <div className="flex items-center justify-between gap-5">
-          <SearchInput />
           <ModeToggle />
-          <div>
-            <span>
-              <Settings className="text-muted-foreground cursor-pointer" />
-            </span>
-          </div>
+
           <div>
             <span>
               <Bell className="text-orange-300 cursor-pointer" />
             </span>
           </div>
           <div>
-            <AvatarWithMenu
-              menuItems={[{ name: "profile" }, { name: "settings" }]}
-            />
+            <StudentProfileSheet />
           </div>
         </div>
       </div>
