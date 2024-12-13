@@ -1,0 +1,75 @@
+import {
+  LayoutDashboard,
+  BookOpen,
+  PenTool,
+  Award,
+  Settings,
+} from "lucide-react";
+import {
+  Sidebar as ShadcnSidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "./ui/sidebar";
+import { Link } from "react-router";
+
+const navItems = [
+  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+  { name: "Assignments", href: "/assignments", icon: PenTool },
+  { name: "Quizzes", href: "/quizzes", icon: BookOpen },
+  { name: "Certificates", href: "/certificates", icon: Award },
+  { name: "Settings", href: "/settings", icon: Settings },
+];
+
+export function AppSidebar({ ...props }) {
+  const { state } = useSidebar();
+
+  return (
+    <ShadcnSidebar
+      {...props}
+      collapsible="icon"
+      className="transition-all overflow-hidden duration-300 ease-in-out "
+    >
+      <SidebarHeader>
+        <div className="flex items-center p-4 ">
+          <h2
+            className={`text-2xl font-semibold text-primary  transition-opacity duration-300 sm:min-w-[400px] ${
+              state === "collapsed" ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            Student Portal
+          </h2>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarMenu>
+          {navItems.map((item) => (
+            <SidebarMenuItem key={item.name} className="flex justify-center">
+              <SidebarMenuButton asChild>
+                <Link
+                  href={item.href}
+                  className="flex items-center px-4 py-2 text-primary hover:text-black transition-all duration-300 ease-in-out"
+                >
+                  <item.icon
+                    className="mr-3"
+                    style={{ height: 20, width: 20 }}
+                  />
+                  <span
+                    className={`transition-opacity duration-300 ${
+                      state === "collapsed" ? "opacity-0 hidden" : "opacity-100"
+                    }`}
+                  >
+                    {item.name}
+                  </span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarContent>
+    </ShadcnSidebar>
+  );
+}
