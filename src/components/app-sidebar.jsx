@@ -17,11 +17,10 @@ import {
 import { Link } from "react-router";
 
 const navItems = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Assignments", href: "/assignments", icon: PenTool },
-  { name: "Quizzes", href: "/quizzes", icon: BookOpen },
-  { name: "Certificates", href: "/certificates", icon: Award },
-  { name: "Settings", href: "/settings", icon: Settings },
+  { name: "Dashboard", href: "/student", icon: LayoutDashboard },
+  { name: "Assignments", href: "/student/assignments", icon: PenTool },
+  { name: "Quizzes", href: "/student/quizzes", icon: BookOpen },
+  { name: "Certificates", href: "/student/certificates", icon: Award },
 ];
 
 export function AppSidebar({ ...props }) {
@@ -50,7 +49,7 @@ export function AppSidebar({ ...props }) {
             <SidebarMenuItem key={item.name} className="flex justify-center">
               <SidebarMenuButton asChild>
                 <Link
-                  href={item.href}
+                  to={item.href}
                   className="flex items-center px-4 py-2 text-primary hover:text-black transition-all duration-300 ease-in-out"
                 >
                   <item.icon

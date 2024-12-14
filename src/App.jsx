@@ -4,7 +4,9 @@ import Login from "./pages/Login";
 import Admin from "./pages/admin/admin";
 import Teacher from "./pages/teacher/teacher";
 import { ThemeProvider } from "./components/theme-provider";
-import Student from "./pages/student/student";
+import StudentDashboard from "./components/UserDashboard/studentDashboard";
+import StudentDashboardLayout from "./pages/student/StudentDashboardLayout";
+import StudentAssignment from "./components/UserDashboard/StudentAssignment";
 
 function App() {
   return (
@@ -13,7 +15,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/student" element={<Student />} />
+
+          {/* student routes */}
+          <Route path="/student" element={<StudentDashboardLayout />}>
+            <Route index element={<StudentDashboard />} />
+            <Route path="assignments" element={<StudentAssignment />} />
+          </Route>
+          {/* student routes end */}
+
           <Route path="/teacher" element={<Teacher />} />
         </Routes>
       </BrowserRouter>
