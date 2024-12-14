@@ -1,5 +1,4 @@
 import AllCertificateCard from "./AllCertificatecard";
-import CertificateCard from "./CertificateCard";
 
 // Mock data for certificates
 const certificates = [
@@ -17,7 +16,8 @@ const certificates = [
     id: 2,
     title: "Database Design Certification",
     issueDate: "November 20, 2024",
-    description: "Certification for expertise in database design and management",
+    description:
+      "Certification for expertise in database design and management",
     status: "active",
     expirationDate: "November 20, 2026",
     issuer: "Database Professionals Association",
@@ -27,7 +27,8 @@ const certificates = [
     id: 3,
     title: "API Development Certification",
     issueDate: "October 5, 2024",
-    description: "Certification for proficiency in API development and integration",
+    description:
+      "Certification for proficiency in API development and integration",
     status: "pending",
     expirationDate: null,
     issuer: "API Developers Institute",
@@ -37,7 +38,8 @@ const certificates = [
     id: 4,
     title: "UI/UX Design Certification",
     issueDate: "September 1, 2023",
-    description: "Certification for expertise in UI/UX design principles and practices",
+    description:
+      "Certification for expertise in UI/UX design principles and practices",
     status: "expired",
     expirationDate: "September 1, 2024",
     issuer: "Design Professionals Association",
@@ -66,4 +68,3 @@ export default function StudentCertificate() {
     </div>
   );
 }
-

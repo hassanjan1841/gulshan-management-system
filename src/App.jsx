@@ -9,12 +9,8 @@ import StudentDashboard from "./components/StudentDashboard/studentDashboard";
 import DashboardLayout from "./pages/student/DashboardLayout";
 import StudentAssignment from "./components/StudentDashboard/StudentAssignment";
 import TeacherDashboard from "./components/TeacherDashboard/TeachertDashboard";
-import StudentDashboard from "./components/UserDashboard/studentDashboard";
-
-import StudentAssignment from "./components/UserDashboard/StudentAssignment";
-import StudentQuiz from "./components/UserDashboard/StudentQuiz";
-
-import StudentCertificate from "./components/UserDashboard/StudentCertificate";
+import StudentQuiz from "./components/StudentDashboard/StudentQuiz";
+import StudentCertificate from "./components/StudentDashboard/StudentCertificate";
 
 function App() {
   return (
