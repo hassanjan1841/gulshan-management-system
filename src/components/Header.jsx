@@ -1,11 +1,10 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
-import { Bell, Settings } from "lucide-react";
-import SearchInput from "../../components/SearchInput";
-import AvatarWithMenu from "../../components/AvatarWithMenu";
-import { ModeToggle } from "../mode-toggle";
-import StudentProfileSheet from "./ProfileSheet";
+import { Bell } from "lucide-react";
+
+import { ModeToggle } from "./mode-toggle";
+import ProfileSheet from "./ProfileSheet";
 
 export default function Header() {
   return (
@@ -25,7 +24,15 @@ export default function Header() {
             </span>
           </div>
           <div>
-            <StudentProfileSheet />
+            <ProfileSheet
+              data={{
+                name: "John Doe",
+                cnic: "1234567890123",
+                course: "Computer Science",
+                qualifications: "High School Diploma",
+                email: "john.doe@example.com",
+              }}
+            />
           </div>
         </div>
       </div>

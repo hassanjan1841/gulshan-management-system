@@ -2,11 +2,13 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Login from "./pages/Login";
 import Admin from "./pages/admin/admin";
-import Teacher from "./pages/teacher/teacher";
+
 import { ThemeProvider } from "./components/theme-provider";
-import StudentDashboard from "./components/UserDashboard/studentDashboard";
-import StudentDashboardLayout from "./pages/student/StudentDashboardLayout";
-import StudentAssignment from "./components/UserDashboard/StudentAssignment";
+
+import StudentDashboard from "./components/StudentDashboard/studentDashboard";
+import DashboardLayout from "./pages/student/DashboardLayout";
+import StudentAssignment from "./components/StudentDashboard/StudentAssignment";
+import TeacherDashboard from "./components/TeacherDashboard/TeachertDashboard";
 
 function App() {
   return (
@@ -17,13 +19,15 @@ function App() {
           <Route path="/admin" element={<Admin />} />
 
           {/* student routes */}
-          <Route path="/student" element={<StudentDashboardLayout />}>
+          <Route path="/student" element={<DashboardLayout />}>
             <Route index element={<StudentDashboard />} />
             <Route path="assignments" element={<StudentAssignment />} />
           </Route>
           {/* student routes end */}
 
-          <Route path="/teacher" element={<Teacher />} />
+          <Route path="/teacher" element={<DashboardLayout />}>
+            <Route index element={<TeacherDashboard />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

@@ -1,10 +1,10 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import Header from "../../components/UserDashboard/Header";
 import { AppSidebar } from "../../components/app-sidebar";
 
 import { Outlet } from "react-router";
+import Header from "../../components/StudentDashboard/Header";
 
-export default function StudentDashboardLayout() {
+export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
