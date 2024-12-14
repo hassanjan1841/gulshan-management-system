@@ -35,7 +35,7 @@ export default function Student() {
               detail={{ title: "Section", name: "TTS - (19 - 21)" }}
             />
           </div>
-          <div className=" p-5 flex gap-5 max-lg:items-center max-lg:flex-col md:justify-between xl:justify-around rounded-xl">
+          <div className=" bg-muted/20 p-5 flex gap-5 max-lg:items-center max-lg:flex-col md:justify-between xl:justify-around rounded-xl">
             <AssignmentsCard />
             <QuizCard />
           </div>

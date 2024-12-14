@@ -16,7 +16,7 @@ import { LogOut, Moon, Sun } from "lucide-react";
 
 export default function StudentProfileSheet() {
   const [open, setOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  
 
   // Mock student data
   const student = {
@@ -105,25 +105,7 @@ export default function StudentProfileSheet() {
                 </div>
                 <Switch />
               </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Dark Mode</Label>
-                  <div className="text-sm text-muted-foreground">
-                    Toggle dark mode
-                  </div>
-                </div>
-                <Switch
-                  checked={darkMode}
-                  onCheckedChange={setDarkMode}
-                  icon={
-                    darkMode ? (
-                      <Moon className="h-4 w-4" />
-                    ) : (
-                      <Sun className="h-4 w-4" />
-                    )
-                  }
-                />
-              </div>
+              
               <div className="space-y-2">
                 <Label htmlFor="name">Display Name</Label>
                 <Input id="name" defaultValue={student.name} />
