@@ -10,7 +10,7 @@ export default function StudentDashboardLayout() {
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <div className="flex flex-1 flex-col gap-4 p-10 bg-background">
+        <div className="flex flex-1 flex-col gap-4 p-10 bg-background ">
           <Outlet />
         </div>
       </SidebarInset>
