@@ -1,10 +1,4 @@
-import {
-  LayoutDashboard,
-  BookOpen,
-  PenTool,
-  Award,
-  Settings,
-} from "lucide-react";
+import { LayoutDashboard, BookOpen, PenTool, Award } from "lucide-react";
 import {
   Sidebar as ShadcnSidebar,
   SidebarContent,
@@ -16,15 +10,37 @@ import {
 } from "./ui/sidebar";
 import { Link } from "react-router";
 
-const navItems = [
+// agar role student ho to ye sidebar dikhega
+const adminItems = [
+  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+];
+
+const teacherItems = [
+  { name: "Dashboard", href: "/teacher", icon: LayoutDashboard },
+  { name: "Students", href: "/teacher/students", icon: LayoutDashboard },
+  { name: "Assignments", href: "/teacher/assignments", icon: PenTool },
+  { name: "Schedule", href: "/teacher/schedule", icon: PenTool },
+  { name: "Quizzes", href: "/teacher/quizzes", icon: BookOpen },
+];
+
+const studentItems = [
   { name: "Dashboard", href: "/student", icon: LayoutDashboard },
   { name: "Assignments", href: "/student/assignments", icon: PenTool },
   { name: "Quizzes", href: "/student/quizzes", icon: BookOpen },
   { name: "Certificates", href: "/student/certificates", icon: Award },
 ];
 
-export function AppSidebar({ ...props }) {
+export default function AppSidebar({ role, ...props }) {
   const { state } = useSidebar();
+  console.log("role=> ", role);
+  const navItems =
+    role === "teacher"
+      ? teacherItems
+      : role === "admin"
+      ? adminItems
+      : studentItems;
+  const title =
+    role === "teacher" ? "Teacher" : role === "admin" ? "Admin" : "Student";
 
   return (
     <ShadcnSidebar
@@ -39,13 +55,13 @@ export function AppSidebar({ ...props }) {
               state === "collapsed" ? "opacity-0" : "opacity-100"
             }`}
           >
-            Student Portal
+            {title} Portal
           </h2>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
-          {navItems.map((item) => (
+          {navItems?.map((item) => (
             <SidebarMenuItem key={item.name} className="flex justify-center">
               <SidebarMenuButton asChild>
                 <Link

@@ -1,14 +1,14 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "../../components/Sidebar";
 
 import { Outlet } from "react-router";
 import Header from "../../components/Header";
-
+import AppSidebar from "../../components/Sidebar";
 
 export default function DashboardLayout() {
+  const role = "teacher";
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar role={role} />
       <SidebarInset>
         <Header />
         <div className="flex flex-1 flex-col gap-4 p-10 bg-background">
