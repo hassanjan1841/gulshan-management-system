@@ -1,107 +1,84 @@
-import { useState } from "react";
-import { Table, Button, Popconfirm } from "antd";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  FileExcelOutlined,
-} from "@ant-design/icons";
-import { Link } from "react-router";
-import * as XLSX from "xlsx";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Edit, Trash2, Eye } from "lucide-react";
+import DataTable from "../DataTable";
+import { useNavigate } from "react-router";
 
-const mockData = [
-  {
-    key: "1",
-    title: "Math Assignment 1",
-    sNo: 1,
-    dueDate: "2023-07-15",
-    submissionCount: 25,
-  },
-  // Add more mock data here
-];
-
-function AssignmentTable() {
-  const [data, setData] = useState(mockData);
+const AssignmentTable = () => {
+  const navigate = useNavigate();
 
   const columns = [
     {
-      title: "S No",
-      dataIndex: "sNo",
-      key: "sNo",
+      accessorKey: "sNo",
+      header: "S No",
     },
     {
-      title: "Assignment Title",
-      dataIndex: "title",
-      key: "title",
-      // render: (text, record) => (
-      //   <Link to={`/teacher/assignments/${record.key}`}>{text}</Link>
-      // ),
+      accessorKey: "title",
+      header: "Title",
     },
     {
-      title: "Due Date",
-      dataIndex: "dueDate",
-      key: "dueDate",
+      accessorKey: "submissions",
+      header: "Submissions",
     },
     {
-      title: "Submission Count",
-      dataIndex: "submissionCount",
-      key: "submissionCount",
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: (_, record) => (
-        <span>
-          <Button icon={<EditOutlined />} onClick={() => handleEdit(record)} />
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => handleDelete(record.key)}
-          >
-            <Button icon={<DeleteOutlined />} />
-          </Popconfirm>
-        </span>
-      ),
-    },
-    {
-      dataIndex: "title",
-      key: "title",
-        render: (text, record) => (
-          <Link to={`/teacher/assignments/${record.key}`}><Button>See All Sumbissions</Button></Link>
-        ),
+      id: "actions",
+      cell: ({ row }) => {
+        return (
+          <div className="flex space-x-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => console.log("Edit", row.original)}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => console.log("Delete", row.original)}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() =>
+                navigate(`/teacher/assignments/${row.original.sNo}`)
+              }
+            >
+              <Eye className="h-4 w-4 mr-2" />
+              View Details
+            </Button>
+          </div>
+        );
+      },
     },
   ];
 
-  const handleEdit = (record) => {
-    // Implement edit functionality
-    console.log("Edit", record);
+  const fetchData = async (pagination, sorting) => {
+    const { pageIndex, pageSize } = pagination;
+    const sortField = sorting[0]?.id;
+    const sortOrder = sorting[0]?.desc ? "desc" : "asc";
+
+    console.log(
+      `Fetching data: page ${pageIndex}, size ${pageSize}, sort ${sortField} ${sortOrder}`
+    );
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const totalItems = 100;
+    const data = Array.from({ length: pageSize }, (_, i) => ({
+      sNo: pageIndex * pageSize + i + 1,
+      title: `Item ${pageIndex * pageSize + i + 1}`,
+      submissions: Math.floor(Math.random() * 100),
+    }));
+
+    return {
+      data,
+      totalPages: Math.ceil(totalItems / pageSize),
+    };
   };
 
-  const handleDelete = (key) => {
-    setData(data.filter((item) => item.key !== key));
-  };
-
-  const handleExport = () => {
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Assignments");
-    XLSX.writeFile(wb, "assignments.xlsx");
-  };
-
-  return (
-    <div>
-      <Button
-        icon={<FileExcelOutlined />}
-        onClick={handleExport}
-        className="mb-4"
-      >
-        Export to Excel
-      </Button>
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={{ pageSize: 10 }}
-      />
-    </div>
-  );
-}
+  return <DataTable columns={columns} fetchData={fetchData} />;
+};
 
 export default AssignmentTable;
