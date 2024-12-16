@@ -1,7 +1,15 @@
 import { FolderClock, GraduationCap, NotebookPen } from "lucide-react";
 import DashboardInfoCard from "../dashboardInfoCard";
+import StatCard from "./TeacherStatCard";
 
 export default function TeacherDashboard() {
+  const stats = [
+    { title: "Total Students", value: 55 },
+    { title: "Completed Modules", value: 2 },
+    { title: "Remaining Modules", value: 2 },
+    { title: "Total Quizzes", value: 3 },
+    { title: "Total Assignment", value: 6 },
+  ]
   return (
     <>
       <div className="bg-muted/20 p-5 flex  items-center justify-between flex-wrap gap-5 max-sm:justify-center ">
@@ -26,9 +34,14 @@ export default function TeacherDashboard() {
           detail={{ title: "Section", name: "TTS - (19 - 21)" }}
         />
       </div>
-      <div className=" bg-muted/20 p-5 flex gap-5 max-lg:items-center max-lg:flex-col md:justify-between xl:justify-around rounded-xl">
-        {/* <AssignmentsCard /> */}
-        {/* <QuizCard /> */}
+      <div className=" grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      {stats.map((stat) => (
+        <StatCard
+          key={stat.title}
+          title={stat.title}
+          value={stat.value}
+        />
+      ))}
       </div>
     </>
   );

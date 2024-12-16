@@ -13,6 +13,9 @@ import StudentQuiz from "./components/StudentDashboard/StudentQuiz";
 import StudentCertificate from "./components/StudentDashboard/StudentCertificate";
 import TeacherAssignment from "./components/TeacherDashboard/TeacherAssignment";
 import AssignmentDetail from "./components/TeacherDashboard/AssignmentDetail";
+import TeacherServices from "./components/TeacherDashboard/TeacherServices";
+import QuizTable from "./components/TeacherDashboard/QuizTable";
+import QuizDetail from "./components/TeacherDashboard/QuizDetail";
 
 function App() {
   return (
@@ -23,7 +26,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
 
           {/* student routes */}
-          <Route path="/student" element={<DashboardLayout />}>
+          <Route path="/student" element={<DashboardLayout role={'student'}/>}>
             <Route index element={<StudentDashboard />} />
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="quizzes" element={<StudentQuiz />} />
@@ -31,10 +34,13 @@ function App() {
           </Route>
           {/* student routes end */}
 
-          <Route path="/teacher" element={<DashboardLayout />}>
+          <Route path="/teacher" element={<DashboardLayout role={'teacher'}/>}>
             <Route index element={<TeacherDashboard />} />
             <Route path="assignments" element={<TeacherAssignment />} />
             <Route path="assignments/:id" element={<AssignmentDetail />} />
+            <Route path="quizzes" element={<QuizTable />} />
+            <Route path="quizzes/:id" element={<QuizDetail />} />
+            <Route path="services" element={<TeacherServices />} />
           </Route>
         </Routes>
       </BrowserRouter>
