@@ -32,9 +32,9 @@ function AssignmentTable() {
       title: "Assignment Title",
       dataIndex: "title",
       key: "title",
-      render: (text, record) => (
-        <Link to={`/teacher/assignments/${record.key}`}>{text}</Link>
-      ),
+      // render: (text, record) => (
+      //   <Link to={`/teacher/assignments/${record.key}`}>{text}</Link>
+      // ),
     },
     {
       title: "Due Date",
@@ -60,6 +60,13 @@ function AssignmentTable() {
           </Popconfirm>
         </span>
       ),
+    },
+    {
+      dataIndex: "title",
+      key: "title",
+        render: (text, record) => (
+          <Link to={`/teacher/assignments/${record.key}`}><Button>See All Sumbissions</Button></Link>
+        ),
     },
   ];
 

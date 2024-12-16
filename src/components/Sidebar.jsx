@@ -17,10 +17,10 @@ const adminItems = [
 
 const teacherItems = [
   { name: "Dashboard", href: "/teacher", icon: LayoutDashboard },
-  { name: "Students", href: "/teacher/students", icon: LayoutDashboard },
   { name: "Assignments", href: "/teacher/assignments", icon: PenTool },
-  { name: "Schedule", href: "/teacher/schedule", icon: PenTool },
   { name: "Quizzes", href: "/teacher/quizzes", icon: BookOpen },
+  { name: "Schedule", href: "/teacher/schedule", icon: PenTool },
+  { name: "Your Services", href: "/teacher/services", icon: BookOpen },
 ];
 
 const studentItems = [
