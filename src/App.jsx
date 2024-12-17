@@ -1,8 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Login from "./pages/Login";
-import Admin from "./pages/admin/admin";
-
 import { ThemeProvider } from "./components/theme-provider";
 
 import StudentDashboard from "./components/StudentDashboard/studentDashboard";
@@ -23,8 +21,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
-
           {/* student routes */}
           <Route path="/student" element={<DashboardLayout role={'student'}/>}>
             <Route index element={<StudentDashboard />} />
@@ -33,7 +29,7 @@ function App() {
             <Route path="Certificates" element={<StudentCertificate />} />
           </Route>
           {/* student routes end */}
-
+          
           <Route path="/teacher" element={<DashboardLayout role={'teacher'}/>}>
             <Route index element={<TeacherDashboard />} />
             <Route path="assignments" element={<TeacherAssignment />} />
@@ -41,6 +37,10 @@ function App() {
             <Route path="quizzes" element={<QuizTable />} />
             <Route path="quizzes/:id" element={<QuizDetail />} />
             <Route path="services" element={<TeacherServices />} />
+          </Route>
+
+          <Route path="/admin" element={<DashboardLayout role={'admin'}/>}>
+            <Route index element={<TeacherDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>
