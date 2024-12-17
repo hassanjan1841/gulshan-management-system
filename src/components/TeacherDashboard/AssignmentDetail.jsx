@@ -15,9 +15,7 @@ const AssignmentDetails = () => {
         id,
         title: `Assignment ${id}`,
         description: `This is the description for Assignment ${id}. It contains details about the assignment, its objectives, and any specific instructions for students.`,
-        dueDate: new Date(
-          Date.now() + 7 * 24 * 60 * 60 * 1000
-        ).toLocaleDateString(),
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
         totalScore: 100,
       });
     };
