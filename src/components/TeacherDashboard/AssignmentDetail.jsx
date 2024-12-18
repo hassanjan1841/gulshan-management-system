@@ -1,31 +1,38 @@
-'use client'
 
-import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { CalendarIcon, Trophy } from 'lucide-react'
-import SubmissionsCards from "./SubmissionsCards"
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CalendarIcon, Trophy } from "lucide-react";
+import SubmissionsCards from "./SubmissionsCards";
 
 const AssignmentDetails = () => {
-  const { id } = useParams()
-  const [assignment, setAssignment] = useState(null)
+  const { id } = useParams();
+  const [assignment, setAssignment] = useState(null);
 
   useEffect(() => {
     const fetchAssignment = async () => {
       // Simulating API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await new Promise((resolve) => setTimeout(resolve, 500));
       setAssignment({
         id,
         title: `Assignment ${id}`,
         description: `This is the description for Assignment ${id}. It contains details about the assignment, its objectives, and any specific instructions for students.`,
-        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+        dueDate: new Date(
+          Date.now() + 7 * 24 * 60 * 60 * 1000
+        ).toLocaleDateString(),
         totalScore: 100,
-      })
-    }
-    fetchAssignment()
-  }, [id])
+      });
+    };
+    fetchAssignment();
+  }, [id]);
 
   if (!assignment) {
     return (
@@ -36,19 +43,21 @@ const AssignmentDetails = () => {
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
-    <div className="container mx-auto py-10">
-      <Card className="w-full max-w-3xl mx-auto">
+    <div className=" mx-auto w-full">
+      <Card className="w-full mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">{assignment.title}</CardTitle>
+          <CardTitle className="text-2xl font-bold">
+            {assignment.title}
+          </CardTitle>
           <CardDescription>Assignment Details</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="details" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid max-w-xl grid-cols-2">
               <TabsTrigger value="details">Details</TabsTrigger>
               <TabsTrigger value="submissions">Submissions</TabsTrigger>
             </TabsList>
@@ -58,14 +67,20 @@ const AssignmentDetails = () => {
                   <CardTitle>Assignment Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-sm text-muted-foreground">{assignment.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {assignment.description}
+                  </p>
                   <div className="flex items-center space-x-2">
                     <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium">Due Date: {assignment.dueDate}</span>
+                    <span className="text-sm font-medium">
+                      Due Date: {assignment.dueDate}
+                    </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Trophy className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm font-medium">Total Score: {assignment.totalScore}</span>
+                    <span className="text-sm font-medium">
+                      Total Score: {assignment.totalScore}
+                    </span>
                   </div>
                   <Badge variant="outline" className="mt-2">
                     Assignment {id}
@@ -73,15 +88,14 @@ const AssignmentDetails = () => {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="submissions">
+            <TabsContent value="submissions" >
               <SubmissionsCards assignmentId={id} />
             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default AssignmentDetails
-
+export default AssignmentDetails;

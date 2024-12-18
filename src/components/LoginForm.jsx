@@ -1,74 +1,69 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+"use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form.jsx";
-
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+import { signInWithGoogle } from "../firebase/auth";
+import { useNavigate } from "react-router";
+import { getUserByEmail } from "../services/api/user";
 
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Invalid email address.",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
-});
+export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
+  const navgiate = useNavigate();
 
-export default function LoginForm() {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-  });
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    // Implement your Google login logic here
+    try {
+      const user = await signInWithGoogle();
 
-  const onSubmit = (data) => {
-    console.log(data);
+      const userData = await getUserByEmail(user.email);
+
+      if (!userData[0]) {
+        console.error("User not found");
+        return;
+      }
+      // console.log(userData);
+
+      navgiate(`/${userData[0].role}`);
+    } catch (error) {
+      console.error("Error signing in:", error.message);
+    }
+    // setTimeout(() => setLoading(false), 2000); // Simulating API call
   };
+
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 shadow-gray-500 shadow-sm p-5 rounded-lg"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="email@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="23fsd$%324dff"
-                  type={"password"}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <div className="min-h-screen flex items-center justify-center p-4 ">
+      <Card className="w-full max-w-md bg-secondary backdrop-blur-sm">
+        <CardContent className="flex flex-col items-center space-y-6 p-8">
+          <div className="rounded-full bg-primary/10 p-4 mb-4">
+            <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+              <span className="text-3xl font-bold text-primary-foreground">
+                L
+              </span>
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold text-center">Welcome Back</h1>
+          <p className="text-muted-foreground text-center">
+            Sign in to your account to continue
+          </p>
+          <Button
+            className="w-full"
+            onClick={handleGoogleLogin}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing In...
+              </>
+            ) : (
+              "Continue with Google"
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
