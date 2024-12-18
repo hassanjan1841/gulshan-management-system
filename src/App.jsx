@@ -14,6 +14,7 @@ import AssignmentDetail from "./components/TeacherDashboard/AssignmentDetail";
 import TeacherServices from "./components/TeacherDashboard/TeacherServices";
 import QuizTable from "./components/TeacherDashboard/QuizTable";
 import QuizDetail from "./components/TeacherDashboard/QuizDetail";
+import AdminLogin from "./components/Admin/AdminLogin";
 
 function App() {
   return (
@@ -22,15 +23,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           {/* student routes */}
-          <Route path="/student" element={<DashboardLayout role={'student'}/>}>
+          <Route path="/student" element={<DashboardLayout role={"student"} />}>
             <Route index element={<StudentDashboard />} />
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="quizzes" element={<StudentQuiz />} />
             <Route path="Certificates" element={<StudentCertificate />} />
           </Route>
           {/* student routes end */}
-          
-          <Route path="/teacher" element={<DashboardLayout role={'teacher'}/>}>
+
+          <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
             <Route index element={<TeacherDashboard />} />
             <Route path="assignments" element={<TeacherAssignment />} />
             <Route path="assignments/:id" element={<AssignmentDetail />} />
@@ -39,8 +40,9 @@ function App() {
             <Route path="services" element={<TeacherServices />} />
           </Route>
 
-          <Route path="/admin" element={<DashboardLayout role={'admin'}/>}>
-            <Route index element={<TeacherDashboard />} />
+          <Route path="/admin" element={<DashboardLayout role={"admin"} />}>
+            <Route index element={<AdminLogin />} />
+            {/* <Route index element={<TeacherDashboard />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>
