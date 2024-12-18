@@ -25,9 +25,9 @@ export const getUserById = async (userId) => {
 };
 
 // Get a single user by email
-export const getUserByEmail = async (email) => {
+export const loginUser = async (email) => {
   try {
-    const response = await axios.post(`${VITE_API_URL}/user/email`, { email });
+    const response = await axios.post(`${VITE_API_URL}/auth/login`, { email });
     return response.data;
   } catch (error) {
     console.error(`Error fetching user with email ${email}:`, error);
