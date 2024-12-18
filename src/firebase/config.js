@@ -2,13 +2,13 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDXJanK7YWaSyDGAuoYNV1gHGSBfSdOHBU",
-  authDomain: "saylani-management-system.firebaseapp.com",
-  projectId: "saylani-management-system",
-  storageBucket: "saylani-management-system.firebasestorage.app",
-  messagingSenderId: "1063690629127",
-  appId: "1:1063690629127:web:dfaef9694181fe8c973aa2",
-  measurementId: "G-YTCXXFQNSY",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
