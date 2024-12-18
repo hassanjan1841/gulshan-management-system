@@ -9,26 +9,34 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import CreateAssignmentForm from "./AssignmentForm";
+import { Edit } from "lucide-react";
 
-function CreateAssignmentButton() {
+export default function EditAssignmentButton() {
   const [open, setOpen] = useState(false);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button className="mb-4">Create Assignment</Button>
+        <Button variant="ghost" size="icon">
+          <Edit className="h-4 w-4" />
+        </Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Create New Assignment</SheetTitle>
+          <SheetTitle>Edit Assignment</SheetTitle>
           <SheetDescription>
-            Fill in the details to create a new assignment.
+            Fill in the details to Edit a assignment.
           </SheetDescription>
         </SheetHeader>
-        <CreateAssignmentForm onSuccess={() => setOpen(false)} />
+        <CreateAssignmentForm
+          onSuccess={() => setOpen(false)}
+          assignmentData={{
+            title: "fdsafdsf",
+            description: "sfasdf dfdsaf",
+            dueDate: Date.now(),
+          }}
+        />
       </SheetContent>
     </Sheet>
   );
 }
-
-export default CreateAssignmentButton;

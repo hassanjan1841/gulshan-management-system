@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function DashboardInfoCard({
+export default function  DashboardInfoCard({
   avatarImage,
   icon,
   detail,
