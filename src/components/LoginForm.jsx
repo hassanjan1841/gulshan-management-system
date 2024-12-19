@@ -6,29 +6,35 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router";
-import { getUserByEmail } from "../services/api/user";
+import { loginUser } from "../services/api/user";
+import { useToast } from "../hooks/use-toast";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const navgiate = useNavigate();
+  const { toast } = useToast();
 
   const handleGoogleLogin = async () => {
     setLoading(true);
     // Implement your Google login logic here
     try {
       const user = await signInWithGoogle();
+      // console.log("user in form", user);
+      const userData = await loginUser(user.email);
+      // console.log("userData", userData);
+      if (userData.error == true) {
+        setLoading(false);
 
-      const userData = await getUserByEmail(user.email);
-
-      if (!userData[0]) {
-        console.error("User not found");
-        return;
+        toast({
+          variant: "destructive",
+          title: "User Validaion",
+          description: userData.message,
+        });
       }
-      // console.log(userData);
-
       navgiate(`/${userData[0].role}`);
     } catch (error) {
-      console.error("Error signing in:", error.message);
+      setLoading(false);
+      console.error("Error signing in:", error);
     }
     // setTimeout(() => setLoading(false), 2000); // Simulating API call
   };

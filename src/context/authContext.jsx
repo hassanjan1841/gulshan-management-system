@@ -1,6 +1,6 @@
 // context/AuthContext.js
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase/auth";
+import { auth } from "../firebase/auth.js";
 
 const AuthContext = createContext();
 
@@ -16,6 +16,14 @@ export const AuthProvider = ({ children }) => {
 
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      currentUser?.role == "student" && navigate("/student");
+      currentUser?.role == "teacher" && navigate("/teacher");
+      currentUser?.role == "admin" && navigate("/admin");
+    }
+  }, [currentUser]);
 
   return (
     <AuthContext.Provider value={{ currentUser }}>
