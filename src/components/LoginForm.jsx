@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router";
-import { getUserByEmail } from "../services/api/user";
+import { loginUser } from "../services/api/user";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function LoginPage() {
     try {
       const user = await signInWithGoogle();
 
-      const userData = await getUserByEmail(user.email);
+      const userData = await loginUser(user.email);
 
       if (!userData[0]) {
         console.error("User not found");
