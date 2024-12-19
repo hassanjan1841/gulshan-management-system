@@ -21,7 +21,7 @@ export default function LoginPage() {
       const user = await signInWithGoogle();
       // console.log("user in form", user);
       const userData = await loginUser(user.email);
-      // console.log("userData", userData);
+      // console.log("userData", userData.user);
       if (userData.error == true) {
         setLoading(false);
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
           description: userData.message,
         });
       }
-      navgiate(`/${userData[0].role}`);
+      navgiate(`/${userData.user.role}`);
     } catch (error) {
       setLoading(false);
       console.error("Error signing in:", error);
