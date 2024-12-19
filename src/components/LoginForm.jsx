@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -22,12 +22,14 @@ export default function LoginPage() {
 
       if (!userData[0]) {
         console.error("User not found");
+setLoading(false)
         return;
       }
       // console.log(userData);
 
       navgiate(`/${userData[0].role}`);
     } catch (error) {
+setLoading(false)
       console.error("Error signing in:", error.message);
     }
     // setTimeout(() => setLoading(false), 2000); // Simulating API call
