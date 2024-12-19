@@ -8,11 +8,14 @@ import { signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router";
 import { loginUser } from "../services/api/user";
 import { useToast } from "../hooks/use-toast";
+import { useAuth } from "../context/authContext";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const navgiate = useNavigate();
   const { toast } = useToast();
+  const { setCurrentUser } = useAuth();
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -21,7 +24,6 @@ export default function LoginPage() {
       const user = await signInWithGoogle();
       // console.log("user in form", user);
       const userData = await loginUser(user.email);
-      // console.log("userData", userData.user);
       if (userData.error == true) {
         setLoading(false);
 
@@ -31,6 +33,11 @@ export default function LoginPage() {
           description: userData.message,
         });
       }
+      // console.log("userData", userData.user);
+
+      setCurrentUser(userData.data);
+      Cookies.set("token", userData.token);
+
       navgiate(`/${userData.user.role}`);
     } catch (error) {
       setLoading(false);
