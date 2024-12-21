@@ -40,8 +40,12 @@ function App() {
             <Route path="services" element={<TeacherServices />} />
           </Route>
 
-          <Route path="/admin" element={<DashboardLayout role={"admin"} />}>
-            <Route index element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route
+            path="/admin/dashboard"
+            element={<DashboardLayout role={"admin"} />}
+          >
+            {/* <Route index element={<AdminLogin />} /> */}
             {/* <Route index element={<TeacherDashboard />} /> */}
           </Route>
         </Routes>
