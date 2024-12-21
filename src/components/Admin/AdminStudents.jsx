@@ -27,9 +27,7 @@ const AdminStudents = () => {
     const data = Array.from({ length: pageSize }, (_, i) => ({
       id: page * pageSize + i + 1,
       name: `Student ${page * pageSize + i + 1}`,
-      picture: `https://via.placeholder.com/150?text=Student+${
-        page * pageSize + i + 1
-      }`,
+      picture: `https://cdn5.vectorstock.com/i/1000x1000/52/54/male-student-graduation-avatar-profile-vector-12055254.jpg`,
       course: `Course ${Math.floor(Math.random() * 5) + 1}`,
       batch: `Batch ${Math.floor(Math.random() * 4) + 1}`,
       section: `Section ${String.fromCharCode(
@@ -112,10 +110,10 @@ const AdminStudents = () => {
                   </SheetTrigger>
                   <SheetContent
                     side="right"
-                    className="w-[400px] bg-background "
+                    className="max-w-[400px] w-full bg-background pt-10"
                   >
                     <SheetHeader>
-                      <div className="flex flex-col items-start space-y-4 border border-foreground/20 p-6 pt-3 rounded-xl  bg-foreground/10 ">
+                      <div className="flex flex-col items-start space-y-4 border border-secondary/90 p-6  rounded-xl  bg-secondary/30 ">
                         {/* Profile Picture */}
                         <img
                           src={student.picture}
@@ -136,7 +134,7 @@ const AdminStudents = () => {
                       </div>
                     </SheetHeader>
 
-                    <div className="mt-6 space-y-4 border p-6 rounded-xl bg-foreground/10 border-foreground/20">
+                    <div className="mt-6 space-y-4 border p-6 rounded-xl bg-secondary/30 border-secondary/90">
                       <p className="text-sm">
                         <span className="text-muted-foreground">
                           {"Father's"} Name:
