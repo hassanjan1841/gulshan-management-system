@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/auth.js";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import { getUserById } from "../pages/services/api/user.js";
+import { getUserById } from "../services/api/user.js";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {

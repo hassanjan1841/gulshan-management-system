@@ -6,10 +6,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router";
-import { loginUser } from "../pages/services/api/user";
+
 import { useToast } from "../hooks/use-toast";
 import Cookies from "js-cookie";
 import { useAuth } from "../context/authContext";
+import { loginUser } from "../services/api/user";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);

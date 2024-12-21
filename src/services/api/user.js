@@ -1,5 +1,5 @@
 import axios from "axios";
-import { appRoutes } from "../../../constant/constant.js";
+import { appRoutes } from "../../constant/constant";
 
 // Get all users
 export const getAllUsers = async () => {
