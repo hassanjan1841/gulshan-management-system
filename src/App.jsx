@@ -16,19 +16,20 @@ import AdminLogin from "./components/Admin/AdminLogin";
 import { useAuth } from "./context/authContext";
 import { Route, Routes, useNavigate } from "react-router";
 import { useEffect } from "react";
+import AdminStudents from "./components/Admin/AdminStudents";
 // import { useEffect } from "react";
 
 function App() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => {
-    // console.log("user in app", currentUser);
-    if (currentUser) {
-      navigate(`/${currentUser.role}`);
-    }else {
-      navigate(`/`);
-    }
-  }, [currentUser]);
+  // useEffect(() => {
+  //   // console.log("user in app", currentUser);
+  //   if (currentUser) {
+  //     navigate(`/${currentUser.role}`);
+  //   }else {
+  //     navigate(`/`);
+  //   }
+  // }, [currentUser]);
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -57,7 +58,7 @@ function App() {
         element={<DashboardLayout role={"admin"} />}
       >
         {/* <Route index element={<AdminLogin />} /> */}
-        {/* <Route index element={<TeacherDashboard />} /> */}
+        <Route path="students" element={<AdminStudents />} />
       </Route>
     </Routes>
   );
