@@ -25,6 +25,8 @@ function App() {
     // console.log("user in app", currentUser);
     if (currentUser) {
       navigate(`/${currentUser.role}`);
+    }else {
+      navigate(`/`);
     }
   }, [currentUser]);
   return (
