@@ -13,9 +13,16 @@ export const getAllUsers = async () => {
 };
 
 // Get a single user by ID
-export const getUserById = async (userId) => {
+export const getUserById = async (userId, token) => {
   try {
-    const response = await axios.get(`${appRoutes.getSingleUser}/${userId}`);
+    const response = await axios.get(
+      `${appRoutes.getSingleUser}/${userId}`,
+      token && {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(`Error fetching user with ID ${userId}:`, error);

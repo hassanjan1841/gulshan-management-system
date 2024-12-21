@@ -22,6 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+
           {/* student routes */}
           <Route path="/student" element={<DashboardLayout role={"student"} />}>
             <Route index element={<StudentDashboard />} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -9,12 +9,31 @@ import { useNavigate } from "react-router";
 import { loginUser } from "../services/api/user";
 import { useToast } from "../hooks/use-toast";
 import Cookies from "js-cookie";
+import { useAuth } from "../context/authContext";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
-  const navgiate = useNavigate();
+  const navigate = useNavigate();
   const { toast } = useToast();
   // const { setCurrentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
+  const { user, isAuthenticated } = currentUser;
+
+  useEffect(() => {
+    // console.log("user", user);
+    if (user && isAuthenticated) {
+      if (user.role !== "admin") {
+        console.log(user);
+        const role = user.role;
+        // console.log(currentUser);
+        navigate(`/${role}`);
+      } else {
+        setLoading(false);
+        console.log("User not authenticated");
+        navigate("/");
+      }
+    }
+  }, [user, isAuthenticated, navigate]);
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -24,10 +43,17 @@ export default function LoginPage() {
       // console.log("user in form", user);
       const userData = await loginUser(user.email);
 
-      // console.log("userData", userData.user);
+      console.log("userData", userData.user);
       Cookies.set("token", userData.token);
+      setCurrentUser(userData.user);
 
-      navgiate(`/${userData.user.role}`);
+      toast({
+        variant: "success",
+        title: "Login Successful",
+        description: "You have successfully signed in",
+      });
+
+      navigate(`/${userData.user.role}`);
     } catch (error) {
       setLoading(false);
       console.log("Error signing in:==> ", error.message);

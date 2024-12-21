@@ -2,17 +2,20 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/auth.js";
 import Cookies from "js-cookie";
-import axios from "axios";
-import { appRoutes } from "../constant/constant.js";
+import { jwtDecode } from "jwt-decode";
+import { getUserById } from "../services/api/user.js";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({
+    user: null,
+    isAuthenticated: false,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+      // setCurrentUser(user);
       setLoading(false);
     });
 
@@ -20,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!currentUser) {
+    if (!currentUser.user && !currentUser.isAuthenticated) {
       const token = Cookies.get("token");
       if (token) {
         getUser();
@@ -28,22 +31,15 @@ export const AuthProvider = ({ children }) => {
     }
   }, [currentUser]);
 
-  const getUser = () => {
-    axios
-      .get(appRoutes.getUsers, {
-        headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-      })
-      .then((res) => {
-        console.log("response from get my info API=>", res.data);
-        setCurrentUser(res.data.data);
-      })
-      .catch((err) => console.log("err in get my info API=>", err.message));
+  const getUser = async () => {
+    const decoded = jwtDecode(Cookies.get("token"));
+    const { user } = await getUserById(decoded._id, Cookies.get("token"));
+    // console.log("user in auth context", user);
+    setCurrentUser({ user, isAuthenticated: true });
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );
