@@ -25,6 +25,7 @@ export const getUserById = async (userId, token) => {
         },
       }
     );
+    console.log("respones in getuserbyi d", response);
     return response.data;
   } catch (error) {
     console.error(`Error fetching user with ID ${userId}:`, error);

@@ -22,7 +22,7 @@ function App() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("user in app", currentUser.role);
+    // console.log("user in app", currentUser);
     if (currentUser) {
       navigate(`/${currentUser.role}`);
     }
