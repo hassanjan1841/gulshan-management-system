@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { CheckIcon } from "lucide-react";
 import { SelectContent } from "../ui/select";
+import AddStudentSheet from "./AddStudentSheet";
 
 const AdminStudents = () => {
   const fetchStudents = async (page = 0, pageSize = 12) => {
@@ -135,7 +136,7 @@ const AdminStudents = () => {
     <div className="container mx-auto py-8">
       <div className="flex justify-between mb-8">
         <h1 className="text-3xl font-bold">Students</h1>
-        <Sheet>
+        {/* <Sheet>
           <SheetTrigger asChild>
             <Button variant="primary" onClick={() => setIsAdding(true)}>
               Add Student
@@ -240,7 +241,8 @@ const AdminStudents = () => {
               </Button>
             </div>
           </SheetContent>
-        </Sheet>
+        </Sheet> */}
+        <AddStudentSheet />
       </div>
       {/* Filters Section */}
       <div className="mb-4">
