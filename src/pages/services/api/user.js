@@ -1,5 +1,5 @@
 import axios from "axios";
-import { appRoutes } from "../../constant/constant.js";
+import { appRoutes } from "../../../constant/constant.js";
 
 // Get all users
 export const getAllUsers = async () => {
@@ -14,6 +14,8 @@ export const getAllUsers = async () => {
 
 // Get a single user by ID
 export const getUserById = async (userId, token) => {
+  console.log("userId", userId, token);
+
   try {
     const response = await axios.get(
       `${appRoutes.getSingleUser}/${userId}`,

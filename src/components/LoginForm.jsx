@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router";
-import { loginUser } from "../services/api/user";
+import { loginUser } from "../pages/services/api/user";
 import { useToast } from "../hooks/use-toast";
 import Cookies from "js-cookie";
 import { useAuth } from "../context/authContext";
@@ -15,25 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  // const { setCurrentUser } = useAuth();
-  const { currentUser, setCurrentUser } = useAuth();
-  const { user, isAuthenticated } = currentUser;
-
-  useEffect(() => {
-    // console.log("user", user);
-    if (user && isAuthenticated) {
-      if (user.role !== "admin") {
-        console.log(user);
-        const role = user.role;
-        // console.log(currentUser);
-        navigate(`/${role}`);
-      } else {
-        setLoading(false);
-        console.log("User not authenticated");
-        navigate("/");
-      }
-    }
-  }, [user, isAuthenticated, navigate]);
+  const { setCurrentUser } = useAuth();
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -66,7 +48,6 @@ export default function LoginPage() {
           : error?.message,
       });
     }
-    // setTimeout(() => setLoading(false), 2000); // Simulating API call
   };
 
   return (

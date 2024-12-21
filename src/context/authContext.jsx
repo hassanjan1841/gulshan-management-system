@@ -3,14 +3,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/auth.js";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import { getUserById } from "../services/api/user.js";
+import { getUserById } from "../pages/services/api/user.js";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState({
-    user: null,
-    isAuthenticated: false,
-  });
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,21 +20,24 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!currentUser.user && !currentUser.isAuthenticated) {
+    getUser();
+  }, [currentUser]);
+  const getUser = async () => {
+    if (!currentUser) {
       const token = Cookies.get("token");
+      console.log("token in auth context", token);
       if (token) {
-        getUser();
+        const decoded = jwtDecode(Cookies.get("token"));
+        console.log("decoded", decoded);
+        const userFromAPI = await getUserById(
+          decoded._id,
+          Cookies.get("token")
+        );
+        console.log("user from api", userFromAPI);
+        setCurrentUser(userFromAPI);
       }
     }
-  }, [currentUser]);
-
-  const getUser = async () => {
-    const decoded = jwtDecode(Cookies.get("token"));
-    const { user } = await getUserById(decoded._id, Cookies.get("token"));
-    // console.log("user in auth context", user);
-    setCurrentUser({ user, isAuthenticated: true });
   };
-
   return (
     <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       {!loading && children}
