@@ -1,8 +1,6 @@
 import axios from "axios";
 import { appRoutes } from "../../constant/constant.js";
 
-const VITE_API_URL = import.meta.env.VITE_API_URL;
-
 // Get all users
 export const getAllUsers = async () => {
   try {
@@ -31,19 +29,8 @@ export const loginUser = async (email) => {
     const response = await axios.post(`${appRoutes.login}`, { email });
     return response.data;
   } catch (error) {
-    console.log("error in user js file", error);
-    if (error.response) {
-      // The server responded with a status code outside the 2xx range
-      console.log("Error response:", error.response);
-      console.log("Message", error.response.data);
-      return error.response.data;
-    } else if (error.request) {
-      // The request was made but no response was received
-      console.log("Error request:", error.request);
-    } else {
-      // Something happened in setting up the request that triggered an error
-      console.log("Error message:", error.message);
-    }
+    console.error("error in user js file", error);
+    throw error;
   }
 };
 

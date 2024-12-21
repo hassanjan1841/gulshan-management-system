@@ -2,6 +2,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/auth.js";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { appRoutes } from "../constant/constant.js";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -18,11 +20,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (currentUser) {
-      currentUser?.role == "student" && navigate("/student");
-      currentUser?.role == "teacher" && navigate("/teacher");
-      currentUser?.role == "admin" && navigate("/admin");
-    }
     if (!currentUser) {
       const token = Cookies.get("token");
       if (token) {
@@ -33,16 +30,16 @@ export const AuthProvider = ({ children }) => {
 
   const getUser = () => {
     axios
-      .get(AppRoutes.getMyInfo, {
+      .get(appRoutes.getUsers, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       })
       .then((res) => {
         console.log("response from get my info API=>", res.data);
-        setUser(res.data.data);
+        setCurrentUser(res.data.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("err in get my info API=>", err.message));
   };
 
   return (
