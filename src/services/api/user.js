@@ -13,12 +13,12 @@ export const getAllUsers = async () => {
 };
 
 // Get a single user by ID
-export const getUserById = async (userId, token) => {
+export const getUserById = async ( token) => {
   console.log("userId", userId, token);
 
   try {
     const response = await axios.get(
-      `${appRoutes.getSingleUser}/${userId}`,
+      `${appRoutes.getSingleUser}`,
       token && {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -23,7 +23,7 @@ export default function LoginPage() {
     // Implement your Google login logic here
     try {
       const user = await signInWithGoogle();
-      // console.log("user in form", user);
+      console.log("user in form", user);
       const userData = await loginUser(user.email);
 
       console.log("userData", userData.user);
