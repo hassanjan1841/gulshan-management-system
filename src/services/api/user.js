@@ -13,8 +13,8 @@ export const getAllUsers = async () => {
 };
 
 // Get a single user by ID
-export const getUserById = async ( token) => {
-  console.log("userId",  token);
+export const getUserById = async (token) => {
+  console.log("userId", token);
 
   try {
     const response = await axios.get(
@@ -28,7 +28,7 @@ export const getUserById = async ( token) => {
     console.log("respones in getuserbyi d", response);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching user with ID:`, error);
+    console.error(`Error fetching user with ID}:`, error);
     throw error;
   }
 };
