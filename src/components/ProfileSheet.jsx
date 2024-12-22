@@ -13,9 +13,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { LogOut } from "lucide-react";
+import Cookies from "js-cookie";
+import { UNSAFE_createClientRoutesWithHMRRevalidationOptOut } from "react-router";
+import { useAuth } from "../context/authContext";
 
 export default function ProfileSheet({ data }) {
   const [open, setOpen] = useState(false);
+  const { setCurrentUser } = useAuth();
 
   // Mock student data
 
@@ -78,7 +82,11 @@ export default function ProfileSheet({ data }) {
             <Button
               className="w-full"
               variant="destructive"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                Cookies.set("token", "");
+                setCurrentUser(null);
+                setOpen(false);
+              }}
             >
               <LogOut className="mr-2 h-4 w-4" /> Logout
             </Button>

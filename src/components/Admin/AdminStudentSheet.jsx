@@ -26,14 +26,14 @@ const AdminStudentSheet = ({ student }) => {
           <div className="flex flex-col items-start space-y-4 border border-secondary/90 p-6  rounded-xl  bg-secondary/30 ">
             {/* Profile Picture */}
             <img
-              src={student?.picture}
-              alt={student?.name}
+              src={student?.profilePic}
+              alt={student?.full_name}
               className="w-20 h-20 rounded-full border-2 border-primary"
             />
             {/* Name and Age */}
             <div className="text-center flex flex-col items-start gap-2 space-y-2 w-full">
               <SheetTitle className="text-xl font-bold">
-                {student?.name}
+                {student?.full_name}
               </SheetTitle>
               <p className="text-muted-foreground flex gap-2 text-sm">
                 <span>Age:</span>
@@ -49,9 +49,9 @@ const AdminStudentSheet = ({ student }) => {
                   <span>Status:</span>
                   <br />
                   <Badge
-                    variant={student?.isPassed ? "outline" : "destructive"}
+                    variant={student?.is_passed_out ? "outline" : "destructive"}
                   >
-                    {student?.isPassed ? "Passed" : "Not Passed"}
+                    {student?.is_passed_out ? "Passed" : "Not Passed"}
                   </Badge>
                 </p>
                 <p
@@ -76,7 +76,7 @@ const AdminStudentSheet = ({ student }) => {
           <p className="text-sm">
             <span className="text-muted-foreground">{"Father's"} Name:</span>
             <br />
-            <Badge variant="secondary">{student?.fatherName}</Badge>
+            <Badge variant="secondary">{student?.father_name}</Badge>
           </p>
           <p className="text-sm">
             <span className="text-muted-foreground">CNIC:</span>
@@ -86,7 +86,7 @@ const AdminStudentSheet = ({ student }) => {
           <p className="text-sm">
             <span className="text-muted-foreground">Education:</span>
             <br />
-            <Badge variant="secondary">{student?.education}</Badge>
+            <Badge variant="secondary">{student?.last_qualification}</Badge>
           </p>
         </div>
 
@@ -94,17 +94,17 @@ const AdminStudentSheet = ({ student }) => {
           <p className="text-sm">
             <span className="text-muted-foreground">Course:</span>
             <br />
-            <Badge variant="secondary">{student?.course}</Badge>
+            <Badge variant="secondary">{student?.section?.course?.title}</Badge>
           </p>
           <p className="text-sm">
             <span className="text-muted-foreground">Batch:</span>
             <br />
-            <Badge variant="outline">{student?.batch}</Badge>
+            <Badge variant="outline">{student?.section?.batch?.title}</Badge>
           </p>
           <p className="text-sm">
             <span className="text-muted-foreground">Section:</span>
             <br />
-            <Badge variant="secondary">{student?.teacher}</Badge>
+            <Badge variant="secondary">{student?.section?.title}</Badge>
           </p>
         </div>
       </SheetContent>

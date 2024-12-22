@@ -2,9 +2,9 @@ import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
 // Get all users
-export const getAllUsers = async () => {
+export const getAllUsers = async (role) => {
   try {
-    const response = await axios.get(`${appRoutes.getUsers}`);
+    const response = await axios.get(`${appRoutes.getUsers}?role=${role}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
