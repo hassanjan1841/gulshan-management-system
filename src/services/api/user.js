@@ -14,7 +14,6 @@ export const getAllUsers = async () => {
 
 // Get a single user by ID
 export const getUserById = async (token) => {
-  console.log("userId", token);
 
   try {
     const response = await axios.get(
