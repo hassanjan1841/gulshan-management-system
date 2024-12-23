@@ -32,6 +32,7 @@ import {
 const adminItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Students", href: "/admin/dashboard/students", icon: Users },
+  { name: "Courses", href: "/admin/dashboard/courses", icon: BookOpen },
 ];
 
 const teacherItems = [

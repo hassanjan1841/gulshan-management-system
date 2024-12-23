@@ -17,7 +17,8 @@ import { useAuth } from "./context/authContext";
 import { Route, Routes, useNavigate } from "react-router";
 import { useEffect } from "react";
 import AdminStudents from "./components/Admin/AdminStudents";
-// import { useEffect } from "react";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import AdminCourses from "./components/Admin/AdminCourses";
 
 function App() {
   const { currentUser } = useAuth();
@@ -47,19 +48,17 @@ function App() {
       <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
         <Route index element={<TeacherDashboard />} />
         <Route path="assignments" element={<TeacherAssignment />} />
-        <Route path="assignments/:id" element={<AssignmentDetail />} />
-        <Route path="quizzes" element={<QuizTable />} />
+        <Route path="assignments/:id" element={<AssignmentDetail/>}/>
+        <Route path="quizzes" element={<QuizTable />}/>
         <Route path="quizzes/:id" element={<QuizDetail />} />
         <Route path="services" element={<TeacherServices />} />
       </Route>
 
-      <Route path="/admin" element={<AdminLogin />} />
-      <Route
-        path="/admin/dashboard"
-        element={<DashboardLayout role={"admin"} />}
-      >
-        {/* <Route index element={<AdminLogin />} /> */}
-        <Route path="students" element={<AdminStudents />} />
+      <Route path="/admin" element={<AdminLogin/>}/>
+      <Route path="/admin/dashboard" element={<DashboardLayout role={"admin"}/>}>
+         <Route index element={< AdminDashboard/>}/>
+         <Route path="students" element={<AdminStudents />}/>
+         <Route path="courses" element={<AdminCourses />}/>
       </Route>
     </Routes>
   );
