@@ -3,18 +3,12 @@ import AdminStudentCard from "./AdminStudentCard";
 import AddStudentSheet from "./AddStudentSheet";
 import FilterStudents from "./FilterStudents";
 import { getAllUsers } from "../../services/api/user";
+import { useToast } from "../../hooks/use-toast";
 
 const AdminStudents = () => {
-  const fetchStudents = async (role) => {
-    const users = await getAllUsers(role);
-    return {
-      data: users,
-      total: users.length,
-    };
-  };
-
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   const [filters, setFilters] = useState({
     status: "",
     batch: "",
@@ -37,11 +31,23 @@ const AdminStudents = () => {
 
   useEffect(() => {
     const loadStudents = async () => {
-      setIsLoading(true);
-      const { data } = await fetchStudents("student");
-      console.log("data in loadStudents", data);
-      setStudents(data.users);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const data = await getAllUsers("student");
+        console.log("data in loadStudents", data);
+        setStudents(data);
+      } catch (error) {
+        console.error("Error fetching students:", error.message);
+        toast({
+          variant: "destructive",
+          title: error.message ? "Server Error" : "User Validation",
+          description: error?.response?.data?.message
+            ? error.response.data.message
+            : error?.message,
+        });
+      } finally {
+        setIsLoading(false);
+      }
     };
     loadStudents();
   }, []);
