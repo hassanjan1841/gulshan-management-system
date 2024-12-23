@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -13,64 +13,89 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import {
   Sheet,
   SheetTrigger,
   SheetContent,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Switch } from "@/components/ui/switch";
-import { SelectLabel } from "../ui/select";
-import { Label } from "../ui/label";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Combobox, ComboboxInput, ComboboxPopover, ComboboxOption } from "@/components/ui/combobox";
 
 // Zod schema for form validation
 const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  age: z.number().min(1, "Age is required"),
-  fatherName: z.string().min(1, "Father's Name is required"),
-  batch: z.string().min(1, "Batch is required"),
-  course: z.string().min(1, "Course is required"),
-  teacher: z.string().min(1, "Teacher is required"),
-  isPassed: z.boolean(),
+  full_name: z
+    .string()
+    .min(1, "Full name is required")
+    .refine((val) => typeof val === "string", {
+      message: "Full name must be a string",
+    }),
+  email: z.string().email("Email must be valid"),
+  phone: z
+    .string()
+    .min(1, "Phone number is required")
+    .regex(/^\d+$/, "Phone number must be valid"),
+  cnic: z.string().length(13, "CNIC must be exactly 13 characters"),
+  date_of_birth: z
+    .string()
+    .refine(
+      (val) => !isNaN(Date.parse(val)),
+      "Date of birth must be a valid date"
+    ),
+  gender: z.enum(["Male", "Female", "Other"], {
+    message: "Gender must be Male, Female, or Other",
+  }),
+  address: z
+    .string()
+    .min(1, "Address is required")
+    .refine((val) => typeof val === "string", {
+      message: "Address must be a string",
+    }),
+  computer_proficiency: z.enum(["Basic", "Intermediate", "Advanced"], {
+    message: "Computer proficiency must be Basic, Intermediate, or Advanced",
+  }),
+  age: z.number().min(1, "Age is required").max(100, "Age must be less than 100"),
+  courses: z.string().min(1, "Course is required"),
 });
 
 function AddStudentSheet({ onAddStudent }) {
-  const [newStudent, setNewStudent] = useState({
-    name: "",
-    age: "",
-    fatherName: "",
-    batch: "",
-    course: "",
-    teacher: "",
-    isPassed: false,
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      full_name: "",
+      email: "",
+      phone: "",
+      cnic: "",
+      date_of_birth: "",
+      gender: "Male",
+      address: "",
+      computer_proficiency: "Basic",
+      age: "",
+      courses: "",
+    },
   });
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: newStudent,
-  });
+  } = form;
 
   const handleAddStudent = (data) => {
     console.log("Student Data: ", data);
-    // Handle adding student logic
-    onAddStudent(data); // Pass data to the parent component or handle here
+    onAddStudent(data);
   };
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button onClick={() => setNewStudent(true)}>Add Student</Button>
+        <Button>Add Student</Button>
       </SheetTrigger>
 
       <SheetContent side="right" className="w-[400px] p-6 rounded-lg shadow-xl">
@@ -80,127 +105,137 @@ function AddStudentSheet({ onAddStudent }) {
           </SheetTitle>
         </SheetHeader>
 
-        <Form {...control}>
+        <Form {...form}>
           <form onSubmit={handleSubmit(handleAddStudent)} className="space-y-4">
             <FormField
               control={control}
-              name="name"
+              name="full_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Student Name" {...field} />
+                    <Input placeholder="Full Name" {...field} />
                   </FormControl>
-                  <FormMessage>{errors.name?.message}</FormMessage>
+                  <FormMessage>{errors.full_name?.message}</FormMessage>
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
-              name="age"
+              name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Age</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="Age" {...field} />
+                    <Input type="email" placeholder="Email" {...field} />
                   </FormControl>
-                  <FormMessage>{errors.age?.message}</FormMessage>
+                  <FormMessage>{errors.email?.message}</FormMessage>
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
-              name="fatherName"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Father's Name</FormLabel>
+                  <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input placeholder="Father's Name" {...field} />
+                    <Input placeholder="Phone Number" {...field} />
                   </FormControl>
-                  <FormMessage>{errors.fatherName?.message}</FormMessage>
+                  <FormMessage>{errors.phone?.message}</FormMessage>
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
-              name="batch"
+              name="cnic"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Batch</FormLabel>
+                  <FormLabel>CNIC</FormLabel>
                   <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Batch" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Batch 1">Batch 1</SelectItem>
-                        <SelectItem value="Batch 2">Batch 2</SelectItem>
-                        <SelectItem value="Batch 3">Batch 3</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Input placeholder="13-digit CNIC" {...field} />
                   </FormControl>
-                  <FormMessage>{errors.batch?.message}</FormMessage>
+                  <FormMessage>{errors.cnic?.message}</FormMessage>
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
-              name="course"
+              name="date_of_birth"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Course</FormLabel>
+                  <FormLabel>Date of Birth</FormLabel>
                   <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Course" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Course 1">Course 1</SelectItem>
-                        <SelectItem value="Course 2">Course 2</SelectItem>
-                        <SelectItem value="Course 3">Course 3</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Input type="date" {...field} />
                   </FormControl>
-                  <FormMessage>{errors.course?.message}</FormMessage>
+                  <FormMessage>{errors.date_of_birth?.message}</FormMessage>
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
-              name="teacher"
+              name="gender"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Teacher</FormLabel>
+                  <FormLabel>Gender</FormLabel>
                   <FormControl>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select Teacher" />
+                        <SelectValue placeholder="Select Gender" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Teacher 1">Teacher 1</SelectItem>
-                        <SelectItem value="Teacher 2">Teacher 2</SelectItem>
-                        <SelectItem value="Teacher 3">Teacher 3</SelectItem>
+                        <SelectItem value="Male">Male</SelectItem>
+                        <SelectItem value="Female">Female</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormMessage>{errors.teacher?.message}</FormMessage>
+                  <FormMessage>{errors.gender?.message}</FormMessage>
                 </FormItem>
               )}
             />
+
             <FormField
               control={control}
-              name="isPassed"
-              className="flex items-center space-x-2"
+              name="address"
               render={({ field }) => (
-                <FormItem className="flex items-center space-x-2">
-                  <Label>Passed</Label>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Address" {...field} />
+                  </FormControl>
+                  <FormMessage>{errors.address?.message}</FormMessage>
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={control}
+              name="computer_proficiency"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Computer Proficiency</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Proficiency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Basic">Basic</SelectItem>
+                        <SelectItem value="Intermediate">
+                  </FormControl>
+                  <FormMessage>
+                    {errors.computer_proficiency?.message}
+                  </FormMessage>
+                </FormItem>
+              )}
+            />
+
             <Button type="submit" className="mt-4">
               Add Student
             </Button>

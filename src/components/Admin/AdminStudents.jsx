@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import AdminStudentCard from "./AdminStudentCard";
 import AddStudentSheet from "./AddStudentSheet";
 import FilterStudents from "./FilterStudents";
-import { getAllUsers } from "../../services/api/user";
+import { createUser, getAllUsers } from "../../services/api/user";
 import { useToast } from "../../hooks/use-toast";
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+
   const [filters, setFilters] = useState({
     status: "",
     batch: "",
@@ -16,18 +17,8 @@ const AdminStudents = () => {
     course: "",
     search: "",
   });
-  const [isAdding, setIsAdding] = useState(false);
-  const [newStudent, setNewStudent] = useState({
-    full_name: "",
-    age: "",
-    batch: "",
-    section: "",
-    course: "",
-    teacher: "",
-    isPassed: false,
-    fatherName: "",
-    cnic: "",
-  });
+  // const [isAdding, setIsAdding] = useState(false);
+  const [newStudent, setNewStudent] = useState();
 
   useEffect(() => {
     const loadStudents = async () => {
@@ -81,35 +72,38 @@ const AdminStudents = () => {
   });
 
   // Handle the addition of a new student
-  const handleAddStudent = () => {
-    setStudents([
-      ...students,
-      {
-        ...newStudent,
-        id: students.length + 1,
-        picture:
-          "https://cdn5.vectorstock.com/i/1000x1000/52/54/male-student-graduation-avatar-profile-vector-12055254.jpg",
-      },
-    ]);
-    setIsAdding(false);
-    setNewStudent({
-      full_name: "",
-      age: "",
-      batch: "",
-      section: "",
-      course: "",
-      teacher: "",
-      isPassed: false,
-      fatherName: "",
-      cnic: "",
-    });
+  const handleAddStudent = async (data) => {
+    const newData = data;
+    newData.role = "student";
+    console.log("Student Data: ", newData);
+    try {
+      const response = await createUser(newData); // Assuming addStudent is a function that makes an API call to add a student
+      setStudents([
+        ...students,
+        response.data, // Assuming the API response contains the new student data
+      ]);
+      toast({
+        variant: "success",
+        title: "Student Added",
+        description: "The student has been added successfully.",
+      });
+    } catch (error) {
+      console.error("Error adding student:", error.message);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error?.response?.data?.message
+          ? error.response.data.message
+          : error?.message,
+      });
+    }
   };
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex justify-between mb-8">
         <h1 className="text-3xl font-bold">Students</h1>
-        <AddStudentSheet />
+        <AddStudentSheet onAddStudent={handleAddStudent} />
       </div>
       {/* Filters Section */}
       <FilterStudents
