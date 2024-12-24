@@ -1,4 +1,4 @@
-import { LayoutDashboard, BookOpen, PenTool, Award } from "lucide-react";
+import { LayoutDashboard, BookOpen, PenTool, Award, Settings } from "lucide-react";
 import {
   Sidebar as ShadcnSidebar,
   SidebarContent,
@@ -28,6 +28,7 @@ const studentItems = [
   { name: "Assignments", href: "/student/assignments", icon: PenTool },
   { name: "Quizzes", href: "/student/quizzes", icon: BookOpen },
   { name: "Certificates", href: "/student/certificates", icon: Award },
+  { name: "Student Services", href: "/student/studentservices", icon: Settings },
 ];
 
 export default function AppSidebar({ role, ...props }) {
@@ -37,8 +38,8 @@ export default function AppSidebar({ role, ...props }) {
     role === "teacher"
       ? teacherItems
       : role === "admin"
-      ? adminItems
-      : studentItems;
+        ? adminItems
+        : studentItems;
   const title =
     role === "teacher" ? "Teacher" : role === "admin" ? "Admin" : "Student";
 
@@ -51,9 +52,8 @@ export default function AppSidebar({ role, ...props }) {
       <SidebarHeader>
         <div className="flex items-center p-4 ">
           <h2
-            className={`text-2xl font-semibold text-primary  transition-opacity duration-300 sm:min-w-[400px] ${
-              state === "collapsed" ? "opacity-0" : "opacity-100"
-            }`}
+            className={`text-2xl font-semibold text-primary  transition-opacity duration-300 sm:min-w-[400px] ${state === "collapsed" ? "opacity-0" : "opacity-100"
+              }`}
           >
             {title} Portal
           </h2>
@@ -73,9 +73,8 @@ export default function AppSidebar({ role, ...props }) {
                     style={{ height: 20, width: 20 }}
                   />
                   <span
-                    className={`transition-opacity duration-300 ${
-                      state === "collapsed" ? "opacity-0 hidden" : "opacity-100"
-                    }`}
+                    className={`transition-opacity duration-300 ${state === "collapsed" ? "opacity-0 hidden" : "opacity-100"
+                      }`}
                   >
                     {item.name}
                   </span>
