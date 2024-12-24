@@ -6,9 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router";
-
-import { useToast } from "../hooks/use-toast";
-import Cookies from "js-cookie";
+import { useToast } from "../hooks/use-toast";  
+import Cookies from "js-cookie"; 
 import { useAuth } from "../context/authContext";
 import { loginUser } from "../services/api/user";
 
