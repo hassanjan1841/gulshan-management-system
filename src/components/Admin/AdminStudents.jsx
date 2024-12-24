@@ -40,7 +40,7 @@ const AdminStudents = () => {
         setIsLoading(false);
       }
     };
-    loadStudents();
+    loadInitialData();
   }, []);
 
   // Handle the filters change
@@ -126,3 +126,4 @@ const AdminStudents = () => {
 };
 
 export default AdminStudents;
+

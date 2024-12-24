@@ -26,7 +26,12 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Combobox, ComboboxInput, ComboboxPopover, ComboboxOption } from "@/components/ui/combobox";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxOption,
+} from "@/components/ui/combobox";
 
 // Zod schema for form validation
 const formSchema = z.object({
@@ -60,7 +65,10 @@ const formSchema = z.object({
   computer_proficiency: z.enum(["Basic", "Intermediate", "Advanced"], {
     message: "Computer proficiency must be Basic, Intermediate, or Advanced",
   }),
-  age: z.number().min(1, "Age is required").max(100, "Age must be less than 100"),
+  age: z
+    .number()
+    .min(1, "Age is required")
+    .max(100, "Age must be less than 100"),
   courses: z.string().min(1, "Course is required"),
 });
 
@@ -227,7 +235,9 @@ function AddStudentSheet({ onAddStudent }) {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="Basic">Basic</SelectItem>
-                        <SelectItem value="Intermediate">
+                        <SelectItem value="Intermediate"></SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage>
                     {errors.computer_proficiency?.message}
