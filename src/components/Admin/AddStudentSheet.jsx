@@ -26,12 +26,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxOption,
-} from "@/components/ui/combobox";
 
 // Zod schema for form validation
 const formSchema = z.object({

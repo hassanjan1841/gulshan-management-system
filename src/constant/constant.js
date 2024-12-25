@@ -9,4 +9,5 @@ export const appRoutes = {
   createUser: BASE_URL + "user",
   updateUser: BASE_URL + "user",
   deleteUser: BASE_URL + "user",
+  getCourses: BASE_URL + "course",
 };

@@ -40,7 +40,6 @@ const AdminStudents = () => {
         setIsLoading(false);
       }
     };
-    loadInitialData();
   }, []);
 
   // Handle the filters change

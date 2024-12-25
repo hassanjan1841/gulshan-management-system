@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (!currentUser) {
       const token = Cookies.get("token");
-      console.log("token in auth context", token);
       if (token) {
         getUser();
       }
@@ -30,7 +29,6 @@ export const AuthProvider = ({ children }) => {
   }, [currentUser]);
   const getUser = async () => {
     const userFromAPI = await getUserById(Cookies.get("token"));
-    console.log("user from api", userFromAPI);
     setCurrentUser(userFromAPI);
   };
 
