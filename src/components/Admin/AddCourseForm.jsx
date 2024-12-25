@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {textarea} from "@/components/ui/textarea";
 
 // Form validation schema
 const formSchema = z.object({
@@ -75,7 +74,7 @@ export function AddCourseForm() {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <textarea placeholder="Enter course description" {...field} />
+                <Input placeholder="Enter course description" {...field} />
               </FormControl>
               <FormDescription>
                 A brief description of the course.
