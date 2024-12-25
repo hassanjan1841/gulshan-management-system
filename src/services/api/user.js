@@ -2,9 +2,11 @@ import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
 // Get all users
-export const getAllUsers = async (role) => {
+export const getAllUsers = async (role, page, limit) => {
   try {
-    const response = await axios.get(`${appRoutes.getUsers}?role=${role}`);
+    const response = await axios.get(
+      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -14,7 +16,6 @@ export const getAllUsers = async (role) => {
 
 // Get a single user by ID
 export const getUserById = async (token) => {
-
   try {
     const response = await axios.get(
       `${appRoutes.getSingleUser}`,

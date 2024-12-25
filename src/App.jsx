@@ -19,9 +19,11 @@ import { useEffect } from "react";
 import AdminStudents from "./components/Admin/AdminStudents";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminCourses from "./components/Admin/AdminCourses";
+import CourseDetails from "./components/Admin/CourseDetailSheet";
 
 function App() {
   const { currentUser } = useAuth();
+  console.log("currentUser", currentUser);
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -31,7 +33,7 @@ function App() {
   //     navigate(`/`);
   //   }
   // }, [currentUser]);
-  
+
   return (
     <Routes>
       <Route path="/" element={<Login />} />
@@ -48,17 +50,21 @@ function App() {
       <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
         <Route index element={<TeacherDashboard />} />
         <Route path="assignments" element={<TeacherAssignment />} />
-        <Route path="assignments/:id" element={<AssignmentDetail/>}/>
-        <Route path="quizzes" element={<QuizTable />}/>
+        <Route path="assignments/:id" element={<AssignmentDetail />} />
+        <Route path="quizzes" element={<QuizTable />} />
         <Route path="quizzes/:id" element={<QuizDetail />} />
         <Route path="services" element={<TeacherServices />} />
       </Route>
 
-      <Route path="/admin" element={<AdminLogin/>}/>
-      <Route path="/admin/dashboard" element={<DashboardLayout role={"admin"}/>}>
-         <Route index element={< AdminDashboard/>}/>
-         <Route path="students" element={<AdminStudents />}/>
-         <Route path="courses" element={<AdminCourses />}/>
+      <Route path="/admin" element={<AdminLogin />} />
+      <Route
+        path="/admin/dashboard"
+        element={<DashboardLayout role={"admin"} />}
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="students" element={<AdminStudents />} />
+        <Route path="courses" element={<AdminCourses />} />
+        <Route path="courses/:id" element={<CourseDetails />} />
       </Route>
     </Routes>
   );
