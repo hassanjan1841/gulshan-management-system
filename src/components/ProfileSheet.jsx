@@ -19,6 +19,7 @@ import { useAuth } from "../context/authContext";
 export default function ProfileSheet({ data }) {
   const [open, setOpen] = useState(false);
   const { setCurrentUser } = useAuth();
+  console.log("profile pic in profilesheet=> ", data);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -39,7 +40,7 @@ export default function ProfileSheet({ data }) {
           </Avatar>
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-[400px] sm:w-[540px] overflow-y-auto">
+      <SheetContent className="w-full sm:w-[540px] overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Profile</SheetTitle>
         </SheetHeader>
