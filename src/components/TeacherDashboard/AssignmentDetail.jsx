@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CalendarIcon, Trophy } from "lucide-react";
 import SubmissionsCards from "./SubmissionsCards";
+import Loader from "../Loader";
 
 const AssignmentDetails = () => {
   const { id } = useParams();
@@ -36,15 +37,7 @@ const AssignmentDetails = () => {
   }, [id]);
 
   if (!assignment) {
-    return (
-      <Card className="w-full max-w-3xl mx-auto mt-10">
-        <CardContent className="pt-6">
-          <div className="flex items-center justify-center h-32">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
-          </div>
-        </CardContent>
-      </Card>
-    );
+    return <Loader />;
   }
 
   return (
@@ -89,7 +82,7 @@ const AssignmentDetails = () => {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="submissions" >
+            <TabsContent value="submissions">
               <SubmissionsCards assignmentId={id} />
             </TabsContent>
           </Tabs>

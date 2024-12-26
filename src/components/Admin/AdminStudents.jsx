@@ -4,6 +4,7 @@ import AddStudentSheet from "./AddStudentSheet";
 import FilterStudents from "./FilterStudents";
 import { createUser, getAllUsers } from "../../services/api/user";
 import { useToast } from "../../hooks/use-toast";
+import Loader from "../Loader";
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
@@ -40,6 +41,7 @@ const AdminStudents = () => {
         setIsLoading(false);
       }
     };
+    loadStudents();
   }, []);
 
   // Handle the filters change
@@ -112,10 +114,10 @@ const AdminStudents = () => {
       />
       {/* Students List */}
       {isLoading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredStudents.map((student) => (
+          {filteredStudents?.map((student) => (
             <AdminStudentCard key={student._id} student={student} />
           ))}
         </div>
@@ -125,4 +127,3 @@ const AdminStudents = () => {
 };
 
 export default AdminStudents;
-

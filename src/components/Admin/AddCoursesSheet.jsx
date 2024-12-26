@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Sheet,
   SheetClose,
@@ -10,10 +10,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { AddCourseForm } from "./AddCourseForm"
+} from "@/components/ui/sheet";
+import { AddCourseForm } from "./AddCourseForm";
 
-export function AddCourseSheet() {
+export function AddCourseSheet({ onCourseAdd }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -27,9 +27,9 @@ export function AddCourseSheet() {
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          <AddCourseForm />
+          <AddCourseForm onCourseAdd={onCourseAdd} />
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

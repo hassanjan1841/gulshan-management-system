@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import EditAssignmentButton from "./EditAssignmentButton";
+import Loader from "../Loader";
 
 const AssignmentCards = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const AssignmentCards = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-8">Assignments</h1>
       {isLoading ? (
-        <div className="text-center">Loading assignments...</div>
+        <Loader />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {assignments.map((assignment, index) => (

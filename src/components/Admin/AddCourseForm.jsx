@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -18,25 +16,36 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { createCourse } from "../../services/api/courses";
- 
+import { useState } from "react";
+import Cookies from "js-cookie";
+import { useToast } from "../../hooks/use-toast";
+
 // Form validation schema
 const formSchema = z.object({
   title: z
     .string()
-    .min(10, { message: "Title must be at least 10 characters." })
+    .min(2, { message: "Title must be at least 2 characters." })
     .max(120, { message: "Title must not exceed 120 characters." }),
   description: z
     .string()
     .min(15, { message: "Description must be at least 15 characters." })
-    .max(120, { message: "Description must not exceed 120 characters." }),
+    .max(200, { message: "Description must not exceed 120 characters." }),
   duration: z.string().nonempty({ message: "Duration is required." }),
   fee: z.string().nonempty({ message: "Fee is required." }),
+  level: z.string().nonempty({ message: "Level is required." }),
 });
 
-export function AddCourseForm() {
-    // const navigate = useNavigate();
-    const { toast } = useToast();
+export function AddCourseForm({ onCourseAdd }) {
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,25 +53,33 @@ export function AddCourseForm() {
       description: "",
       duration: "",
       fee: "",
+      level: "",
     },
   });
 
   async function onSubmit(values) {
+    setLoading(true);
     try {
-        const response = await createCourse(values);
-        console.log("response in form", response);
-        toast({
-            variant: "success",
-            title: "Course created successfully",
-            description: "Course has been created successfully.",
-          })
+      const course = await createCourse(values, Cookies.get("token"));
+      toast({
+        title: "Course Added",
+        message: "Course has been added successfully.",
+        type: "success",
+      });
+
+      onCourseAdd(values);
+      form.reset();
     } catch (error) {
-        console.log("error in form", error);
-        toast({
-            variant: "success",
-            description: error?.response?.data?.message,
-          })
-        
+      console.error("Error submitting form:", error);
+      toast({
+        variant: "destructive",
+        title: error.message ? "Server Error" : "User Validation",
+        description: error?.response?.data?.message
+          ? error.response.data.message
+          : error?.message,
+      });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -105,6 +122,33 @@ export function AddCourseForm() {
           )}
         />
 
+        {/* Level Field */}
+        <FormField
+          control={form.control}
+          name="level"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Level</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select level" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="beginner">Beginner</SelectItem>
+                  <SelectItem value="intermediate">Intermediate</SelectItem>
+                  <SelectItem value="advanced">Advanced</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormDescription>
+                Select the difficulty level of the course.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         {/* Duration Field */}
         <FormField
           control={form.control}
@@ -136,7 +180,9 @@ export function AddCourseForm() {
         />
 
         {/* Submit Button */}
-        <Button type="submit">Submit</Button>
+        <Button type="submit" className="w-full" loading={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </Button>
       </form>
     </Form>
   );
