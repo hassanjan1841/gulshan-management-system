@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect} from "react";
 import {
   Card,
   CardHeader,
@@ -12,7 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { AddCourseSheet } from "./AddCoursesSheet";
 import { getCourses } from "../../services/api/courses";
 import Loader from "../Loader";
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 

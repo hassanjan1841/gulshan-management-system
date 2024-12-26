@@ -20,6 +20,7 @@ import AdminStudents from "./components/Admin/AdminStudents";
 import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminCourses from "./components/Admin/AdminCourses";
 import CourseDetails from "./components/Admin/CourseDetailSheet";
+import AdminBatches from "./components/Admin/AdminBatches";
 
 function App() {
   const { currentUser } = useAuth();
@@ -65,6 +66,7 @@ function App() {
         <Route path="students" element={<AdminStudents />} />
         <Route path="courses" element={<AdminCourses />} />
         <Route path="courses/:id" element={<CourseDetails />} />
+        <Route path="batches" element={<AdminBatches />}/>
       </Route>
     </Routes>
   );

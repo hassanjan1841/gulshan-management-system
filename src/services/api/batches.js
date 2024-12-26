@@ -1,10 +1,10 @@
 import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
-export const getBatches = async (page, limit) => {
+export const getBatches = async (course,page, limit) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getBatches}?page=${page}&limit=${limit}`
+      `${appRoutes.getBatches}?course=${course}&page=${page}&limit=${limit}`
     );
     return response.data;
   } catch (error) {

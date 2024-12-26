@@ -26,7 +26,6 @@ import {
 import { createCourse } from "../../services/api/courses";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { useToast } from "../../hooks/use-toast";
 
 // Form validation schema
 const formSchema = z.object({
