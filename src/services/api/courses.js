@@ -10,3 +10,13 @@ export const getCourses = async (course, page, pageSize) => {
       throw error;
     }
   };
+export const createCourse = async (data) => {
+    try {
+      const response = await axios.post(appRoutes.createCourse, data);
+      console.log("response in createCourses", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      throw error;
+    }
+  };

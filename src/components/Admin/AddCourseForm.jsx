@@ -3,6 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useToast } from "../../hooks/use-toast";
+// import { useNavigate } from "react-router-dom";
+
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { createCourse } from "../../services/api/courses";
+ 
 // Form validation schema
 const formSchema = z.object({
   title: z
@@ -31,6 +35,8 @@ const formSchema = z.object({
 });
 
 export function AddCourseForm() {
+    // const navigate = useNavigate();
+    const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,8 +47,23 @@ export function AddCourseForm() {
     },
   });
 
-  function onSubmit(values) {
-    console.log("Submitted Values:", values); // Form values will log here
+  async function onSubmit(values) {
+    try {
+        const response = await createCourse(values);
+        console.log("response in form", response);
+        toast({
+            variant: "success",
+            title: "Course created successfully",
+            description: "Course has been created successfully.",
+          })
+    } catch (error) {
+        console.log("error in form", error);
+        toast({
+            variant: "success",
+            description: error?.response?.data?.message,
+          })
+        
+    }
   }
 
   return (
