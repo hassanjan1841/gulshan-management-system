@@ -21,6 +21,7 @@ import AdminDashboard from "./components/Admin/AdminDashboard";
 import AdminCourses from "./components/Admin/AdminCourses";
 import CourseDetails from "./components/Admin/CourseDetailSheet";
 import AdminBatches from "./components/Admin/AdminBatches";
+import HomePage from "./pages/homepage/HomePage";
 
 function App() {
   const { currentUser } = useAuth();
@@ -37,7 +38,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<HomePage />} />
 
       {/* student routes */}
       <Route path="/student" element={<DashboardLayout role={"student"} />}>
