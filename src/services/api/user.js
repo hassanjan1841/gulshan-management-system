@@ -2,10 +2,18 @@ import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
 // Get all users
-export const getAllUsers = async (role, page, limit) => {
+export const getAllUsers = async (
+  role,
+  page,
+  limit,
+  teacher,
+  status,
+  batch,
+  course
+) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}`
+      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}&teacher=${teacher}&status=${status}&batch=${batch}&course=${course}`
     );
     return response.data;
   } catch (error) {

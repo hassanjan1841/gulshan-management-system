@@ -5,12 +5,13 @@ import FilterStudents from "./FilterStudents";
 import { createUser, getAllUsers } from "../../services/api/user";
 import { useToast } from "../../hooks/use-toast";
 import Loader from "../Loader";
+import NoDataFound from "../NoDataFound";
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { toast } = useToast();
-
   const [filters, setFilters] = useState({
     status: "",
     batch: "",
@@ -18,14 +19,29 @@ const AdminStudents = () => {
     course: "",
     search: "",
   });
-  // const [isAdding, setIsAdding] = useState(false);
   const [newStudent, setNewStudent] = useState();
 
   useEffect(() => {
     const loadStudents = async () => {
       try {
+        setError(null);
         setIsLoading(true);
-        const data = await getAllUsers("student");
+        const adjustedFilters = {
+          ...filters,
+          teacher: filters.teacher === "all" ? "" : filters.teacher,
+          batch: filters.batch === "all" ? "" : filters.batch,
+          status: filters.status === "all" ? "" : filters.status,
+          course: filters.course === "all" ? "" : filters.course,
+        };
+        const data = await getAllUsers(
+          "student",
+          1,
+          5,
+          adjustedFilters.teacher,
+          adjustedFilters.status,
+          adjustedFilters.batch,
+          adjustedFilters.course
+        );
         console.log("data in loadStudents", data);
         setStudents(data);
       } catch (error) {
@@ -37,40 +53,19 @@ const AdminStudents = () => {
             ? error.response.data.message
             : error?.message,
         });
+        setError(error?.response?.data?.message);
       } finally {
         setIsLoading(false);
       }
     };
     loadStudents();
-  }, []);
+  }, [filters]);
 
   // Handle the filters change
   const handleFilterChange = (e) => {
-    setFilters({
-      ...filters,
-      [e.target.full_name]: e.target.value,
-    });
+    console.log("e.target students filter", e);
+    setFilters((prevFilters) => ({ ...prevFilters, ...e }));
   };
-
-  // Apply filters to students list
-  const filteredStudents = students.filter((student) => {
-    return (
-      (filters.status
-        ? student.isPassed.toString() === filters.status
-        : true) &&
-      (filters.batch ? student.batch === filters.batch : true) &&
-      (filters.teacher ? student.teacher === filters.teacher : true) &&
-      (filters.course ? student.course === filters.course : true) &&
-      (filters.search
-        ? student.full_name
-            .toLowerCase()
-            .includes(filters.search.toLowerCase()) ||
-          student.fatherName
-            .toLowerCase()
-            .includes(filters.search.toLowerCase())
-        : true)
-    );
-  });
 
   // Handle the addition of a new student
   const handleAddStudent = async (data) => {
@@ -113,11 +108,14 @@ const AdminStudents = () => {
         setFilters={setFilters}
       />
       {/* Students List */}
-      {isLoading ? (
+
+      {error ? (
+        <NoDataFound />
+      ) : isLoading ? (
         <Loader />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredStudents?.map((student) => (
+          {students?.map((student) => (
             <AdminStudentCard key={student._id} student={student} />
           ))}
         </div>

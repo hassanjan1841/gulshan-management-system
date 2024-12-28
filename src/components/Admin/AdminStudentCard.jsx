@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import AdminStudentSheet from "./AdminStudentSheet";
 
 const AdminStudentCard = ({ student }) => {
-  console.log("students in adminstudencard", student);
+  // console.log("students in adminstudencard", student);
   return (
     <Card className="shadow-lg border border-border hover:shadow-2xl hover:scale-105 transition-transform">
       <CardHeader>

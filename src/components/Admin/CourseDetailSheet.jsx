@@ -287,7 +287,7 @@ const CourseDetails = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium truncate text-primary">
-                            Batch {batch.title}
+                            {batch.title}
                           </p>
                         </div>
                       </div>
