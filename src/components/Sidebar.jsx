@@ -9,6 +9,7 @@ import {
   TrendingUp,
   FileText,
   HelpCircle,
+  Settings,
 } from "lucide-react";
 import {
   Sidebar as ShadcnSidebar,
@@ -116,7 +117,11 @@ const studentItems = [
   { name: "Assignments", href: "/student/assignments", icon: PenTool },
   { name: "Quizzes", href: "/student/quizzes", icon: BookOpen },
   { name: "Certificates", href: "/student/certificates", icon: Award },
-  { name: "Student Services", href: "/student/studentservices", icon: Settings },
+  {
+    name: "Student Services",
+    href: "/student/services",
+    icon: Settings,
+  },
 ];
 
 export default function AppSidebar({ role, ...props }) {
@@ -129,8 +134,8 @@ export default function AppSidebar({ role, ...props }) {
     role === "teacher"
       ? teacherItems
       : role === "admin"
-        ? adminItems
-        : studentItems;
+      ? adminItems
+      : studentItems;
   const title =
     role === "teacher" ? "Teacher" : role === "admin" ? "Admin" : "Student";
 

@@ -23,6 +23,7 @@ import CourseDetails from "./components/Admin/CourseDetailSheet";
 import AdminBatches from "./components/Admin/AdminBatches";
 import HomePage from "./pages/homepage/HomePage";
 import DashboardPage from "./pages/admin/DashboardTry";
+import StudentServices from "./components/StudentDashboard/StudentServices";
 
 function App() {
   const { currentUser } = useAuth();
@@ -47,7 +48,8 @@ function App() {
         <Route index element={<StudentDashboard />} />
         <Route path="assignments" element={<StudentAssignment />} />
         <Route path="quizzes" element={<StudentQuiz />} />
-        <Route path="Certificates" element={<StudentCertificate />} />
+        <Route path="certificates" element={<StudentCertificate />} />
+        <Route path="services" element={<StudentServices />} />
       </Route>
       {/* student routes end */}
 
