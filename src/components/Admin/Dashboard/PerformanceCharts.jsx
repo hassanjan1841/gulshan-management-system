@@ -139,7 +139,7 @@ export default function PerformanceCharts() {
     <Card>
       <CardHeader className="w-full">
         <CardTitle className="mb-2">Student Performance Overview</CardTitle>
-        <div className="flex max-w-[500px]  w-full ">
+        <div className="flex max-w-[500px] gap-4 w-full ">
           <Select
             value={selectedMonth}
             onValueChange={(value) => setSelectedMonth(value)}

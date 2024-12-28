@@ -35,8 +35,8 @@ const Dues = () => {
       <CardHeader>
         <CardTitle>Dues</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="flex justify-between mb-4 items-center">
+      <CardContent className="overflow-x-scroll ">
+        <div className="flex justify-between mb-4 items-center min-w-[350px]">
           <div className="flex justify-start items-center gap-5 ">
             <button
               className={`px-4 py-2 rounded ${
@@ -60,13 +60,13 @@ const Dues = () => {
             </button>
           </div>
 
-          <div className="mt-4 flex justify-end">
+          <div className=" flex justify-end items-center">
             <button className="px-4 py-2 bg-primary text-primary-foreground rounded">
               View All
             </button>
           </div>
         </div>
-        <div className="space-y-4">
+        <div className="space-y-4 min-w-[350px]">
           {filteredData.map((due, index) => (
             <div
               key={index}
