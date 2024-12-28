@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, GraduationCap } from "lucide-react";
+import {Button} from '../../components/ui/button'
 
 const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
   return (
@@ -9,12 +10,15 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
       className="bg-landing-background rounded-xl border border-gray-200 shadow-sm relative overflow-hidden p-6"
     >
       {isOpen ? (
-        <div className="absolute top-8 -right-16 bg-landing-button text-landing-background px-12 py-1 rotate-[45deg] text-sm font-medium">
-          ADMISSION OPEN
-        </div>
+        // <div className="absolute top-8 -right-16 bg-landing-button text-landing-background px-12 py-1 rotate-[45deg] text-sm font-medium">
+        //   ADMISSION OPEN
+        // </div>
+        <div className="absolute top-7 -right-12 bg-landing-button text-landing-background px-10 sm:px-12 sm:py-1 rotate-[45deg] sm:rotate-[35deg]">
+        <span className="text-xs sm:text-sm font-semibold ">ADMISSION OPEN</span>
+       </div>
       ) : (
-        <div className="absolute top-8 -right-16 bg-gray-400 text-landing-background px-12 py-1 rotate-[45deg] text-sm font-medium">
-          ADMISSION CLOSED
+        <div className="absolute top-7 -right-12 bg-red-300 text-landing-background px-10 sm:px-12 sm:py-1 rotate-[45deg] sm:rotate-[35deg]">
+          <span className="text-xs sm:text-sm font-semibold ">ADMISSION CLOSED</span>
         </div>
       )}
 
@@ -48,6 +52,11 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
             <p className="text-landing-text">{duration}</p>
           </div>
         </div>
+       { isOpen && <div className="flex justify-end">
+        <Button 
+          variant='secondary'
+          className='bg-landing-other-button text-white'>Apply Now</Button>
+        </div>}
       </div>
     </motion.div>
   );

@@ -5,7 +5,7 @@ const Teacher = ({ name, profession, image }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center shadow-md"
     >
       <img
         src={image}
@@ -40,8 +40,8 @@ const Teachers = () => {
   ];
 
   return (
-    <section id="teachers" className="py-20 bg-landing-background">
-      <div className="container mx-auto px-4">
+    <section id="teachers" className="py-20 bg-landing-background ">
+      <div className="container mx-auto px-4 ">
         <h2 className="text-3xl font-bold text-center mb-12 text-landing-text">
           Top Best Teachers
         </h2>
