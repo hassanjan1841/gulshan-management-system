@@ -4,6 +4,7 @@ import PerformanceCharts from "../../components/Admin/Dashboard/PerformanceChart
 import UpcomingMeetings from "../../components/Admin/Dashboard/UpcomingMeetings";
 import MainStats from "../../components/Admin/Dashboard/MainStats";
 import GenderDistribution from "../../components/Admin/Dashboard/GenderDistribution";
+import Dues from "../../components/Admin/Dashboard/Dues";
 
 export default function DashboardPage() {
   return (
@@ -16,6 +17,7 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <GenderDistribution />
+        <Dues />
       </div>
     </div>
   );
