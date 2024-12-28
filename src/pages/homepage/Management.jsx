@@ -5,7 +5,7 @@ const Manager = ({ name, role, image }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center shadow-md"
     >
       <img
         src={image}
@@ -38,7 +38,7 @@ const Management = () => {
   ];
 
   return (
-    <section id="management" className="py-20 bg-landing-background-light">
+    <section id="management" className="pt-20 bg-landing-background-light">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12 text-landing-text">
           Management Team
