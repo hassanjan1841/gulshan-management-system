@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
-import Image from '../../assets/images.png'
+import Image from "../../assets/images.png";
 const Header = () => {
   return (
     <motion.header
@@ -10,11 +10,9 @@ const Header = () => {
       transition={{ type: "spring", stiffness: 120 }}
       className="fixed top-0 left-0 right-0 bg-landing-background shadow-md z-50"
     >
-      <div className="container mx-auto px-4  flex justify-between items-center">
-        <motion.div
-          whileHover={{ scale: 1.1 }}
-        >
-         <img className="w-[70px] h-[70px]" src={Image} alt="" />
+      <div className="mx-auto px-4  flex justify-between items-center">
+        <motion.div whileHover={{ scale: 1.1 }}>
+          <img className="w-[70px] h-[70px]" src={Image} alt="" />
         </motion.div>
         <nav className="hidden md:flex space-x-6">
           {["Home", "Courses", "Teachers", "Management", "Reviews"].map(
