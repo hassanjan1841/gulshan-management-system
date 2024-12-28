@@ -22,6 +22,7 @@ import AdminCourses from "./components/Admin/AdminCourses";
 import CourseDetails from "./components/Admin/CourseDetailSheet";
 import AdminBatches from "./components/Admin/AdminBatches";
 import HomePage from "./pages/homepage/HomePage";
+import DashboardPage from "./pages/admin/DashboardTry";
 
 function App() {
   const { currentUser } = useAuth();
@@ -62,9 +63,10 @@ function App() {
       <Route path="/admin" element={<AdminLogin />} />
       <Route
         path="/admin/dashboard"
+        // element={<DashboardPage />}
         element={<DashboardLayout role={"admin"} />}
       >
-        <Route index element={<AdminDashboard />} />
+        <Route index element={<DashboardPage />} />
         <Route path="students" element={<AdminStudents />} />
         <Route path="courses" element={<AdminCourses />} />
         <Route path="courses/:id" element={<CourseDetails />} />

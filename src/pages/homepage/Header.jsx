@@ -10,7 +10,7 @@ const Header = () => {
       transition={{ type: "spring", stiffness: 120 }}
       className="fixed top-0 left-0 right-0 bg-landing-background shadow-md z-50"
     >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className=" mx-auto px-4 py-4 flex justify-between items-center">
         <motion.div
           whileHover={{ scale: 1.1 }}
           className="text-2xl font-bold text-landing-button"
@@ -32,13 +32,23 @@ const Header = () => {
             )
           )}
         </nav>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-landing-other-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
-        >
-          Registration
-        </motion.button>
+
+        <div className="flex items-center gap-4">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-landing-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
+          >
+            Student Portal
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-landing-other-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-button-dark transition duration-300"
+          >
+            Registration
+          </motion.button>
+        </div>
       </div>
     </motion.header>
   );

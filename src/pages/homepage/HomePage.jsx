@@ -14,7 +14,7 @@ const HomePage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-landing-background text-landing-text"
+      className="w-full bg-landing-background text-landing-text"
     >
       <Header />
       <Hero />
