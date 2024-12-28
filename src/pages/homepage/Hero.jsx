@@ -39,9 +39,9 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="py-20 section-height md:py-32 bg-gradient-to-br from-landing-background-light to-landing-background-dark"
+      className="py-20 md:py-32 bg-gradient-to-br from-landing-background-light to-landing-background-dark"
     >
-      <div className=" mx-auto px-4">
+      <div className="mx-auto px-4">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
