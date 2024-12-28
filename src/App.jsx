@@ -39,6 +39,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<Login />} />
 
       {/* student routes */}
       <Route path="/student" element={<DashboardLayout role={"student"} />}>
@@ -67,7 +68,7 @@ function App() {
         <Route path="students" element={<AdminStudents />} />
         <Route path="courses" element={<AdminCourses />} />
         <Route path="courses/:id" element={<CourseDetails />} />
-        <Route path="batches" element={<AdminBatches />}/>
+        <Route path="batches" element={<AdminBatches />} />
       </Route>
     </Routes>
   );
