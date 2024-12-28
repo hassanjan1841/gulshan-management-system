@@ -1,7 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router";
 import Login from "./pages/Login";
-import { ThemeProvider } from "./components/theme-provider";
 
 import StudentDashboard from "./components/StudentDashboard/studentDashboard";
 import DashboardLayout from "./pages/student/DashboardLayout";
@@ -15,47 +13,68 @@ import TeacherServices from "./components/TeacherDashboard/TeacherServices";
 import QuizTable from "./components/TeacherDashboard/QuizTable";
 import QuizDetail from "./components/TeacherDashboard/QuizDetail";
 import AdminLogin from "./components/Admin/AdminLogin";
+import { useAuth } from "./context/authContext";
+import { Route, Routes, useNavigate } from "react-router";
+import { useEffect } from "react";
+import AdminStudents from "./components/Admin/AdminStudents";
+import AdminDashboard from "./components/Admin/AdminDashboard";
+import AdminCourses from "./components/Admin/AdminCourses";
+import CourseDetails from "./components/Admin/CourseDetailSheet";
+import AdminBatches from "./components/Admin/AdminBatches";
+import HomePage from "./pages/homepage/HomePage";
+import DashboardPage from "./pages/admin/DashboardTry";
+import StudentServices from "./components/StudentDashboard/StudentServices";
 
 function App() {
+  const { currentUser } = useAuth();
+  console.log("currentUser", currentUser);
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     navigate(`/${currentUser.role}`);
+  //   }else {
+  //     navigate(`/`);
+  //   }
+  // }, [currentUser]);
+
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          {/* student routes */}
-          <Route path="/student" element={<DashboardLayout role={"student"} />}>
-            <Route index element={<StudentDashboard />} />
-            <Route path="assignments" element={<StudentAssignment />} />
-            <Route path="quizzes" element={<StudentQuiz />} />
-            <Route path="Certificates" element={<StudentCertificate />} />
-          </Route>
-          {/* student routes end */}
-          
-          <Route path="/teacher" element={<DashboardLayout role={'teacher'}/>}>
-            <Route index element={<TeacherDashboard />} />
-            <Route path="assignments" element={<TeacherAssignment />} />
-            <Route path="assignments/:id" element={<AssignmentDetail />} />
-            <Route path="quizzes" element={<QuizTable />} />
-            <Route path="quizzes/:id" element={<QuizDetail />} />
-            <Route path="services" element={<TeacherServices />} />
-          </Route>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<Login />} />
 
-          <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
-            <Route index element={<TeacherDashboard />} />
-            <Route path="assignments" element={<TeacherAssignment />} />
-            <Route path="assignments/:id" element={<AssignmentDetail />} />
-            <Route path="quizzes" element={<QuizTable />} />
-            <Route path="quizzes/:id" element={<QuizDetail />} />
-            <Route path="services" element={<TeacherServices />} />
-          </Route>
+      {/* student routes */}
+      <Route path="/student" element={<DashboardLayout role={"student"} />}>
+        <Route index element={<StudentDashboard />} />
+        <Route path="assignments" element={<StudentAssignment />} />
+        <Route path="quizzes" element={<StudentQuiz />} />
+        <Route path="certificates" element={<StudentCertificate />} />
+        <Route path="services" element={<StudentServices />} />
+      </Route>
+      {/* student routes end */}
 
-          <Route path="/admin" element={<DashboardLayout role={"admin"} />}>
-            <Route index element={<AdminLogin />} />
-            {/* <Route index element={<TeacherDashboard />} /> */}
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+      <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
+        <Route index element={<TeacherDashboard />} />
+        <Route path="assignments" element={<TeacherAssignment />} />
+        <Route path="assignments/:id" element={<AssignmentDetail />} />
+        <Route path="quizzes" element={<QuizTable />} />
+        <Route path="quizzes/:id" element={<QuizDetail />} />
+        <Route path="services" element={<TeacherServices />} />
+      </Route>
+
+      <Route path="/admin" element={<AdminLogin />} />
+      <Route
+        path="/admin/dashboard"
+        // element={<DashboardPage />}
+        element={<DashboardLayout role={"admin"} />}
+      >
+        <Route index element={<DashboardPage />} />
+        <Route path="students" element={<AdminStudents />} />
+        <Route path="courses" element={<AdminCourses />} />
+        <Route path="courses/:id" element={<CourseDetails />} />
+        <Route path="batches" element={<AdminBatches />} />
+      </Route>
+    </Routes>
   );
 }
 

@@ -1,5 +1,4 @@
-
-import { Download, Eye } from 'lucide-react';
+import { Download, Eye } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,10 +24,10 @@ export default function AllCertificateCard({
   issuer,
 }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  console.log(title)
+  console.log(title);
   const handleDownload = () => {
     // Logic to download the certificate
-    window.open(certificateUrl, '_blank');
+    window.open(certificateUrl, "_blank");
   };
 
   const getStatusBadge = (status) => {
@@ -73,11 +72,15 @@ export default function AllCertificateCard({
             <DialogContent className="max-w-4xl">
               <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
-                <DialogDescription>Issued by {issuer} on {issueDate}</DialogDescription>
+                <DialogDescription>
+                  Issued by {issuer} on {issueDate}
+                </DialogDescription>
               </DialogHeader>
               <div className="mt-4">
                 <img
-                  src={"https://images.spiceworks.com/wp-content/uploads/2022/07/13131906/CCNA-Certification.png"}
+                  src={
+                    "https://images.spiceworks.com/wp-content/uploads/2022/07/13131906/CCNA-Certification.png"
+                  }
                   alt={`${title} Certificate`}
                   className="w-full h-auto"
                 />
@@ -89,4 +92,3 @@ export default function AllCertificateCard({
     </Card>
   );
 }
-

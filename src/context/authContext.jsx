@@ -1,7 +1,9 @@
 // context/AuthContext.js
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase/auth";
+import { auth } from "../firebase/auth.js";
+import Cookies from "js-cookie";
 
+import { getUserById } from "../services/api/user.js";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -10,15 +12,29 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+      // setCurrentUser(user);
       setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    if (!currentUser) {
+      const token = Cookies.get("token");
+      console.log("token", token);
+      if (token) {
+        getUser();
+      }
+    }
+  }, [currentUser]);
+  const getUser = async () => {
+    const userFromAPI = await getUserById(Cookies.get("token"));
+    setCurrentUser(userFromAPI);
+  };
+
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );
