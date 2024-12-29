@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
 const duesData = [
   {
     name: "John Doe",
@@ -61,9 +62,11 @@ const Dues = () => {
           </div>
 
           <div className=" flex justify-end items-center">
-            <button className="px-4 py-2 bg-primary text-primary-foreground rounded">
-              View All
-            </button>
+            <Button asChild>
+              <Link to={`/admin/dashboard/${filter.toLowerCase()}s`}>
+                View All
+              </Link>
+            </Button>
           </div>
         </div>
         <div className="space-y-4 min-w-[350px]">

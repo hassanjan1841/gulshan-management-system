@@ -80,8 +80,8 @@ const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
           <SelectContent>
             <SelectItem value="all">All Batches</SelectItem>{" "}
             {batches?.map((batch) => (
-              <SelectItem key={batch._id} value={batch._id}>
-                {batch.title} - {batch.course.title}
+              <SelectItem key={batch?._id} value={batch?._id}>
+                {batch?.title} - {batch?.course?.title}
               </SelectItem>
             ))}
           </SelectContent>
