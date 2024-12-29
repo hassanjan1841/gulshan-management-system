@@ -13,12 +13,12 @@ export default {
         "landing-text": "#1f2937",
         "landing-button": {
           light: "#62fcaf",
-          DEFAULT: "#03CC22",
+          DEFAULT: "#285192",
           dark: "#62fcaf",
         },
         "landing-other-button": {
           light: "#60a5fa",
-          DEFAULT: "#3b82f6",
+          DEFAULT: "#13a44d",
           dark: "#2563eb",
         },
         "landing-background": {
