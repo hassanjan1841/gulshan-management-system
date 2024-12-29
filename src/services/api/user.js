@@ -44,11 +44,7 @@ export const getUserById = async (token) => {
 // Get a single user by email
 export const loginUser = async (email) => {
   try {
-<<<<<<< HEAD
-    const response = await axios.post(`${VITE_API_URL}/auth/login`, { email });
-=======
     const response = await axios.post(`${appRoutes.login}`, { email });
->>>>>>> admin-students
     return response.data;
   } catch (error) {
     console.error("error in user js file", error);
