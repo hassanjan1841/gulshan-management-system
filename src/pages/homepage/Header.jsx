@@ -1,7 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-scroll";
+import { Link as LinkScroll } from "react-scroll";
+
 import Image from "../../assets/images.png";
+import { Link } from "react-router";
 const Header = () => {
   return (
     <motion.header
@@ -17,7 +19,7 @@ const Header = () => {
         <nav className="hidden md:flex space-x-6">
           {["Home", "Courses", "Teachers", "Management", "Reviews"].map(
             (item) => (
-              <Link
+              <LinkScroll
                 key={item}
                 to={item.toLowerCase()}
                 smooth={true}
@@ -25,19 +27,22 @@ const Header = () => {
                 className="text-landing-text hover:text-landing-button cursor-pointer"
               >
                 {item}
-              </Link>
+              </LinkScroll>
             )
           )}
         </nav>
 
         <div className="flex items-center gap-4">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-landing-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
-          >
-            Student Portal
-          </motion.button>
+
+          <Link to={'/login'}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-landing-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
+            >
+              Student Portal
+            </motion.button>
+          </Link>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
