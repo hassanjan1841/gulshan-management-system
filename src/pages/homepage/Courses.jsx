@@ -1,24 +1,24 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, GraduationCap } from "lucide-react";
-import {Button} from '../../components/ui/button'
-
+import { Button } from "../../components/ui/button";
 const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="bg-landing-background rounded-xl border border-gray-200 shadow-sm relative overflow-hidden p-6"
+      className="bg-landing-background rounded-xl border border-gray-200 shadow-sm relative overflow-hidden p-6 group"
     >
       {isOpen ? (
-        // <div className="absolute top-8 -right-16 bg-landing-button text-landing-background px-12 py-1 rotate-[45deg] text-sm font-medium">
-        //   ADMISSION OPEN
-        // </div>
         <div className="absolute top-7 -right-12 bg-landing-button text-landing-background px-10 sm:px-12 sm:py-1 rotate-[45deg] sm:rotate-[35deg]">
-        <span className="text-xs sm:text-sm font-semibold ">ADMISSION OPEN</span>
-       </div>
+          <span className="text-xs sm:text-sm font-semibold ">
+            ADMISSION OPEN
+          </span>
+        </div>
       ) : (
         <div className="absolute top-7 -right-12 bg-red-300 text-landing-background px-10 sm:px-12 sm:py-1 rotate-[45deg] sm:rotate-[35deg]">
-          <span className="text-xs sm:text-sm font-semibold ">ADMISSION CLOSED</span>
+          <span className="text-xs sm:text-sm font-semibold ">
+            ADMISSION CLOSED
+          </span>
         </div>
       )}
 
@@ -26,7 +26,7 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
         {title}
       </h3>
 
-      <div className="space-y-4">
+      <div className="space-y-4 ">
         <div className="flex items-start gap-2">
           <GraduationCap className="w-5 h-5 text-landing-text-light mt-1" />
           <div>
@@ -52,12 +52,18 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
             <p className="text-landing-text">{duration}</p>
           </div>
         </div>
-       { isOpen && <div className="flex justify-end">
-        <Button 
-          variant='secondary'
-          className='bg-landing-other-button text-white'>Apply Now</Button>
-        </div>}
+        {isOpen && (
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
+            <Button
+              variant="secondary"
+              className="bg-landing-other-button text-white"
+            >
+              Apply Now
+            </Button>
+          </div>
+        )}
       </div>
+      <div className="absolute inset-0 z-40 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
     </motion.div>
   );
 };
@@ -110,7 +116,7 @@ const Courses = () => {
 
   return (
     <section id="courses" className="py-20 bg-landing-background-light">
-      <div className="container mx-auto px-4">
+      <div className="w-[90%] mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-3xl font-bold text-landing-text">Our Courses</h2>
           <motion.button

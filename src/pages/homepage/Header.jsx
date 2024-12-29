@@ -8,9 +8,9 @@ const Header = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 120 }}
-      className="fixed top-0 left-0 right-0 bg-landing-background shadow-md z-50"
+      className="w-full sticky top-0 left-0 right-0 bg-landing-background shadow-md z-50"
     >
-      <div className="mx-auto px-4  flex justify-between items-center">
+      <div className="w-[90%] mx-auto px-4  flex justify-between items-center">
         <motion.div whileHover={{ scale: 1.1 }}>
           <img className="w-[70px] h-[70px]" src={Image} alt="" />
         </motion.div>

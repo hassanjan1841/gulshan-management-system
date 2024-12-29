@@ -42,7 +42,7 @@ const Management = () => {
 
   return (
     <section id="management" className="pt-20 bg-landing-background-light">
-      <div className="container mx-auto px-4">
+      <div className="w-[90%] mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-12 text-landing-text">
           Management Team
         </h2>

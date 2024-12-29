@@ -31,6 +31,7 @@ export default {
           DEFAULT: "#bfdbfe",
           dark: "#93c5fd",
         },
+        "landing-footer": "#1c657d",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

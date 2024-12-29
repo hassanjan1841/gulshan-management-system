@@ -1,19 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
-import Image from '../../assets/images.png'
+import Image from "../../assets/images.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-landing-text text-landing-background py-20">
-      <div className="container mx-auto px-4">
+    <footer className="bg-landing-footer text-landing-background py-20">
+      <div className="w-[90%] mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="mb-4"
-            >
-           <img className="w-[70px] h-[70px]" src={Image} alt="" />
+            <motion.div whileHover={{ scale: 1.1 }} className="mb-4">
+              <img className="w-[70px] h-[70px]" src={Image} alt="" />
             </motion.div>
             <p className="text-landing-background-light">
               Empowering futures through education.
