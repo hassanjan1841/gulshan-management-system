@@ -8,7 +8,6 @@ export const getCourses = async (page, limit) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
     throw error;
   }
 };
@@ -18,7 +17,6 @@ export const getSingleCourse = async (id) => {
     const response = await axios.get(`${appRoutes.getSingleCourse}/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
     throw error;
   }
 };

@@ -19,8 +19,6 @@ import { useAuth } from "../context/authContext";
 export default function ProfileSheet({ data }) {
   const [open, setOpen] = useState(false);
   const { setCurrentUser } = useAuth();
-  console.log("profile pic in profilesheet=> ", data);
-
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>

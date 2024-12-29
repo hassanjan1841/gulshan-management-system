@@ -28,16 +28,18 @@ const AdminBatchesCard = ({ course }) => {
       try {
         setLoading(true);
         const newBatches = await fetchBatches(course._id, page, limit);
-        console.log("newBatches :>> ", newBatches);
         setBatches(newBatches.batches);
         setLoading(false);
       } catch (error) {
         if (error.response.data.error) {
+          console.log("error in fetch", error.response.data);
           setBatches({
             error: error.response.data.error,
             message: error.response.data.message,
           });
           setLoading(false);
+        }else{
+          console.log("error in system>", error);
         }
       }
     };

@@ -14,11 +14,12 @@ import { getCourses } from "../../services/api/courses";
 import Loader from "../Loader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useToast } from "../../hooks/use-toast";
+
 
 // Mock function to fetch courses
 const fetchCourses = async (page, limit) => {
   let courses = await getCourses(page, limit);
-  // console.log("courses", courses);
   return courses;
 };
 
@@ -26,17 +27,27 @@ const AdminCourses = () => {
   const [courses, setCourses] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const limit = 9;
 
   useEffect(() => {
     const loadCourses = async () => {
-      setLoading(true);
-      const newCourses = await fetchCourses(page, limit);
-      console.log("newCourses", newCourses);
-      setCourses(newCourses.courses);
-      // setPage((prevPage) => prevPage + 1);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const newCourses = await fetchCourses(page, limit);
+        setCourses(newCourses.courses);
+        setLoading(false);
+      } catch (error) { 
+        if(error.message == 'Network Error'){
+          setLoading(false);
+          toast({
+            title: "Network Error",
+            variant: "destructive",
+          });
+        }
+        setLoading(false);
+      }
     };
     loadCourses();
   }, [page]);
