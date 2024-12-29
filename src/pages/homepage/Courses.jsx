@@ -9,7 +9,7 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
       className="bg-landing-background rounded-xl border border-gray-200 shadow-sm relative overflow-hidden p-6 group"
     >
       {isOpen ? (
-        <div className="absolute top-7 -right-12 bg-landing-button text-landing-background px-10 sm:px-12 sm:py-1 rotate-[45deg] sm:rotate-[35deg]">
+        <div className="absolute top-7 -right-12 bg-landing-other-button text-landing-background px-10 sm:px-12 sm:py-1 rotate-[45deg] sm:rotate-[35deg]">
           <span className="text-xs sm:text-sm font-semibold ">
             ADMISSION OPEN
           </span>
@@ -22,11 +22,11 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
         </div>
       )}
 
-      <h3 className="text-2xl font-bold text-landing-text mt-4 mb-3">
+      <h3 className="text-2xl font-bold text-landing-text mt-4 mb-4">
         {title}
       </h3>
 
-      <div className="space-y-4 ">
+      <div className="space-y-3 ">
         <div className="flex items-start gap-2">
           <GraduationCap className="w-5 h-5 text-landing-text-light mt-1" />
           <div>
@@ -52,18 +52,17 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
             <p className="text-landing-text">{duration}</p>
           </div>
         </div>
+      </div>
         {isOpen && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
+          <div className="flex justify-end mt-4">
             <Button
               variant="secondary"
-              className="bg-landing-other-button text-white"
+              className="bg-landing-other-button-dark  text-white hover:bg-landing-button transition duration-300"
             >
               Apply Now
             </Button>
           </div>
         )}
-      </div>
-      <div className="absolute inset-0 z-40 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
     </motion.div>
   );
 };
@@ -122,7 +121,7 @@ const Courses = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-landing-other-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
+            className="bg-landing-other-button-dark text-landing-background px-4 py-2 border-none rounded-md hover:bg-landing-button transition duration-300"
           >
             View All
           </motion.button>
