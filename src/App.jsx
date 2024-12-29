@@ -14,6 +14,7 @@ import AssignmentDetail from "./components/TeacherDashboard/AssignmentDetail";
 import TeacherServices from "./components/TeacherDashboard/TeacherServices";
 import QuizTable from "./components/TeacherDashboard/QuizTable";
 import QuizDetail from "./components/TeacherDashboard/QuizDetail";
+import Apply from "./pages/apply/Apply";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="quizzes/:id" element={<QuizDetail />} />
             <Route path="services" element={<TeacherServices />} />
           </Route>
+          <Route path="/apply" element={<Apply/>}></Route>
 
           <Route path="/admin" element={<DashboardLayout role={'admin'}/>}>
             <Route index element={<TeacherDashboard />} />
