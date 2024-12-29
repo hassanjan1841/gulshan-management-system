@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-
+import Wajidullah from "@/assets/images/wajidullah.png";
+import zeeshan from "@/assets/images/zeeshan-ijaz.png";
 const Manager = ({ name, role, image }) => {
   return (
     <motion.div
@@ -10,7 +11,7 @@ const Manager = ({ name, role, image }) => {
       <img
         src={image}
         alt={name}
-        className="w-32 h-32 rounded-full mb-4 object-cover"
+        className="w-32 h-32 rounded-full shadow-lg  mb-4 object-cover"
       />
       <h3 className="text-lg font-semibold text-landing-text">{name}</h3>
       <p className="text-landing-text-light">{role}</p>
@@ -21,21 +22,23 @@ const Manager = ({ name, role, image }) => {
 const Management = () => {
   const managers = [
     {
-      name: "Emily Brown",
-      role: "CEO",
-      image: "/placeholder.svg?height=150&width=150",
+      name: "Muhammad Bashir Farooq",
+      role: "Chairman",
+      image:
+        "https://res.cloudinary.com/saylani-welfare/image/upload/v1647964514/website-images/static/62.jpg",
     },
     {
-      name: "Michael Chen",
-      role: "CTO",
-      image: "/placeholder.svg?height=150&width=150",
+      name: "Wajidullah",
+      role: "Administrator",
+      image: Wajidullah,
     },
     {
-      name: "Lisa Taylor",
-      role: "COO",
-      image: "/placeholder.svg?height=150&width=150",
+      name: "Zeeshan Aijaz",
+      role: "Education Lead",
+      image: zeeshan,
     },
   ];
+  console.log(Wajidullah);
 
   return (
     <section id="management" className="pt-20 bg-landing-background-light">
