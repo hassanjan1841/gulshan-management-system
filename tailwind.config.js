@@ -10,6 +10,28 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        "landing-text": "#1f2937",
+        "landing-button": {
+          light: "#62fcaf",
+          DEFAULT: "#285192",
+          dark: "#62fcaf",
+        },
+        "landing-other-button": {
+          light: "#60a5fa",
+          DEFAULT: "#13a44d",
+          dark: "#2563eb",
+        },
+        "landing-background": {
+          light: "#fff",
+          DEFAULT: "#ffffff",
+          dark: "#fff",
+        },
+        "landing-foreground": {
+          light: "#e0f2fe",
+          DEFAULT: "#bfdbfe",
+          dark: "#93c5fd",
+        },
+        "landing-footer": "#1c657d",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

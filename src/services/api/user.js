@@ -1,11 +1,20 @@
 import axios from "axios";
-
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+import { appRoutes } from "../../constant/constant";
 
 // Get all users
-export const getAllUsers = async () => {
+export const getAllUsers = async (
+  role,
+  page,
+  limit,
+  teacher,
+  status,
+  batch,
+  course
+) => {
   try {
-    const response = await axios.get(`${VITE_API_URL}/user`);
+    const response = await axios.get(
+      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}&teacher=${teacher}&status=${status}&batch=${batch}&course=${course}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -14,12 +23,20 @@ export const getAllUsers = async () => {
 };
 
 // Get a single user by ID
-export const getUserById = async (userId) => {
+export const getUserById = async (token) => {
   try {
-    const response = await axios.get(`${VITE_API_URL}/${userId}`);
+    const response = await axios.get(
+      `${appRoutes.getSingleUser}`,
+      token && {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("respones in getuserbyi d", response);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching user with ID ${userId}:`, error);
+    console.error(`Error fetching user with ID}:`, error);
     throw error;
   }
 };
@@ -27,10 +44,14 @@ export const getUserById = async (userId) => {
 // Get a single user by email
 export const loginUser = async (email) => {
   try {
+<<<<<<< HEAD
     const response = await axios.post(`${VITE_API_URL}/auth/login`, { email });
+=======
+    const response = await axios.post(`${appRoutes.login}`, { email });
+>>>>>>> admin-students
     return response.data;
   } catch (error) {
-    console.error(`Error fetching user with email ${email}:`, error);
+    console.error("error in user js file", error);
     throw error;
   }
 };
@@ -38,7 +59,7 @@ export const loginUser = async (email) => {
 // Create a new user
 export const createUser = async (userData) => {
   try {
-    const response = await axios.post(VITE_API_URL, userData);
+    const response = await axios.post(appRoutes.createUser, userData);
     return response.data;
   } catch (error) {
     console.error("Error creating user:", error);
@@ -49,7 +70,10 @@ export const createUser = async (userData) => {
 // Update an existing user by ID
 export const updateUser = async (userId, userData) => {
   try {
-    const response = await axios.put(`${VITE_API_URL}/${userId}`, userData);
+    const response = await axios.put(
+      `${appRoutes.updateUser}/${userId}`,
+      userData
+    );
     return response.data;
   } catch (error) {
     console.error(`Error updating user with ID ${userId}:`, error);
@@ -60,7 +84,7 @@ export const updateUser = async (userId, userData) => {
 // Delete a user by ID
 export const deleteUser = async (userId) => {
   try {
-    const response = await axios.delete(`${VITE_API_URL}/${userId}`);
+    const response = await axios.delete(`${appRoutes.deleteUser}/${userId}`);
     return response.data;
   } catch (error) {
     console.error(`Error deleting user with ID ${userId}:`, error);

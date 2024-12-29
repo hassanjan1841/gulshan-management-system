@@ -6,33 +6,48 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { signInWithGoogle } from "../firebase/auth";
 import { useNavigate } from "react-router";
+import { useToast } from "../hooks/use-toast";  
+import Cookies from "js-cookie"; 
+import { useAuth } from "../context/authContext";
 import { loginUser } from "../services/api/user";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
-  const navgiate = useNavigate();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { setCurrentUser } = useAuth();
 
   const handleGoogleLogin = async () => {
     setLoading(true);
     // Implement your Google login logic here
     try {
       const user = await signInWithGoogle();
-
+      console.log("user in form", user);
       const userData = await loginUser(user.email);
 
-      if (!userData[0]) {
-        console.error("User not found");
-setLoading(false)
-        return;
-      }
-      // console.log(userData);
+      console.log("userData", userData.user);
+      Cookies.set("token", userData.token);
+      setCurrentUser(userData.user);
 
-      navgiate(`/${userData[0].role}`);
+      toast({
+        variant: "success",
+        title: "Login Successful",
+        description: "You have successfully signed in",
+      });
+
+      navigate(`/${userData.user.role}`);
     } catch (error) {
-setLoading(false)
-      console.error("Error signing in:", error.message);
+      setLoading(false);
+      console.log("Error signing in:==> ", error.message);
+
+      toast({
+        variant: "destructive",
+        title: error.message ? "Server Error" : "User Validaion",
+        description: error?.response?.data?.message
+          ? error.response.data.message
+          : error?.message,
+      });
     }
-    // setTimeout(() => setLoading(false), 2000); // Simulating API call
   };
 
   return (

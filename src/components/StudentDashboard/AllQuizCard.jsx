@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, Play } from 'lucide-react';
+import { Eye, Play } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -129,4 +129,3 @@ export default function AllQuizCard({
     </Card>
   );
 }
-
