@@ -24,6 +24,7 @@ import AdminBatches from "./components/Admin/AdminBatches";
 import HomePage from "./pages/homepage/HomePage";
 import DashboardPage from "./pages/admin/DashboardTry";
 import StudentServices from "./components/StudentDashboard/StudentServices";
+import NotFound from "./components/NotFound";
 
 function App() {
   const { currentUser } = useAuth();
@@ -42,6 +43,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="*" element={<NotFound />} />
 
       {/* student routes */}
       <Route path="/student" element={<DashboardLayout role={"student"} />}>

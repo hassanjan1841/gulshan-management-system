@@ -33,6 +33,7 @@ const AdminStudents = () => {
           status: filters.status === "all" ? "" : filters.status,
           course: filters.course === "all" ? "" : filters.course,
         };
+        console.log("filters in loadStudents", adjustedFilters);
         const data = await getAllUsers(
           "student",
           1,

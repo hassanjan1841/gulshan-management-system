@@ -29,7 +29,7 @@ const AdminStudentCard = ({ student }) => {
             </CardTitle>
             <CardDescription className="flex items-center space-x-2">
               <Badge variant="outline" className="text-gray-500">
-                {student?.section?.title}
+                {student?.section?.name}
               </Badge>
               <Badge variant="secondary">
                 {student?.section?.course?.title}

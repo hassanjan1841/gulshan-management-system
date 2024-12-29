@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import BilalSir from "@/assets/images/bilal-sir.jpeg";
 
 const Teacher = ({ name, profession, image }) => {
   return (
@@ -11,7 +12,8 @@ const Teacher = ({ name, profession, image }) => {
         src={image}
         alt={name}
         className={
-          "w-32 h-32 rounded-full mb-4 object-cover" + (!image ? " border" : "")
+          "w-32 h-32 rounded-full mb-4 object-cover shadow-lg" +
+          (!image ? " border" : "")
         }
       />
       <h3 className="text-lg font-semibold text-landing-text">{name}</h3>
@@ -23,9 +25,9 @@ const Teacher = ({ name, profession, image }) => {
 const Teachers = () => {
   const teachers = [
     {
-      name: "Dr. Jane Smith",
-      profession: "Computer Science",
-      image: "/placeholder.svg?height=150&width=150",
+      name: "Sir Bilal Attari",
+      profession: "MERN Stack Developer",
+      image: BilalSir,
     },
     {
       name: "Prof. John Doe",
@@ -41,7 +43,7 @@ const Teachers = () => {
 
   return (
     <section id="teachers" className="py-20 bg-landing-background ">
-      <div className="container mx-auto px-4 ">
+      <div className="w-[90%] mx-auto px-4 ">
         <h2 className="text-3xl font-bold text-center mb-12 text-landing-text">
           Top Best Teachers
         </h2>
