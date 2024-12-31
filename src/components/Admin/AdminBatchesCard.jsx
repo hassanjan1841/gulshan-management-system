@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { Link } from "react-router";
 
 const fetchBatches = async (course, page, limit) => {
   let courses = await getBatches(course, page, limit);
@@ -32,7 +33,6 @@ const AdminBatchesCard = ({ course }) => {
         setLoading(false);
       } catch (error) {
         if (error.response.data.error) {
-          console.log("error in fetch", error.response.data);
           setBatches({
             error: error.response.data.error,
             message: error.response.data.message,
@@ -106,6 +106,11 @@ const AdminBatchesCard = ({ course }) => {
                         day: "numeric",
                       })}
                     </span>
+                  </div>
+                  <div className="flex justify-end pt-2">
+                    <Link to={`/admin/dashboard/batches/${batch._id}`}>
+                    <Button variant='outline'>View Details</Button>
+                    </Link>
                   </div>
                 </div>
               </CardContent>

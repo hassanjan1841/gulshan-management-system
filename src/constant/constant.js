@@ -21,4 +21,5 @@ export const appRoutes = {
   updateBatch: BASE_URL + "batch",
   deleteBatch: BASE_URL + "batch",
   getBatchesByCourseId: BASE_URL + "batch/course",
+  getSections: BASE_URL + 'section'
 };

@@ -8,14 +8,13 @@ export const getBatches = async (course,page, limit) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetching batches:", error);
     throw error;
   }
 };
 
 export const getSingleBatch = async (id) => {
   try {
-    const response = await axios.get(`${appRoutes.getSingleBatch}/${id}`);
+    const response = await axios.get(`${appRoutes.getSingleBatch}/${id}`);    
     return response.data;
   } catch (error) {
     console.error("Error fetching batch:", error);

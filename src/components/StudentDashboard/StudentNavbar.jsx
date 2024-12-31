@@ -4,7 +4,7 @@ import DashboardInfoCard from "../dashboardInfoCard";
 export default function StudentNavbar() {
     return (
         <>
-            <div className="bg-muted/20 p-5 flex  items-center justify-between flex-wrap gap-5 max-sm:justify-center ">
+            <div className="bg-muted/20 p-5 flex items-center justify-around flex-wrap gap-4  ">
                 {/* <div className=""> */}
                 <DashboardInfoCard
                     icon={<GraduationCap />}
