@@ -1,31 +1,30 @@
-import "./App.css";
-import Login from "./pages/Login";
+import "@/App.css";
+import Login from "@/pages/Login";
 
-import StudentDashboard from "./components/StudentDashboard/studentDashboard";
-import DashboardLayout from "./pages/student/DashboardLayout";
-import StudentAssignment from "./components/StudentDashboard/StudentAssignment";
-import TeacherDashboard from "./components/TeacherDashboard/TeachertDashboard";
-import StudentQuiz from "./components/StudentDashboard/StudentQuiz";
-import StudentCertificate from "./components/StudentDashboard/StudentCertificate";
-import TeacherAssignment from "./components/TeacherDashboard/TeacherAssignment";
-import AssignmentDetail from "./components/TeacherDashboard/AssignmentDetail";
-import TeacherServices from "./components/TeacherDashboard/TeacherServices";
-import QuizTable from "./components/TeacherDashboard/QuizTable";
-import QuizDetail from "./components/TeacherDashboard/QuizDetail";
-import AdminLogin from "./components/Admin/AdminLogin";
-import { useAuth } from "./context/authContext";
+import StudentDashboard from "@/components/StudentDashboard/studentDashboard";
+import DashboardLayout from "@/pages/student/DashboardLayout";
+import StudentAssignment from "@/components/StudentDashboard/StudentAssignment";
+import TeacherDashboard from "@/components/TeacherDashboard/TeachertDashboard";
+import StudentQuiz from "@/components/StudentDashboard/StudentQuiz";
+import StudentCertificate from "@/components/StudentDashboard/StudentCertificate";
+import TeacherAssignment from "@/components/TeacherDashboard/TeacherAssignment";
+import AssignmentDetail from "@/components/TeacherDashboard/AssignmentDetail";
+import TeacherServices from "@/components/TeacherDashboard/TeacherServices";
+import QuizTable from "@/components/TeacherDashboard/QuizTable";
+import QuizDetail from "@/components/TeacherDashboard/QuizDetail";
+import AdminLogin from "@/components/Admin/AdminLogin";
+import { useAuth } from "@/context/authContext";
 import { Route, Routes, useNavigate } from "react-router";
-import { useEffect } from "react";
-import AdminStudents from "./components/Admin/AdminStudents";
-import AdminDashboard from "./components/Admin/AdminDashboard";
-import AdminCourses from "./components/Admin/AdminCourses";
-import CourseDetails from "./components/Admin/CourseDetailSheet";
-import AdminBatches from "./components/Admin/AdminBatches";
-import HomePage from "./pages/homepage/HomePage";
-import DashboardPage from "./pages/admin/DashboardTry";
-import StudentServices from "./components/StudentDashboard/StudentServices";
-import NotFound from "./components/NotFound";
-import BatchDetail from "./components/Admin/BatchDetail";
+import AdminStudents from "@/components/Admin/AdminStudents";
+import AdminCourses from "@/components/Admin/AdminCourses";
+import CourseDetails from "@/components/Admin/CourseDetailSheet";
+import AdminBatches from "@/components/Admin/AdminBatches";
+import HomePage from "@/pages/homepage/HomePage";
+import DashboardPage from "@/pages/admin/DashboardTry";
+import StudentServices from "@/components/StudentDashboard/StudentServices";
+import NotFound from "@/components/NotFound";
+import BatchDetail from "@/components/Admin/BatchDetail";
+import Register from "@/pages/registration/Register";
 
 function App() {
   const { currentUser } = useAuth();
@@ -44,6 +43,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="*" element={<NotFound />} />
 
       {/* student routes */}
@@ -66,7 +66,10 @@ function App() {
       </Route>
 
       <Route path="/admin" element={<AdminLogin />} />
-      <Route path="/admin/dashboard" element={<DashboardLayout role={"admin"} />}>
+      <Route
+        path="/admin/dashboard"
+        element={<DashboardLayout role={"admin"} />}
+      >
         <Route index element={<DashboardPage />} />
         <Route path="students" element={<AdminStudents />} />
         <Route path="courses" element={<AdminCourses />} />

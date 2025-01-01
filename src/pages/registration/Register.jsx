@@ -1,7 +1,7 @@
 // import Hot from "@/components/applyForm";
-import { Image } from "lucide-react";
-import ApplyForm from "../../components/applyForm";
-import { Button } from "antd";
+
+import { Button } from "@/components/ui/button";
+import RegisterForm from "./registerForm";
 
 export default function Register() {
   return (
@@ -30,7 +30,7 @@ export default function Register() {
       </div>
       <hr className="border-b-gray-500" />
 
-      <ApplyForm />
+      <RegisterForm />
     </div>
   );
 }
