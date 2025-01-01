@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import AdminStudentSheet from "./AdminStudentSheet";
-import { capitalizeName } from "@/lib/utils";
+import { capitalizeName } from "@/lib/helper";
 
 const AdminStudentCard = ({ student }) => {
   // console.log("students in adminstudencard", student);

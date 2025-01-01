@@ -19,7 +19,12 @@ import { getBatches } from "../../services/api/batches";
 import { getAllUsers } from "../../services/api/user";
 import { getCourses } from "../../services/api/courses";
 
-const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
+const FilterStudents = ({
+  filters,
+  handleFilterChange,
+  setFilters,
+  debouncedHandleFilterChange,
+}) => {
   const [batches, setBatches] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -51,7 +56,9 @@ const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
         <Input
           name="search"
           value={filters.search}
-          onChange={(value) => handleFilterChange({ search: value })}
+          onChange={(e) =>
+            debouncedHandleFilterChange({ search: e.target.value })
+          }
           placeholder="Search by name or father's name"
         />
         <Select
@@ -138,7 +145,9 @@ const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
               <Input
                 name="search"
                 value={filters.search}
-                onChange={(value) => handleFilterChange({ search: value })}
+                onChange={(e) =>
+                  debouncedHandleFilterChange({ search: e.target.value })
+                }
                 placeholder="Search by name or father's name"
               />
               <Select
@@ -166,9 +175,11 @@ const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Batches</SelectItem>
-                  <SelectItem value="Batch 1">Batch 1</SelectItem>
-                  <SelectItem value="Batch 2">Batch 2</SelectItem>
-                  <SelectItem value="Batch 3">Batch 3</SelectItem>
+                  {batches?.map((batch) => (
+                    <SelectItem key={batch?._id} value={batch?._id}>
+                      {batch?.title} - {batch?.course?.title}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -184,9 +195,11 @@ const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Teachers</SelectItem>
-                  <SelectItem value="Teacher 1">Teacher 1</SelectItem>
-                  <SelectItem value="Teacher 2">Teacher 2</SelectItem>
-                  <SelectItem value="Teacher 3">Teacher 3</SelectItem>
+                  {teachers?.map((teacher) => (
+                    <SelectItem key={teacher._id} value={teacher._id}>
+                      {teacher.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -200,9 +213,11 @@ const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Courses</SelectItem>
-                  <SelectItem value="Course 1">Course 1</SelectItem>
-                  <SelectItem value="Course 2">Course 2</SelectItem>
-                  <SelectItem value="Course 3">Course 3</SelectItem>
+                  {courses?.map((course) => (
+                    <SelectItem key={course._id} value={course._id}>
+                      {course.title}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

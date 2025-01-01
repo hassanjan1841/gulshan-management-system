@@ -9,11 +9,12 @@ export const getAllUsers = async (
   teacher,
   status,
   batch,
-  course
+  course,
+  search
 ) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}&teacher=${teacher}&status=${status}&batch=${batch}&course=${course}`
+      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}&teacher=${teacher}&status=${status}&batch=${batch}&course=${course}&search=${search}`
     );
     return response.data;
   } catch (error) {

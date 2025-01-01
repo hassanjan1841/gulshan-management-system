@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AdminStudentCard from "./AdminStudentCard";
 import AddStudentSheet from "./AddStudentSheet";
 import FilterStudents from "./FilterStudents";
@@ -8,6 +8,7 @@ import Loader from "../Loader";
 import NoDataFound from "../NoDataFound";
 import Pagination from "@/components/Pagination"; // Import the Pagination component
 import { usePaginate } from "@/context/PaginateContext";
+import { debounce } from "@/lib/utils"; // Import the debounce function
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
@@ -35,6 +36,7 @@ const AdminStudents = () => {
         batch: filters.batch === "all" ? "" : filters.batch,
         status: filters.status === "all" ? "" : filters.status,
         course: filters.course === "all" ? "" : filters.course,
+        search: filters.search,
       };
 
       console.log("filters in loadStudents", adjustedFilters);
@@ -46,7 +48,8 @@ const AdminStudents = () => {
         adjustedFilters.teacher,
         adjustedFilters.status,
         adjustedFilters.batch,
-        adjustedFilters.course
+        adjustedFilters.course,
+        adjustedFilters.search
       );
 
       console.log("data in loadStudents", data);
@@ -72,9 +75,13 @@ const AdminStudents = () => {
   }, [filters, page, limit]); // Trigger fetch on page, limit, or filter change
 
   const handleFilterChange = (e) => {
-    // console.log("e.target students filter", e);
     setFilters((prevFilters) => ({ ...prevFilters, ...e }));
   };
+
+  const debouncedHandleFilterChange = useCallback(
+    debounce(handleFilterChange, 300),
+    []
+  );
 
   const handleAddStudent = async (data) => {
     const newData = data;
@@ -111,6 +118,7 @@ const AdminStudents = () => {
         filters={filters}
         handleFilterChange={handleFilterChange}
         setFilters={setFilters}
+        debouncedHandleFilterChange={debouncedHandleFilterChange} // Pass the debounced function
       />
 
       {error ? (
