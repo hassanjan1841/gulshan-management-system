@@ -31,7 +31,7 @@ import {
   haveALaptops,
   courses,
   proficiency,
-} from "../lib/section";
+} from "@/lib/section";
 
 import { DatePicker } from "./datePicker";
 
