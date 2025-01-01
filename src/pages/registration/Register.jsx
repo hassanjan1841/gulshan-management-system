@@ -5,7 +5,7 @@ import RegisterForm from "./registerForm";
 
 export default function Register() {
   return (
-    <div className="flex bg-white min-h-screen  items-center justify-center flex-col text-blue-500 border-b-gray-500">
+    <div className="flex bg-white min-h-screen  items-center justify-center flex-col text-slate-700 border-b-gray-500">
       <div className="flex flex-col items-center justify-center">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTN5XaPknTWTxdBcdC3r0_9blSi_8n3rD_2Xg&s"

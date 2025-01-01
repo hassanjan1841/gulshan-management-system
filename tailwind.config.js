@@ -32,6 +32,7 @@ export default {
           dark: "#93c5fd",
         },
         "landing-footer": "#1c657d",
+        "registration-btn": "#0c6db7",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

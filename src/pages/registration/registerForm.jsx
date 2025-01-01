@@ -33,7 +33,8 @@ import {
   proficiency,
 } from "@/lib/section";
 
-import { DatePicker } from "./datePicker";
+import { DatePicker } from "@/components/datePicker";
+import { useState } from "react";
 
 const formSchema = z.object({
   country: z.string().min(2).max(120),
@@ -65,11 +66,12 @@ export default function RegisterForm({ session }) {
       course: "",
       studentProficiency: "",
       name: "",
-      atherName: "",
+      fatherName: "",
       email: "",
       number: "",
       cnic: "",
-      atherCnic: "",
+      fcnic: "",
+      fatherCnic: "",
       dob: "",
       gender: "",
       address: "",
@@ -80,36 +82,48 @@ export default function RegisterForm({ session }) {
   });
   async function onSubmit(values) {
     console.log(values);
-    values.preventDefault();
-    const response = await addRequest(values);
-    console.log("response=>", response);
-    if (response.error) {
-      form.reset();
-      toast({
-        title: "Your Application is submitted",
-        description: "You will be informed by email in 3 working Days.",
-      });
-    }
+    // values.preventDefault();
+    // const response = await addRequest(values);
+    // console.log("response=>", response);
+    // if (response.error) {
+    //   form.reset();
+    //   toast({
+    //     title: "Your Application is submitted",
+    //     description: "You will be informed by email in 3 working Days.",
+    //   });
+    // }
   }
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center bg-white  text-black p-10 gap-4">
+    <div className="flex max-w-[1100px] justify-center items-center bg-white  text-black p-10 gap-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
-          <div className="grid sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-2 gap-5">
+          <div className="grid sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-2 gap-5 text-landing-button">
             <div>
               <Select>
-                <FormLabel htmlFor="picture" className="text-blue-500">
+                <FormLabel htmlFor="picture" className="">
                   Select Country
                 </FormLabel>
 
-                <SelectTrigger className="  mx-auto w-full p-5 text-gray-400">
+                <SelectTrigger className="  mx-auto w-full p-5 text-gray-800">
                   <SelectValue placeholder="Select Country " />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
+                <SelectContent className="bg-white">
+                  <SelectGroup className="bg-white ">
                     {Country.map((country) => (
-                      <SelectItem key={country} value={country}>
+                      <SelectItem
+                        className="bg-white text-black"
+                        key={country}
+                        value={country}
+                      >
                         {country}
                       </SelectItem>
                     ))}
@@ -120,16 +134,20 @@ export default function RegisterForm({ session }) {
 
             <div>
               <Select>
-                <FormLabel htmlFor="picture" className="text-blue-500">
+                <FormLabel htmlFor="picture" className="">
                   Select City
                 </FormLabel>
-                <SelectTrigger className="  mx-auto w-full p-5  text-gray-400">
+                <SelectTrigger className="  mx-auto w-full p-5  text-gray-800">
                   <SelectValue placeholder="Select " />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
+                <SelectContent className="bg-white">
+                  <SelectGroup className="bg-white">
                     {cities.map((city) => (
-                      <SelectItem key={city} value={city}>
+                      <SelectItem
+                        className="bg-white text-black"
+                        key={city}
+                        value={city}
+                      >
                         {city}
                       </SelectItem>
                     ))}
@@ -140,16 +158,20 @@ export default function RegisterForm({ session }) {
 
             <div>
               <Select>
-                <FormLabel htmlFor="picture" className="text-blue-500">
+                <FormLabel htmlFor="picture" className="">
                   Select Course or Event
                 </FormLabel>
-                <SelectTrigger className="  mx-auto w-full p-5 text-gray-400">
+                <SelectTrigger className="  mx-auto w-full p-5 text-gray-800">
                   <SelectValue placeholder="Select Course" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
+                <SelectContent className="bg-white">
+                  <SelectGroup className="bg-white">
                     {courses.map((course) => (
-                      <SelectItem key={course} value={course}>
+                      <SelectItem
+                        className="bg-white text-black"
+                        key={course}
+                        value={course}
+                      >
                         {course}
                       </SelectItem>
                     ))}
@@ -160,16 +182,20 @@ export default function RegisterForm({ session }) {
 
             <div>
               <Select>
-                <FormLabel htmlFor="picture" className="text-blue-500">
+                <FormLabel htmlFor="picture" className="">
                   Select Your Computer Proficiency
                 </FormLabel>
-                <SelectTrigger className="  mx-auto w-full p-5 text-gray-400">
+                <SelectTrigger className="  mx-auto w-full p-5 text-gray-800">
                   <SelectValue placeholder="Select " />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
+                <SelectContent className="bg-white">
+                  <SelectGroup className="bg-white">
                     {proficiency.map((proficiency) => (
-                      <SelectItem key={proficiency} value={proficiency}>
+                      <SelectItem
+                        className="bg-white text-black"
+                        key={proficiency}
+                        value={proficiency}
+                      >
                         {proficiency}
                       </SelectItem>
                     ))}
@@ -182,12 +208,12 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500 "> Full Name</FormLabel>
+                  <FormLabel className=" "> Full Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter your Name"
                       {...field}
-                      className=" p-5"
+                      className=" p-5 text-gray-800"
                     />
                   </FormControl>
                   <FormMessage />
@@ -199,7 +225,7 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500">Father's Name</FormLabel>
+                  <FormLabel className="">{"Father's"} Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter Your Father Name"
@@ -217,7 +243,7 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500">Email</FormLabel>
+                  <FormLabel className="">Email</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter Your Email Address"
@@ -235,9 +261,7 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500">
-                    Mobile Number{" "}
-                  </FormLabel>
+                  <FormLabel className="">Mobile Number </FormLabel>
                   <FormControl>
                     <Input type="number" {...field} className="p-5" />
                   </FormControl>
@@ -251,7 +275,7 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500">CNIC</FormLabel>
+                  <FormLabel className="">CNIC</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="e.g 420110-5875269-3"
@@ -268,9 +292,9 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500">
+                  <FormLabel className="">
                     {" "}
-                    Fathes's CNIC (Optional)
+                    {"Fathes's"} CNIC (Optional)
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -289,7 +313,7 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500">Date of Birth</FormLabel>
+                  <FormLabel className="">Date of Birth</FormLabel>
                   <div>
                     <DatePicker className="bg-white p-5" />
                   </div>
@@ -304,18 +328,20 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-500 ">
-                    Select Gender{" "}
-                  </FormLabel>
+                  <FormLabel className=" ">Select Gender </FormLabel>
                   <FormControl>
                     <Select>
                       <SelectTrigger>
                         <SelectValue placeholder="Gender" className="p-5" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
+                      <SelectContent className="bg-white">
+                        <SelectGroup className="bg-white">
                           {gender.map((gender) => (
-                            <SelectItem key={gender} value={gender}>
+                            <SelectItem
+                              className="bg-white text-black"
+                              key={gender}
+                              value={gender}
+                            >
                               {gender}
                             </SelectItem>
                           ))}
@@ -335,7 +361,7 @@ export default function RegisterForm({ session }) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-blue-500">Address</FormLabel>
+                    <FormLabel className="">Address</FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Enter Address"
@@ -354,18 +380,20 @@ export default function RegisterForm({ session }) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-blue-500">
-                      Enter Your last Degree?{" "}
-                    </FormLabel>
+                    <FormLabel className="">Enter Your last Degree? </FormLabel>
                     <FormControl>
                       <Select>
                         <SelectTrigger className="mx-auto w-full">
                           <SelectValue placeholder="Select " className="p-5" />
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
+                        <SelectContent className="bg-white">
+                          <SelectGroup className="bg-white">
                             {Degries.map((degree) => (
-                              <SelectItem key={degree} value={degree}>
+                              <SelectItem
+                                className="bg-white text-black"
+                                key={degree}
+                                value={degree}
+                              >
                                 {degree}
                               </SelectItem>
                             ))}
@@ -380,16 +408,20 @@ export default function RegisterForm({ session }) {
             </div>
             <div>
               <Select>
-                <FormLabel htmlFor="picture " className="text-blue-500">
+                <FormLabel htmlFor="picture " className="">
                   Do you have a laptop?
                 </FormLabel>
                 <SelectTrigger className="mx-auto w-full ">
                   <SelectValue placeholder="Select" className="p-5" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
+                <SelectContent className="bg-white">
+                  <SelectGroup className="bg-white">
                     {haveALaptops.map((haveALaptop) => (
-                      <SelectItem key={haveALaptop} value={haveALaptop}>
+                      <SelectItem
+                        className="bg-white text-black"
+                        key={haveALaptop}
+                        value={haveALaptop}
+                      >
                         {haveALaptop}
                       </SelectItem>
                     ))}
@@ -399,14 +431,26 @@ export default function RegisterForm({ session }) {
             </div>
           </div>
           <div className="grid w-full max-w-sm items-center gap-2 mt-2">
-            <FormLabel htmlFor="picture" className="text-blue-500">
-              Picture
+            <FormLabel
+              htmlFor="picture"
+              className="bg-gray-200 w-24 h-24 border  border-dashed flex items-center justify-center rounded-md cursor-pointer"
+            >
+              {selectedImage ? (
+                <img
+                  src={selectedImage}
+                  alt="Selected"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                "Picture"
+              )}
             </FormLabel>
             <Input
               id="picture"
               type="file"
               placeholder="Upload Image "
-              className="bg-gray-200 w-24 h-24  border-dashed"
+              className="hidden "
+              onChange={handleImageChange}
             />
           </div>
           <div className="flex flex-col">
@@ -430,14 +474,14 @@ export default function RegisterForm({ session }) {
               project by SWIT.
             </li>
             <li>
-              5. It's mandatory for female students to wear abaya/hijab in the
-              class
+              5. {"It's"} mandatory for female students to wear abaya/hijab in
+              the class
             </li>
           </div>
 
           <Button
             type="submit"
-            className="bg-blue-500 w-full text-white  font-bold sm:w-full bg-blue-500 hover:bg-gray-500  "
+            className="bg-registration-btn w-full text-white  font-bold sm:w-full  hover:bg-gray-500  "
           >
             {form.formState.isSubmitting ? "Loading" : "Submit"}
           </Button>

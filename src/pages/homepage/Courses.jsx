@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, GraduationCap } from "lucide-react";
 import { Button } from "../../components/ui/button";
+import { Link } from "react-router";
 const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
   return (
     <motion.div
@@ -53,16 +54,17 @@ const CourseCard = ({ title, criteria, duration, lastDate, isOpen, image }) => {
           </div>
         </div>
       </div>
-        {isOpen && (
-          <div className="flex justify-end mt-4">
-            <Button
-              variant="secondary"
-              className="bg-landing-other-button-dark  text-white hover:bg-landing-button transition duration-300"
-            >
-              Apply Now
-            </Button>
-          </div>
-        )}
+      {isOpen && (
+        <div className="flex justify-end mt-4">
+          <Button
+            asChild
+            variant="secondary"
+            className="bg-landing-other-button-dark  text-white hover:bg-landing-button transition duration-300"
+          >
+            <Link to="/register">Apply Now</Link>
+          </Button>
+        </div>
+      )}
     </motion.div>
   );
 };

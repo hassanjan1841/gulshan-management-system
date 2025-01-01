@@ -8,7 +8,7 @@ import Loader from "../Loader";
 import NoDataFound from "../NoDataFound";
 import Pagination from "@/components/Pagination"; // Import the Pagination component
 import { usePaginate } from "@/context/PaginateContext";
-import { debounce } from "@/lib/utils"; // Import the debounce function
+import { debounce } from "@/lib/helper"; // Import the debounce function
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
