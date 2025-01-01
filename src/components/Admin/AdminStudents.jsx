@@ -6,6 +6,15 @@ import { createUser, getAllUsers } from "../../services/api/user";
 import { useToast } from "../../hooks/use-toast";
 import Loader from "../Loader";
 import NoDataFound from "../NoDataFound";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+} from "@/components/ui/select";
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
@@ -14,6 +23,8 @@ const AdminStudents = () => {
   const [page, setPage] = useState(1); // Current page
   const [totalPages, setTotalPages] = useState(1); // Total pages
   const { toast } = useToast();
+  const [limit, setLimit] = useState(1);
+  const [currentPageInput, setCurrentPageInput] = useState("1");
   const [filters, setFilters] = useState({
     status: "",
     batch: "",
@@ -40,7 +51,7 @@ const AdminStudents = () => {
       const data = await getAllUsers(
         "student",
         currentPage,
-        6, // Limit per page
+        limit, // Limit per page
         adjustedFilters.teacher,
         adjustedFilters.status,
         adjustedFilters.batch,
@@ -48,8 +59,8 @@ const AdminStudents = () => {
       );
 
       console.log("data in loadStudents", data);
-      setStudents(data); // Assuming the API returns { users, totalUsers }
-      setTotalPages(Math.ceil(data.length / 6)); // Calculate total pages
+      setStudents(data.users); // Assuming the API returns { users, totalUsers }
+      setTotalPages(data.totalPages); // Calculate total pages
     } catch (error) {
       console.error("Error fetching students:", error.message);
       toast({
@@ -74,16 +85,38 @@ const AdminStudents = () => {
     setFilters((prevFilters) => ({ ...prevFilters, ...e }));
   };
 
+  const handleLimitChange = (newLimit) => {
+    setLimit(Number(newLimit));
+    setPage(1); // Reset to first page when changing limit
+    loadStudents(1, Number(newLimit));
+  };
+
+  const handlePageInputChange = (e) => {
+    setCurrentPageInput(e.target.value);
+  };
+
+  const handlePageInputSubmit = (e) => {
+    e.preventDefault();
+    const newPage = Number(currentPageInput);
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+      loadStudents(newPage);
+    } else {
+      setCurrentPageInput(page.toString());
+    }
+  };
+
+  useEffect(() => {
+    loadStudents(page, limit);
+  }, [filters, page, limit]);
+
   const handleAddStudent = async (data) => {
     const newData = data;
     newData.role = "student";
     console.log("Student Data: ", newData);
     try {
       const response = await createUser(newData);
-      setStudents([
-        ...students,
-        response.data,
-      ]);
+      setStudents([...students, response.data]);
       toast({
         variant: "success",
         title: "Student Added",
@@ -135,28 +168,59 @@ const AdminStudents = () => {
           </div>
 
           {/* Pagination Buttons */}
-          <div className="flex justify-end items-center mt-6">
-            <button
-              className={`px-4 py-2 mx-2 bg-gray-400 rounded ${
-                page === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-300"
-              }`}
-              onClick={handlePreviousPage}
-              disabled={page === 1}
-            >
-              Previous
-            </button>
-            <span className="text-sm mx-2">
-              Page {page} of {totalPages}
-            </span>
-            <button
-              className={`px-4 py-2 mx-2 bg-gray-400 rounded ${
-                page === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-300"
-              }`}
-              onClick={handleNextPage}
-              disabled={page === totalPages}
-            >
-              Next
-            </button>
+
+          {/* Updated Pagination Section */}
+          <div className="grid grid-cols-3 items-center mt-6">
+            <div>
+              <Button
+                onClick={handlePreviousPage}
+                disabled={page === 1}
+                variant="outline"
+              >
+                Previous
+              </Button>
+            </div>
+            <div className="flex items-center justify-center space-x-2">
+              <form
+                onSubmit={handlePageInputSubmit}
+                className="flex items-center"
+              >
+                <Input
+                  type="number"
+                  value={currentPageInput}
+                  onChange={handlePageInputChange}
+                  className="w-16 text-center"
+                  min={1}
+                  max={totalPages}
+                />
+                <span className="mx-2">/</span>
+                <span>{totalPages}</span>
+              </form>
+              <Select
+                value={limit.toString()}
+                onValueChange={handleLimitChange}
+              >
+                <SelectTrigger className="w-[70px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[1, 5, 10, 50, 100].map((value) => (
+                    <SelectItem key={value} value={value.toString()}>
+                      {value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex justify-end">
+              <Button
+                onClick={handleNextPage}
+                disabled={page === totalPages}
+                variant="outline"
+              >
+                Next
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -165,4 +229,3 @@ const AdminStudents = () => {
 };
 
 export default AdminStudents;
-
