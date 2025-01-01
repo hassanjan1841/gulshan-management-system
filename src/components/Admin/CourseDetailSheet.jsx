@@ -80,15 +80,15 @@ const CourseDetails = () => {
     try {
       if (tab === "students") {
         const response = await getAllUsers("student");
-        setStudents(response);
+        setStudents(response.users);
         console.log("students", response);
       } else if (tab === "teachers") {
         const response = await getAllUsers("teacher");
-        setTeachers(response);
+        setTeachers(response.users);
         console.log("teachers", response);
       } else if (tab === "batches") {
         const response = await getBatchesByCourseId(id);
-        setBatches(response);
+        setBatches(response.batches);
         console.log("batches", response);
       }
     } catch (error) {
