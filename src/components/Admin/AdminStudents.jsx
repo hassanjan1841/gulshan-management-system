@@ -2,29 +2,18 @@ import React, { useState, useEffect } from "react";
 import AdminStudentCard from "./AdminStudentCard";
 import AddStudentSheet from "./AddStudentSheet";
 import FilterStudents from "./FilterStudents";
-import { createUser, getAllUsers } from "../../services/api/user";
-import { useToast } from "../../hooks/use-toast";
+import { createUser, getAllUsers } from "@/services/api/user";
+import { useToast } from "@/hooks/use-toast";
 import Loader from "../Loader";
 import NoDataFound from "../NoDataFound";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-  SelectItem,
-} from "@/components/ui/select";
+import Pagination from "@/components/Pagination"; // Import the Pagination component
+import { usePaginate } from "@/context/PaginateContext";
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1); // Current page
-  const [totalPages, setTotalPages] = useState(1); // Total pages
   const { toast } = useToast();
-  const [limit, setLimit] = useState(1);
-  const [currentPageInput, setCurrentPageInput] = useState("1");
   const [filters, setFilters] = useState({
     status: "",
     batch: "",
@@ -32,6 +21,8 @@ const AdminStudents = () => {
     course: "",
     search: "",
   });
+
+  const { page, limit, setTotalPages } = usePaginate();
 
   const loadStudents = async (currentPage = page) => {
     try {
@@ -78,37 +69,12 @@ const AdminStudents = () => {
 
   useEffect(() => {
     loadStudents(); // Fetch students on initial load and when filters change
-  }, [filters, page]); // Trigger fetch on page or filter change
+  }, [filters, page, limit]); // Trigger fetch on page, limit, or filter change
 
   const handleFilterChange = (e) => {
-    console.log("e.target students filter", e);
+    // console.log("e.target students filter", e);
     setFilters((prevFilters) => ({ ...prevFilters, ...e }));
   };
-
-  const handleLimitChange = (newLimit) => {
-    setLimit(Number(newLimit));
-    setPage(1); // Reset to first page when changing limit
-    loadStudents(1, Number(newLimit));
-  };
-
-  const handlePageInputChange = (e) => {
-    setCurrentPageInput(e.target.value);
-  };
-
-  const handlePageInputSubmit = (e) => {
-    e.preventDefault();
-    const newPage = Number(currentPageInput);
-    if (newPage >= 1 && newPage <= totalPages) {
-      setPage(newPage);
-      loadStudents(newPage);
-    } else {
-      setCurrentPageInput(page.toString());
-    }
-  };
-
-  useEffect(() => {
-    loadStudents(page, limit);
-  }, [filters, page, limit]);
 
   const handleAddStudent = async (data) => {
     const newData = data;
@@ -132,14 +98,6 @@ const AdminStudents = () => {
           : error?.message,
       });
     }
-  };
-
-  const handleNextPage = () => {
-    if (page < totalPages) setPage(page + 1);
-  };
-
-  const handlePreviousPage = () => {
-    if (page > 1) setPage(page - 1);
   };
 
   return (
@@ -167,61 +125,8 @@ const AdminStudents = () => {
             ))}
           </div>
 
-          {/* Pagination Buttons */}
-
-          {/* Updated Pagination Section */}
-          <div className="grid grid-cols-3 items-center mt-6">
-            <div>
-              <Button
-                onClick={handlePreviousPage}
-                disabled={page === 1}
-                variant="outline"
-              >
-                Previous
-              </Button>
-            </div>
-            <div className="flex items-center justify-center space-x-2">
-              <form
-                onSubmit={handlePageInputSubmit}
-                className="flex items-center"
-              >
-                <Input
-                  type="number"
-                  value={currentPageInput}
-                  onChange={handlePageInputChange}
-                  className="w-16 text-center"
-                  min={1}
-                  max={totalPages}
-                />
-                <span className="mx-2">/</span>
-                <span>{totalPages}</span>
-              </form>
-              <Select
-                value={limit.toString()}
-                onValueChange={handleLimitChange}
-              >
-                <SelectTrigger className="w-[70px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {[1, 5, 10, 50, 100].map((value) => (
-                    <SelectItem key={value} value={value.toString()}>
-                      {value}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex justify-end">
-              <Button
-                onClick={handleNextPage}
-                disabled={page === totalPages}
-                variant="outline"
-              >
-                Next
-              </Button>
-            </div>
-          </div>
+          {/* Use the Pagination component */}
+          <Pagination />
         </div>
       )}
     </div>

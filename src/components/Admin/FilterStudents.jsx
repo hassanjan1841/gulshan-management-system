@@ -32,11 +32,11 @@ const FilterStudents = ({ filters, handleFilterChange, setFilters }) => {
           getAllUsers("teacher"),
           getCourses(),
         ]);
-        console.log("data in batches", batchesData);
+        console.log("data in batches", batchesData.batches);
         console.log("data in teachers", teachersData);
         console.log("data in courses", coursesData);
-        setBatches(batchesData);
-        setTeachers(teachersData);
+        setBatches(batchesData.batches);
+        setTeachers(teachersData.users);
         setCourses(coursesData.courses);
       } catch (error) {
         console.error("Error fetching data:", error);

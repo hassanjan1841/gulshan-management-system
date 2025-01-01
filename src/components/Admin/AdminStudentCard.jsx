@@ -11,29 +11,29 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import AdminStudentSheet from "./AdminStudentSheet";
+import { capitalizeName } from "@/lib/utils";
 
 const AdminStudentCard = ({ student }) => {
   // console.log("students in adminstudencard", student);
+
   return (
     <Card className="shadow-lg border border-border hover:shadow-2xl hover:scale-105 transition-transform">
       <CardHeader>
         <div className="flex items-center space-x-4">
           <img
             src={student?.profilePic}
-            alt={student?.full_name}
+            alt={capitalizeName(student?.full_name)}
             className="w-12 h-12 rounded-full border-2 border-primary"
           />
           <div>
             <CardTitle className="text-lg text-primary font-semibold">
-              {student?.full_name}
+              {capitalizeName(student?.full_name)}
             </CardTitle>
             <CardDescription className="flex items-center space-x-2">
               <Badge variant="outline" className="text-gray-500">
-                {student?.section?.name}
+                {student?.section?.title}
               </Badge>
-              <Badge variant="secondary">
-                {student?.section?.course?.title}
-              </Badge>
+              <Badge variant="secondary">{student?.course?.title}</Badge>
             </CardDescription>
           </div>
         </div>

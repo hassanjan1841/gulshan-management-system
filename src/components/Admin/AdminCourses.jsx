@@ -1,6 +1,4 @@
-"use client";
-
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -10,12 +8,13 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AddCourseSheet } from "./AddCoursesSheet";
-import { getCourses } from "../../services/api/courses";
+import { getCourses } from "@/services/api/courses";
 import Loader from "../Loader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useToast } from "../../hooks/use-toast";
-
+import { useToast } from "@/hooks/use-toast";
+import { usePaginate } from "@/context/PaginateContext";
+import Pagination from "@/components/Pagination";
 
 // Mock function to fetch courses
 const fetchCourses = async (page, limit) => {
@@ -25,21 +24,22 @@ const fetchCourses = async (page, limit) => {
 
 const AdminCourses = () => {
   const [courses, setCourses] = useState([]);
-  const [page, setPage] = useState(0);
+
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-
-  const limit = 9;
+  const { page, limit, setTotalPages } = usePaginate();
 
   useEffect(() => {
     const loadCourses = async () => {
       try {
         setLoading(true);
+        console.log(limit, " ", page);
         const newCourses = await fetchCourses(page, limit);
         setCourses(newCourses.courses);
+        setTotalPages(newCourses.totalPages);
         setLoading(false);
-      } catch (error) { 
-        if(error.message == 'Network Error'){
+      } catch (error) {
+        if (error.message == "Network Error") {
           setLoading(false);
           toast({
             title: "Network Error",
@@ -50,7 +50,7 @@ const AdminCourses = () => {
       }
     };
     loadCourses();
-  }, [page]);
+  }, [page, limit]);
 
   return (
     <div className="container mx-auto py-6">
@@ -92,6 +92,7 @@ const AdminCourses = () => {
           </Card>
         ))}
       </div>
+      <Pagination />
       {loading && <Loader />}
     </div>
   );
