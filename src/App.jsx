@@ -24,7 +24,7 @@ import DashboardPage from "@/pages/admin/DashboardTry";
 import StudentServices from "@/components/StudentDashboard/StudentServices";
 import NotFound from "@/components/NotFound";
 import BatchDetail from "@/components/Admin/BatchDetail";
-import Register from "@/pages/registration/Register";
+import Register from "./pages/registration/Register";
 
 function App() {
   const { currentUser } = useAuth();

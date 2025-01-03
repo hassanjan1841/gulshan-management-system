@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Controller } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -15,11 +16,9 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  // SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
@@ -32,9 +31,9 @@ import {
   courses,
   proficiency,
 } from "@/lib/section";
-
 import { DatePicker } from "@/components/datePicker";
 import { useState } from "react";
+import ButtonSpinner from "../../components/ButtonSpinner";
 
 const formSchema = z.object({
   country: z.string().min(2).max(120),
@@ -43,21 +42,24 @@ const formSchema = z.object({
   studentProficiency: z.string().min(2).max(120),
   name: z.string().min(2).max(50),
   fatherName: z.string().min(2).max(50),
-  email: z.string().email,
+  email: z.string(),
   number: z.string(),
   cnic: z.string(),
-  fcnic: z.string(),
   fatherCnic: z.string(),
   dob: z.string(),
   gender: z.string(),
   address: z.string(),
   degree: z.string(),
   haveALaptop: z.string(),
-  image: z.string(),
+  image: z
+  .any()
+  .refine((file) => file instanceof File, {
+    message: "Please upload a valid file.",
+  }),
 });
 
 export default function RegisterForm({ session }) {
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -70,7 +72,6 @@ export default function RegisterForm({ session }) {
       email: "",
       number: "",
       cnic: "",
-      fcnic: "",
       fatherCnic: "",
       dob: "",
       gender: "",
@@ -81,171 +82,152 @@ export default function RegisterForm({ session }) {
     },
   });
   async function onSubmit(values) {
-    console.log(values);
-    // values.preventDefault();
-    // const response = await addRequest(values);
-    // console.log("response=>", response);
-    // if (response.error) {
-    //   form.reset();
-    //   toast({
-    //     title: "Your Application is submitted",
-    //     description: "You will be informed by email in 3 working Days.",
-    //   });
-    // }
+    console.log("values>>", values)
   }
-
   const [selectedImage, setSelectedImage] = useState(null);
-
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedImage(URL.createObjectURL(e.target.files[0]));
-    }
-  };
-
   return (
     <div className="flex max-w-[1100px] justify-center items-center bg-white  text-black p-10 gap-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
           <div className="grid sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-2 gap-5 text-landing-button">
-            <div>
-              <Select>
-                <FormLabel htmlFor="picture" className="">
-                  Select Country
-                </FormLabel>
-
-                <SelectTrigger className="  mx-auto w-full p-5 text-gray-800">
-                  <SelectValue placeholder="Select Country " />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectGroup className="bg-white ">
-                    {Country.map((country) => (
-                      <SelectItem
-                        className="bg-white text-black"
-                        key={country}
-                        value={country}
-                      >
-                        {country}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Select>
-                <FormLabel htmlFor="picture" className="">
-                  Select City
-                </FormLabel>
-                <SelectTrigger className="  mx-auto w-full p-5  text-gray-800">
-                  <SelectValue placeholder="Select " />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectGroup className="bg-white">
-                    {cities.map((city) => (
-                      <SelectItem
-                        className="bg-white text-black"
-                        key={city}
-                        value={city}
-                      >
-                        {city}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Select>
-                <FormLabel htmlFor="picture" className="">
-                  Select Course or Event
-                </FormLabel>
-                <SelectTrigger className="  mx-auto w-full p-5 text-gray-800">
-                  <SelectValue placeholder="Select Course" />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectGroup className="bg-white">
-                    {courses.map((course) => (
-                      <SelectItem
-                        className="bg-white text-black"
-                        key={course}
-                        value={course}
-                      >
-                        {course}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div>
-              <Select>
-                <FormLabel htmlFor="picture" className="">
-                  Select Your Computer Proficiency
-                </FormLabel>
-                <SelectTrigger className="  mx-auto w-full p-5 text-gray-800">
-                  <SelectValue placeholder="Select " />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectGroup className="bg-white">
-                    {proficiency.map((proficiency) => (
-                      <SelectItem
-                        className="bg-white text-black"
-                        key={proficiency}
-                        value={proficiency}
-                      >
-                        {proficiency}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
             <FormField
-              name="name"
-              control={form.control}
+              name="country"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className=" "> Full Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your Name"
-                      {...field}
-                      className=" p-5 text-gray-800"
-                    />
-                  </FormControl>
+                  <FormLabel>Select Country</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="w-full p-5">
+                      <SelectValue placeholder="Select Country" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {Country.map((country) => (
+                          <SelectItem key={country} value={country}>
+                            {country}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            {/* City Selection */}
             <FormField
-              name="fatherName"
-              control={form.control}
+              name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">{"Father's"} Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Your Father Name"
-                      className="p-5"
-                      {...field}
-                    />
-                  </FormControl>
+                  <FormLabel>Select City</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="w-full p-5">
+                      <SelectValue placeholder="Select City" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {cities.map((city) => (
+                          <SelectItem key={city} value={city}>
+                            {city}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            {/* Course Selection*/}
+            <div>
+              <FormField
+                name="course"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Select Course or Event</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-full p-5">
+                        <SelectValue placeholder="Select Course" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {courses.map((course) => (
+                            <SelectItem key={course} value={course}>
+                              {course}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            {/* Computer Proficiency */}
+            <div>
+              <FormField
+                name="studentProficiency"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Computer Proficiency</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-full p-5">
+                        <SelectValue placeholder="Select Proficiency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {proficiency.map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            {/* name section */}
+            <div>
+              <FormField
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Enter Your name" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            {/* Father Name */}
+            <div>
+              <FormField
+                name="fatherName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Father Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Enter Your Father name" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               name="email"
-              control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="">Email</FormLabel>
                   <FormControl>
                     <Input
+                      type="email"
                       placeholder="Enter Your Email Address"
                       className="p-5"
                       {...field}
@@ -258,12 +240,11 @@ export default function RegisterForm({ session }) {
 
             <FormField
               name="number"
-              control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="">Mobile Number </FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} className="p-5" />
+                    <Input {...field} className="p-5" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -272,12 +253,12 @@ export default function RegisterForm({ session }) {
 
             <FormField
               name="cnic"
-              control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="">CNIC</FormLabel>
                   <FormControl>
                     <Input
+                      type="text"
                       placeholder="e.g 420110-5875269-3"
                       className="p-5"
                       {...field}
@@ -288,8 +269,7 @@ export default function RegisterForm({ session }) {
               )}
             />
             <FormField
-              name="fcnic"
-              control={form.control}
+              name="fatherCnic"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="">
@@ -298,6 +278,7 @@ export default function RegisterForm({ session }) {
                   </FormLabel>
                   <FormControl>
                     <Input
+                      type="text"
                       placeholder="e.g 420110-5875269-3"
                       className="p-5"
                       {...field}
@@ -313,62 +294,54 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">Date of Birth</FormLabel>
-                  <div>
-                    <DatePicker className="bg-white p-5" />
-                  </div>
-                  <FormControl></FormControl>
+                  <FormLabel>Date of Birth</FormLabel>
+                  <DatePicker
+                    selected={field.value} // Bind the value to form state
+                    onChange={(date) => field.onChange(date)} // Update form state on change
+                    className="p-5"
+                  />
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             <FormField
-              name="number"
-              control={form.control}
+              name="gender"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className=" ">Select Gender </FormLabel>
-                  <FormControl>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Gender" className="p-5" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white">
-                        <SelectGroup className="bg-white">
-                          {gender.map((gender) => (
-                            <SelectItem
-                              className="bg-white text-black"
-                              key={gender}
-                              value={gender}
-                            >
-                              {gender}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                  <FormLabel>Gender</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="w-full p-5">
+                      <SelectValue placeholder="Select Gender" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {gender.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {item}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <div className=" flex flex-col w-full gap-3">
+
+          <div className="flex flex-col w-full gap-3">
             <div>
               <FormField
                 name="address"
-                control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="">Address</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter Address"
-                        {...field}
-                        className="w-full mx-auto"
-                      />
-                    </FormControl>
+                    <FormLabel>Address</FormLabel>
+                    <Textarea
+                      placeholder="Enter your address"
+                      {...field}
+                      className="w-full"
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -377,24 +350,68 @@ export default function RegisterForm({ session }) {
             <div>
               <FormField
                 name="degree"
-                control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="">Enter Your last Degree? </FormLabel>
+                    <FormLabel className="">Enter Your Last Degree</FormLabel>
                     <FormControl>
-                      <Select>
-                        <SelectTrigger className="mx-auto w-full">
-                          <SelectValue placeholder="Select " className="p-5" />
+                      <Controller
+                        name="degree"
+                        control={form.control}
+                        render={({ field }) => (
+                          <Select
+                            onValueChange={field.onChange} // Bind value change to form state
+                            value={field.value} // Use value from form state
+                          >
+                            <SelectTrigger className="mx-auto w-full p-5">
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white">
+                              <SelectGroup>
+                                {Degries.map((degree) => (
+                                  <SelectItem
+                                    className="bg-white text-black"
+                                    key={degree}
+                                    value={degree}
+                                  >
+                                    {degree}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div>
+              <Controller
+                name="haveALaptop"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="haveALaptop" className="">
+                      Do you have a laptop?
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange} // Bind value change to form state
+                        value={field.value} // Use value from form state
+                      >
+                        <SelectTrigger className="mx-auto w-full p-5">
+                          <SelectValue placeholder="Select" />
                         </SelectTrigger>
                         <SelectContent className="bg-white">
-                          <SelectGroup className="bg-white">
-                            {Degries.map((degree) => (
+                          <SelectGroup>
+                            {haveALaptops.map((haveALaptop) => (
                               <SelectItem
                                 className="bg-white text-black"
-                                key={degree}
-                                value={degree}
+                                key={haveALaptop}
+                                value={haveALaptop}
                               >
-                                {degree}
+                                {haveALaptop}
                               </SelectItem>
                             ))}
                           </SelectGroup>
@@ -406,51 +423,38 @@ export default function RegisterForm({ session }) {
                 )}
               />
             </div>
-            <div>
-              <Select>
-                <FormLabel htmlFor="picture " className="">
-                  Do you have a laptop?
-                </FormLabel>
-                <SelectTrigger className="mx-auto w-full ">
-                  <SelectValue placeholder="Select" className="p-5" />
-                </SelectTrigger>
-                <SelectContent className="bg-white">
-                  <SelectGroup className="bg-white">
-                    {haveALaptops.map((haveALaptop) => (
-                      <SelectItem
-                        className="bg-white text-black"
-                        key={haveALaptop}
-                        value={haveALaptop}
-                      >
-                        {haveALaptop}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
           <div className="grid w-full max-w-sm items-center gap-2 mt-2">
-            <FormLabel
-              htmlFor="picture"
-              className="bg-gray-200 w-24 h-24 border  border-dashed flex items-center justify-center rounded-md cursor-pointer"
-            >
-              {selectedImage ? (
-                <img
-                  src={selectedImage}
-                  alt="Selected"
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                "Picture"
+            <FormField
+              name="image"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel
+                    htmlFor="picture"
+                    className="bg-gray-200 w-24 h-24 border border-dashed flex items-center justify-center rounded-md cursor-pointer"
+                  >
+                    {selectedImage ? (
+                     <h3 className="text-center">{selectedImage.name}</h3>
+                    ) : (
+                      "Picture"
+                    )}
+                  </FormLabel>
+                  <Input
+                    id="picture"
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => {
+                    const file = e.target.files[0];
+                    if(file){
+                      setSelectedImage(file); // Update preview
+                      field.onChange(file); // Bind file to form state
+                    }
+                  }}
+                  />
+                  <FormMessage/>
+                </FormItem>
               )}
-            </FormLabel>
-            <Input
-              id="picture"
-              type="file"
-              placeholder="Upload Image "
-              className="hidden "
-              onChange={handleImageChange}
             />
           </div>
           <div className="flex flex-col">
@@ -481,9 +485,9 @@ export default function RegisterForm({ session }) {
 
           <Button
             type="submit"
-            className="bg-registration-btn w-full text-white  font-bold sm:w-full  hover:bg-gray-500  "
+            className="bg-registration-btn w-full text-white  font-bold sm:w-full hover:bg-landing-button "
           >
-            {form.formState.isSubmitting ? "Loading" : "Submit"}
+            {form.formState.isSubmitting ? <ButtonSpinner/> : "Submit"}
           </Button>
         </form>
       </Form>
