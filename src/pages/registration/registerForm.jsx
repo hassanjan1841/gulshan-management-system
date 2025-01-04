@@ -225,7 +225,11 @@ export default function RegisterForm({ session }) {
                       Full Name
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Enter Your name" />
+                      <Input
+                        {...field}
+                        placeholder="Enter Your name"
+                        className="border-none shadow-md"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -242,7 +246,11 @@ export default function RegisterForm({ session }) {
                       Father Name
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Enter Your Father name" />
+                      <Input
+                        {...field}
+                        placeholder="Enter Your Father name"
+                        className="p-5 shadow-md border-none"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -259,7 +267,7 @@ export default function RegisterForm({ session }) {
                     <Input
                       type="email"
                       placeholder="Enter Your Email Address"
-                      className="p-5"
+                      className="p-5 shadow-md border-none"
                       {...field}
                     />
                   </FormControl>
@@ -278,7 +286,7 @@ export default function RegisterForm({ session }) {
                   <FormControl>
                     <Input
                       {...field}
-                      className="p-5"
+                      className="p-5 shadow-md border-none"
                       placeholder="e.g +923123456789"
                     />
                   </FormControl>
@@ -296,7 +304,7 @@ export default function RegisterForm({ session }) {
                     <Input
                       type="text"
                       placeholder="e.g 420110-5875269-3"
-                      className="p-5"
+                      className="p-5 shadow-md border-none"
                       {...field}
                     />
                   </FormControl>
@@ -315,7 +323,7 @@ export default function RegisterForm({ session }) {
                     <Input
                       type="text"
                       placeholder="e.g 420110-5875269-3"
-                      className="p-5"
+                      className="p-5 shadow-md border-none"
                       {...field}
                     />
                   </FormControl>
