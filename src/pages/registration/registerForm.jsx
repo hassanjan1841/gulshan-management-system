@@ -51,9 +51,7 @@ const formSchema = z.object({
   address: z.string(),
   degree: z.string(),
   haveALaptop: z.string(),
-  image: z
-  .any()
-  .refine((file) => file instanceof File, {
+  image: z.any().refine((file) => file instanceof File, {
     message: "Please upload a valid file.",
   }),
 });
@@ -82,19 +80,22 @@ export default function RegisterForm({ session }) {
     },
   });
   async function onSubmit(values) {
-    console.log("values>>", values)
+    console.log("values>>", values);
   }
   const [selectedImage, setSelectedImage] = useState(null);
+  console.log("selected image", selectedImage);
   return (
     <div className="flex max-w-[1100px] justify-center items-center bg-white  text-black p-10 gap-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
-          <div className="grid sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-2 gap-5 text-landing-button">
+          <div className="grid sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-2 gap-5 ">
             <FormField
               name="country"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Select Country</FormLabel>
+                  <FormLabel className="text-landing-button">
+                    Select Country
+                  </FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select Country" />
@@ -118,7 +119,9 @@ export default function RegisterForm({ session }) {
               name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Select City</FormLabel>
+                  <FormLabel className="text-landing-button">
+                    Select City
+                  </FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select City" />
@@ -143,7 +146,9 @@ export default function RegisterForm({ session }) {
                 name="course"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Select Course or Event</FormLabel>
+                    <FormLabel className="text-landing-button">
+                      Select Course or Event
+                    </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className="w-full p-5">
                         <SelectValue placeholder="Select Course" />
@@ -169,7 +174,9 @@ export default function RegisterForm({ session }) {
                 name="studentProficiency"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Computer Proficiency</FormLabel>
+                    <FormLabel className="text-landing-button">
+                      Computer Proficiency
+                    </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className="w-full p-5">
                         <SelectValue placeholder="Select Proficiency" />
@@ -195,7 +202,9 @@ export default function RegisterForm({ session }) {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel className="text-landing-button">
+                      Full Name
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} placeholder="Enter Your name" />
                     </FormControl>
@@ -210,7 +219,9 @@ export default function RegisterForm({ session }) {
                 name="fatherName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Father Name</FormLabel>
+                    <FormLabel className="text-landing-button">
+                      Father Name
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} placeholder="Enter Your Father name" />
                     </FormControl>
@@ -224,7 +235,7 @@ export default function RegisterForm({ session }) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">Email</FormLabel>
+                  <FormLabel className="text-landing-button">Email</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
@@ -242,9 +253,15 @@ export default function RegisterForm({ session }) {
               name="number"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">Mobile Number </FormLabel>
+                  <FormLabel className="text-landing-button">
+                    Mobile Number{" "}
+                  </FormLabel>
                   <FormControl>
-                    <Input {...field} className="p-5" />
+                    <Input
+                      {...field}
+                      className="p-5"
+                      placeholder="e.g +923123456789"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -255,7 +272,7 @@ export default function RegisterForm({ session }) {
               name="cnic"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">CNIC</FormLabel>
+                  <FormLabel className="text-landing-button">CNIC</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
@@ -272,8 +289,7 @@ export default function RegisterForm({ session }) {
               name="fatherCnic"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">
-                    {" "}
+                  <FormLabel className="text-landing-button">
                     {"Fathes's"} CNIC (Optional)
                   </FormLabel>
                   <FormControl>
@@ -294,11 +310,14 @@ export default function RegisterForm({ session }) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date of Birth</FormLabel>
+                  <FormLabel className="text-landing-button">
+                    Date of Birth
+                  </FormLabel>
+                  <br />
                   <DatePicker
                     selected={field.value} // Bind the value to form state
                     onChange={(date) => field.onChange(date)} // Update form state on change
-                    className="p-5"
+                    className="p-5 w-full"
                   />
                   <FormMessage />
                 </FormItem>
@@ -309,7 +328,7 @@ export default function RegisterForm({ session }) {
               name="gender"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Gender</FormLabel>
+                  <FormLabel className="text-landing-button">Gender</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select Gender" />
@@ -336,7 +355,9 @@ export default function RegisterForm({ session }) {
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel className="text-landing-button">
+                      Address
+                    </FormLabel>
                     <Textarea
                       placeholder="Enter your address"
                       {...field}
@@ -352,7 +373,9 @@ export default function RegisterForm({ session }) {
                 name="degree"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="">Enter Your Last Degree</FormLabel>
+                    <FormLabel className="text-landing-button">
+                      Enter Your Last Degree
+                    </FormLabel>
                     <FormControl>
                       <Controller
                         name="degree"
@@ -392,7 +415,10 @@ export default function RegisterForm({ session }) {
                 name="haveALaptop"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="haveALaptop" className="">
+                    <FormLabel
+                      className="text-landing-button"
+                      htmlFor="haveALaptop"
+                    >
                       Do you have a laptop?
                     </FormLabel>
                     <FormControl>
@@ -432,10 +458,14 @@ export default function RegisterForm({ session }) {
                 <FormItem>
                   <FormLabel
                     htmlFor="picture"
-                    className="bg-gray-200 w-24 h-24 border border-dashed flex items-center justify-center rounded-md cursor-pointer"
+                    className="bg-gray-200 w-24 h-24 border border-dashed flex items-center justify-center rounded-md cursor-pointer text-landing-button"
                   >
                     {selectedImage ? (
-                     <h3 className="text-center">{selectedImage.name}</h3>
+                      <img
+                        src={selectedImage}
+                        alt="Preview"
+                        className="w-full object-cover h-full"
+                      />
                     ) : (
                       "Picture"
                     )}
@@ -445,14 +475,21 @@ export default function RegisterForm({ session }) {
                     type="file"
                     className="hidden"
                     onChange={(e) => {
-                    const file = e.target.files[0];
-                    if(file){
-                      setSelectedImage(file); // Update preview
-                      field.onChange(file); // Bind file to form state
-                    }
-                  }}
+                      const file = e.target.files[0];
+                      if (file) {
+                        // setSelectedImage(file); // Update file state
+                        field.onChange(file); // Bind file to form state
+
+                        // Create a preview
+                        const reader = new FileReader();
+                        reader.onload = () => {
+                          setSelectedImage(reader.result); // Set preview data URL
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
                   />
-                  <FormMessage/>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -487,7 +524,7 @@ export default function RegisterForm({ session }) {
             type="submit"
             className="bg-registration-btn w-full text-white  font-bold sm:w-full hover:bg-landing-button "
           >
-            {form.formState.isSubmitting ? <ButtonSpinner/> : "Submit"}
+            {form.formState.isSubmitting ? <ButtonSpinner /> : "Submit"}
           </Button>
         </form>
       </Form>
