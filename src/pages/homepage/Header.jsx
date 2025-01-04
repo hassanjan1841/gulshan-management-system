@@ -37,7 +37,7 @@ const Header = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-landing-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button transition duration-300"
+              className="bg-landing-other-button-dark text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button transition duration-300"
             >
               Student Portal
             </motion.button>
@@ -45,7 +45,7 @@ const Header = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-landing-other-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-button transition duration-300"
+            className="bg-landing-other-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
           >
             Registration
           </motion.button>

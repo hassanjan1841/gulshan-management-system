@@ -29,6 +29,8 @@ const AdminBatchesCard = ({ course }) => {
       try {
         setLoading(true);
         const newBatches = await fetchBatches(course._id, page, limit);
+        console.log("newBatches", newBatches);
+        
         setBatches(newBatches.batches);
         setLoading(false);
       } catch (error) {

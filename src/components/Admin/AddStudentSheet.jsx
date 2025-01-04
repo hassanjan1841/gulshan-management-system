@@ -100,7 +100,7 @@ function AddStudentSheet({ onAddStudent }) {
         <Button>Add Student</Button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-[400px] p-6 rounded-lg shadow-xl">
+      <SheetContent side="right" className="w-[400px] overflow-y-scroll p-6 rounded-lg shadow-xl">
         <SheetHeader>
           <SheetTitle className="text-xl font-semibold mb-5">
             Add New Student

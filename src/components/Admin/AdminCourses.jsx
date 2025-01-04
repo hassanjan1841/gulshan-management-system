@@ -24,7 +24,6 @@ const fetchCourses = async (page, limit) => {
 
 const AdminCourses = () => {
   const [courses, setCourses] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const { page, limit, setTotalPages } = usePaginate();
@@ -33,8 +32,7 @@ const AdminCourses = () => {
     const loadCourses = async () => {
       try {
         setLoading(true);
-        console.log(limit, " ", page);
-        const newCourses = await fetchCourses(page, limit);
+        const newCourses = await fetchCourses(page, limit);        
         setCourses(newCourses.courses);
         setTotalPages(newCourses.totalPages);
         setLoading(false);

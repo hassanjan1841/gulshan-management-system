@@ -7,7 +7,7 @@ const PaginateContext = createContext();
 export const PaginateProvider = ({ children }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [limit, setLimit] = useState(5);    
+  const [limit, setLimit] = useState(4);    
   const [currentPageInput, setCurrentPageInput] = useState("1");
 
   const handleNextPage = () => {

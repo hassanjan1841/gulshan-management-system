@@ -2,8 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "../../hooks/use-toast";
-
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -68,7 +66,6 @@ export function AddCourseForm({ onCourseAdd }) {
       onCourseAdd(values);
       form.reset();
     } catch (error) {
-      console.error("Error submitting form:", error);
       toast({
         variant: "destructive",
         title: error.message ? "Server Error" : "User Validation",

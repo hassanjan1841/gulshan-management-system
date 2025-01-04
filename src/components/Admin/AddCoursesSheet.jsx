@@ -19,7 +19,7 @@ export function AddCourseSheet({ onCourseAdd }) {
       <SheetTrigger asChild>
         <Button variant="outline">Add Course</Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="overflow-y-scroll">
         <SheetHeader>
           <SheetTitle>Add a new Course</SheetTitle>
           <SheetDescription>
