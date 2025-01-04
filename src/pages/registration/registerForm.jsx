@@ -83,7 +83,6 @@ export default function RegisterForm({ session }) {
     console.log("values>>", values);
   }
   const [selectedImage, setSelectedImage] = useState(null);
-  console.log("selected image", selectedImage);
   return (
     <div className="flex max-w-[1100px] justify-center items-center bg-white  text-black p-10 gap-4">
       <Form {...form}>
