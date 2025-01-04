@@ -26,6 +26,7 @@ import NotFound from "@/components/NotFound";
 import BatchDetail from "@/components/Admin/BatchDetail";
 import Register from "./pages/registration/Register";
 import TeacherDashboardMain from "./components/TeacherDashboard/TeacherDashboardMain";
+import StudentDashboardMain from "./components/StudentDashboard/studentDashboardMain";
 
 function App() {
   const { currentUser } = useAuth();
@@ -51,7 +52,8 @@ function App() {
 
       {/* student routes */}
       <Route path="/student" element={<DashboardLayout role={"student"} />}>
-        <Route index element={<StudentDashboard />} />
+        <Route index element={<StudentDashboardMain />} />
+        <Route path="course/:id" element={<StudentDashboard />} />
         <Route path="assignments" element={<StudentAssignment />} />
         <Route path="quizzes" element={<StudentQuiz />} />
         <Route path="certificates" element={<StudentCertificate />} />
