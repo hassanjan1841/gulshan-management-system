@@ -99,10 +99,15 @@ export default function RegisterForm({ session }) {
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select Country" />
                     </SelectTrigger>
-                    <SelectContent>
+
+                    <SelectContent className="bg-white">
                       <SelectGroup>
                         {Country.map((country) => (
-                          <SelectItem key={country} value={country}>
+                          <SelectItem
+                            className="bg-white text-black"
+                            key={country}
+                            value={country}
+                          >
                             {country}
                           </SelectItem>
                         ))}
@@ -125,10 +130,15 @@ export default function RegisterForm({ session }) {
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select City" />
                     </SelectTrigger>
-                    <SelectContent>
+
+                    <SelectContent className="bg-white">
                       <SelectGroup>
                         {cities.map((city) => (
-                          <SelectItem key={city} value={city}>
+                          <SelectItem
+                            className="bg-white text-black"
+                            key={city}
+                            value={city}
+                          >
                             {city}
                           </SelectItem>
                         ))}
@@ -152,10 +162,15 @@ export default function RegisterForm({ session }) {
                       <SelectTrigger className="w-full p-5">
                         <SelectValue placeholder="Select Course" />
                       </SelectTrigger>
-                      <SelectContent>
+
+                      <SelectContent className="bg-white">
                         <SelectGroup>
                           {courses.map((course) => (
-                            <SelectItem key={course} value={course}>
+                            <SelectItem
+                              className="bg-white text-black"
+                              key={course}
+                              value={course}
+                            >
                               {course}
                             </SelectItem>
                           ))}
@@ -180,10 +195,15 @@ export default function RegisterForm({ session }) {
                       <SelectTrigger className="w-full p-5">
                         <SelectValue placeholder="Select Proficiency" />
                       </SelectTrigger>
-                      <SelectContent>
+
+                      <SelectContent className="bg-white">
                         <SelectGroup>
                           {proficiency.map((item) => (
-                            <SelectItem key={item} value={item}>
+                            <SelectItem
+                              className="bg-white text-black"
+                              key={item}
+                              value={item}
+                            >
                               {item}
                             </SelectItem>
                           ))}
@@ -332,10 +352,15 @@ export default function RegisterForm({ session }) {
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select Gender" />
                     </SelectTrigger>
-                    <SelectContent>
+
+                    <SelectContent className="bg-white">
                       <SelectGroup>
                         {gender.map((item) => (
-                          <SelectItem key={item} value={item}>
+                          <SelectItem
+                            className="bg-white text-black"
+                            key={item}
+                            value={item}
+                          >
                             {item}
                           </SelectItem>
                         ))}
