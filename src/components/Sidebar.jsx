@@ -23,7 +23,7 @@ import {
   SidebarMenuSubButton,
   useSidebar,
 } from "./ui/sidebar";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import {
   Collapsible,
   CollapsibleContent,
@@ -39,6 +39,7 @@ const adminItems = [
 
 const teacherItems = [
   { name: "Dashboard", href: "/teacher", icon: LayoutDashboard },
+  { name: "Sections", href: "/teacher", icon: LayoutDashboard },
   {
     name: "Courses",
     icon: Layers,
@@ -130,9 +131,13 @@ export default function AppSidebar({ role, ...props }) {
   const [openBatch, setOpenBatch] = useState(null);
   const [openSection, setOpenSection] = useState(null);
 
+  const location = useLocation();
+
   const navItems =
     role === "teacher"
-      ? teacherItems
+      ? location.pathname === "/teacher"
+        ? teacherItems.filter((item) => item.name === "Sections")
+        : teacherItems
       : role === "admin"
       ? adminItems
       : studentItems;

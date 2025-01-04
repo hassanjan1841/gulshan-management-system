@@ -14,7 +14,7 @@ import QuizTable from "@/components/TeacherDashboard/QuizTable";
 import QuizDetail from "@/components/TeacherDashboard/QuizDetail";
 import AdminLogin from "@/components/Admin/AdminLogin";
 import { useAuth } from "@/context/authContext";
-import { Route, Routes, useNavigate } from "react-router";
+import { Route, Routes, useNavigate, useParams } from "react-router";
 import AdminStudents from "@/components/Admin/AdminStudents";
 import AdminCourses from "@/components/Admin/AdminCourses";
 import CourseDetails from "@/components/Admin/CourseDetailSheet";
@@ -25,11 +25,14 @@ import StudentServices from "@/components/StudentDashboard/StudentServices";
 import NotFound from "@/components/NotFound";
 import BatchDetail from "@/components/Admin/BatchDetail";
 import Register from "./pages/registration/Register";
+import TeacherDashboardMain from "./components/TeacherDashboard/TeacherDashboardMain";
 
 function App() {
   const { currentUser } = useAuth();
   console.log("currentUser", currentUser);
   const navigate = useNavigate();
+  const params = useParams();
+  console.log("params", params);
 
   // useEffect(() => {
   //   if (currentUser) {
@@ -57,7 +60,8 @@ function App() {
       {/* student routes end */}
 
       <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
-        <Route index element={<TeacherDashboard />} />
+        <Route index element={<TeacherDashboardMain />} />
+        <Route path="section/:id" element={<TeacherDashboard />} />
         <Route path="assignments" element={<TeacherAssignment />} />
         <Route path="assignments/:id" element={<AssignmentDetail />} />
         <Route path="quizzes" element={<QuizTable />} />
