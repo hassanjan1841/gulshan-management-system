@@ -2,18 +2,28 @@ import SectionCard from "@/components/TeacherDashboard/SectionCard";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import { getSections } from "../../services/api/sections";
+import Loader from "../Loader";
 
 export default function TeacherDashboardMain() {
   const [sections, setSections] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getSEctions = async () => {
-      const secs = await getSections();
-      console.log("sections", secs.sections);
-      setSections(secs.sections);
+      try {
+        setLoading(true);
+        const secs = await getSections();
+        console.log("sections", secs.sections);
+        setSections(secs.sections);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
     };
     getSEctions();
   }, []);
+  if (loading) return <Loader />;
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 p-10 bg-background">
