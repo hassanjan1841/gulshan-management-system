@@ -27,6 +27,7 @@ import BatchDetail from "@/components/Admin/BatchDetail";
 import Register from "./pages/registration/Register";
 import TeacherDashboardMain from "./components/TeacherDashboard/TeacherDashboardMain";
 import StudentDashboardMain from "./components/StudentDashboard/studentDashboardMain";
+import IdCard from "./pages/idcard/IdCard";
 
 function App() {
   const { currentUser } = useAuth();
@@ -48,6 +49,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/idcard" element={<IdCard />} />
       <Route path="*" element={<NotFound />} />
 
       {/* student routes */}
