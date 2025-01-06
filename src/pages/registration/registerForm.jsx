@@ -202,6 +202,14 @@ export default function RegisterForm({ session }) {
       formattedValues = {
         ...values,
         date_of_birth: formattedDate,
+        courses: [
+          {
+            course: values.course,
+            status: "ongoing",
+            completionDate: null,
+            is_quiz_passed: false,
+          },
+        ],
       };
       const newUser = await createUser(formattedValues);
       console.log("newUser>", newUser);

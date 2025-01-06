@@ -33,14 +33,16 @@ const AdminStudentCard = ({ student }) => {
               <Badge variant="outline" className="text-gray-500">
                 {student?.section?.title}
               </Badge>
-              <Badge variant="secondary">{student?.course?.title}</Badge>
+              <Badge variant="secondary">
+                {student?.courses[0]?.course?.title}
+              </Badge>
             </CardDescription>
           </div>
         </div>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">
-          <strong>Batch:</strong> {student?.section?.batch?.title}
+          <strong>Batch:</strong> {student?.section?.courses[0]?.batch?.title}
         </p>
         <p className="text-sm text-muted-foreground">
           <strong>Teacher:</strong> {student?.section?.teacher?.full_name}
