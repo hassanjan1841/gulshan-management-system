@@ -34,15 +34,20 @@ import {
 import { DatePicker } from "@/components/datePicker";
 import { useEffect, useState } from "react";
 import ButtonSpinner from "../../components/ButtonSpinner";
-import { getCoursesByCityAndCountry } from "../../services/api/courses";
 
-const countries = ["Pakistan", "Turkey", "England"];
+import {
+  getAllCitiesByCountry,
+  getAllCountriesFromBatchWithAdmissionOpen,
+  getCoursesByCityAndCountry,
+} from "../../services/api/batches";
 
-const cities = {
-  Pakistan: ["Karachi", "Lahore", "Islamabad", "Quetta", "Peshawar"],
-  Turkey: ["Istanbul", "Ankara", "Izmir", "Antalya", "Bursa"],
-  England: ["London", "Manchester", "Birmingham", "Liverpool", "Leeds"],
-};
+// const countries = ["Pakistan", "Turkey", "England"];
+
+// const cities = {
+//   Pakistan: ["Karachi", "Lahore", "Islamabad", "Quetta", "Peshawar"],
+//   Turkey: ["Istanbul", "Ankara", "Izmir", "Antalya", "Bursa"],
+//   England: ["London", "Manchester", "Birmingham", "Liverpool", "Leeds"],
+// };
 
 const formSchema = z.object({
   country: z.string().min(2).max(120),
@@ -66,17 +71,47 @@ const formSchema = z.object({
 });
 
 export default function RegisterForm({ session }) {
+  const [countries, setCountries] = useState(null);
+  const [cities, setCities] = useState(null);
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
   const [courses, setCourses] = useState(null);
 
   useEffect(() => {
+    const allCountries = async () => {
+      try {
+        const response = await getAllCountriesFromBatchWithAdmissionOpen();
+        setCountries(response);
+        console.log("countries data", response);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+    allCountries();
+  }, []);
+  useEffect(() => {
+    const allCities = async () => {
+      if (country) {
+        try {
+          const response = await getAllCitiesByCountry(country);
+          setCities(response);
+          console.log("cities data", response);
+        } catch (error) {
+          console.error("Error fetching cities:", error);
+        }
+      }
+    };
+    allCities();
+  }, [country]);
+  useEffect(() => {
     const allCourses = async () => {
       try {
         console.log("course runned");
-        const response = await getCoursesByCityAndCountry(city, country);
-        setCourses(response);
-        console.log("courses data", response);
+        if (city && country) {
+          const response = await getCoursesByCityAndCountry(city, country);
+          setCourses(response);
+          console.log("courses data", response);
+        }
       } catch (error) {
         console.error("Error fetching courses:", error);
         if (error.response.status === 404) {
@@ -86,7 +121,7 @@ export default function RegisterForm({ session }) {
     };
     allCourses();
     console.log(courses);
-  }, [city, country]);
+  }, [city]);
   // const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -138,7 +173,7 @@ export default function RegisterForm({ session }) {
 
                     <SelectContent className="bg-white">
                       <SelectGroup>
-                        {countries?.map((country) => (
+                        {countries?.countries?.map((country) => (
                           <SelectItem
                             className="bg-white text-black"
                             key={country}
@@ -175,7 +210,7 @@ export default function RegisterForm({ session }) {
 
                     <SelectContent className="bg-white">
                       <SelectGroup>
-                        {cities[country]?.map((city) => (
+                        {cities?.cities?.map((city) => (
                           <SelectItem
                             className="bg-white text-black"
                             key={city}
