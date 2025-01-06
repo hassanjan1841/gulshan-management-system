@@ -21,11 +21,11 @@ export default function Register() {
           Services-Education-Registration{" "}
         </p>
         <div className="gap-6 flex mx-4 mt-4 flex-wrap justify-center">
-          <Button className="bg-gray-100 text?-[green-500] : [blue-500] ">
+          <Button className="bg-landing-button">
             Registration{" "}
           </Button>
-          <Button>Download ID Card </Button>
-          <Button>Results</Button>
+          <Button className='bg-landing-button'>Download ID Card </Button>
+          <Button className='bg-landing-button'>Results</Button>
         </div>
       </div>
       <hr className="border-b-gray-500" />

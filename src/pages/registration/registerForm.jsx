@@ -11,6 +11,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   Select,
   SelectContent,
@@ -31,57 +33,114 @@ import {
   courses,
   proficiency,
 } from "@/lib/section";
-import { DatePicker } from "@/components/datePicker";
 import { useState } from "react";
 import ButtonSpinner from "../../components/ButtonSpinner";
-
+import { DatePickerWithYearDropdown } from "./DatePickerWithYearDropdown";
+import { createUser } from "../../services/api/user";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebase/config";
 const formSchema = z.object({
   country: z.string().min(2).max(120),
   city: z.string().min(2).max(120),
   course: z.string().min(2).max(120),
-  studentProficiency: z.string().min(2).max(120),
-  name: z.string().min(2).max(50),
-  fatherName: z.string().min(2).max(50),
+  computer_proficiency: z.string().min(2).max(120),
+  full_name: z.string().min(2).max(50),
+  father_name: z.string().min(2).max(50),
   email: z.string(),
-  number: z.string(),
+  phone: z.string(),
   cnic: z.string(),
-  fatherCnic: z.string(),
-  dob: z.string(),
+  father_cnic: z.string(),
+  date_of_birth: z.date(),
   gender: z.string(),
   address: z.string(),
   degree: z.string(),
-  haveALaptop: z.string(),
-  image: z.any().refine((file) => file instanceof File, {
+  has_laptop: z.string(),
+  profilePic: z.any().refine((file) => file instanceof File, {
     message: "Please upload a valid file.",
   }),
 });
 
+let uploadPic = (image) => {
+  console.log("image>>" , image);
+  
+  return new Promise((resolve, reject) => {
+      let files = image
+      console.log("files>>", files);
+      const randomNum = Math.random().toString().slice(2)
+      const storageRef = ref(storage, `images/${randomNum}`);
+      const uploadTask = uploadBytesResumable(storageRef, files);
+
+      uploadTask.on('state_changed',
+          (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                  case 'paused':
+                      console.log('Upload is paused');
+                      break;
+                  case 'running':
+                      console.log('Upload is running');
+                      break;
+              }
+          },
+          (error) => {
+              reject(error.message)
+          },
+          () => {
+              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                  console.log('File available at', downloadURL);
+                  resolve(downloadURL)
+              });
+          }
+      );
+  })
+
+}
 export default function RegisterForm({ session }) {
-  // const { toast } = useToast();
+  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       country: "",
       city: "",
       course: "",
-      studentProficiency: "",
-      name: "",
-      fatherName: "",
+      computer_proficiency: "",
+      full_name: "",
+      father_name: "",
       email: "",
-      number: "",
+      phone: "",
       cnic: "",
-      fatherCnic: "",
-      dob: "",
+      father_cnic: "",
+      date_of_birth: "",
       gender: "",
       address: "",
       degree: "",
-      haveALaptop: "",
-      image: "",
+      has_laptop: "",
+      profilePic: "",
     },
   });
+
   async function onSubmit(values) {
-    console.log("values>>", values);
+    values.role = "student";
+    values.course = "675eaaf5d42dfcca480d93f2";
+    values.age = 27;
+    try {
+    let formattedValues;
+    const formattedDate = values.date_of_birth
+    ? new Date(values.date_of_birth).toISOString().split("T")[0] : null;
+    let res = await uploadPic(values.profilePic)
+      values.profilePic = res
+      formattedValues = {
+        ...values,
+        date_of_birth: formattedDate,
+      };
+      const newUser = await createUser(formattedValues);
+      console.log("newUser>", newUser);
+    } catch (error) {
+      console.log("error in new uSer>", error);
+    }
   }
+
   const [selectedImage, setSelectedImage] = useState(null);
   return (
     <div className="flex max-w-[1100px] justify-center items-center bg-white  text-black p-10 gap-4">
@@ -185,7 +244,7 @@ export default function RegisterForm({ session }) {
             {/* Computer Proficiency */}
             <div>
               <FormField
-                name="studentProficiency"
+                name="computer_proficiency"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-landing-button">
@@ -218,7 +277,7 @@ export default function RegisterForm({ session }) {
             {/* name section */}
             <div>
               <FormField
-                name="name"
+                name="full_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-landing-button">
@@ -239,7 +298,7 @@ export default function RegisterForm({ session }) {
             {/* Father Name */}
             <div>
               <FormField
-                name="fatherName"
+                name="father_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-landing-button">
@@ -277,7 +336,7 @@ export default function RegisterForm({ session }) {
             />
 
             <FormField
-              name="number"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-landing-button">
@@ -313,7 +372,7 @@ export default function RegisterForm({ session }) {
               )}
             />
             <FormField
-              name="fatherCnic"
+              name="father_cnic"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-landing-button">
@@ -332,22 +391,22 @@ export default function RegisterForm({ session }) {
               )}
             />
 
-            <FormField
-              name="dob"
+            <Controller
+              name="date_of_birth"
               control={form.control}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-landing-button">
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="date_of_birth"
+                    className="text-landing-button"
+                  >
                     Date of Birth
-                  </FormLabel>
-                  <br />
-                  <DatePicker
-                    selected={field.value} // Bind the value to form state
-                    onChange={(date) => field.onChange(date)} // Update form state on change
-                    className="p-5 w-full"
+                  </label>
+                  <DatePickerWithYearDropdown
+                    field={field}
+                    className="p-5 w-full h-10 border-none shadow-md outline-none rounded-md"
                   />
-                  <FormMessage />
-                </FormItem>
+                </div>
               )}
             />
 
@@ -444,12 +503,12 @@ export default function RegisterForm({ session }) {
             </div>
             <div>
               <Controller
-                name="haveALaptop"
+                name="has_laptop"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
                       className="text-landing-button"
-                      htmlFor="haveALaptop"
+                      htmlFor="has_laptop"
                     >
                       Do you have a laptop?
                     </FormLabel>
@@ -484,7 +543,7 @@ export default function RegisterForm({ session }) {
           </div>
           <div className="grid w-full max-w-sm items-center gap-2 mt-2">
             <FormField
-              name="image"
+              name="profilePic"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
