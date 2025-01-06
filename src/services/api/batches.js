@@ -109,3 +109,21 @@ export const getCoursesByCityAndCountry = async (city, country) => {
     throw error;
   }
 };
+export const getBranchesByCountryCityAndCourse = async (
+  country,
+  city,
+  course
+) => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getBatches}?country=${country}&city=${city}&course=${course}&admissionOpen=true`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error fetching branches by country, city, and course:",
+      error
+    );
+    throw error;
+  }
+};
