@@ -23,17 +23,26 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Country,
+  // Country,
   gender,
-  cities,
+  // cities,
   Degries,
   haveALaptops,
-  courses,
+  // courses,
   proficiency,
 } from "@/lib/section";
 import { DatePicker } from "@/components/datePicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonSpinner from "../../components/ButtonSpinner";
+import { getCoursesByCityAndCountry } from "../../services/api/courses";
+
+const countries = ["Pakistan", "Turkey", "England"];
+
+const cities = {
+  Pakistan: ["Karachi", "Lahore", "Islamabad", "Quetta", "Peshawar"],
+  Turkey: ["Istanbul", "Ankara", "Izmir", "Antalya", "Bursa"],
+  England: ["London", "Manchester", "Birmingham", "Liverpool", "Leeds"],
+};
 
 const formSchema = z.object({
   country: z.string().min(2).max(120),
@@ -57,6 +66,27 @@ const formSchema = z.object({
 });
 
 export default function RegisterForm({ session }) {
+  const [country, setCountry] = useState(null);
+  const [city, setCity] = useState(null);
+  const [courses, setCourses] = useState(null);
+
+  useEffect(() => {
+    const allCourses = async () => {
+      try {
+        console.log("course runned");
+        const response = await getCoursesByCityAndCountry(city, country);
+        setCourses(response);
+        console.log("courses data", response);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        if (error.response.status === 404) {
+          setCourses(null);
+        }
+      }
+    };
+    allCourses();
+    console.log(courses);
+  }, [city, country]);
   // const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -95,14 +125,20 @@ export default function RegisterForm({ session }) {
                   <FormLabel className="text-landing-button">
                     Select Country
                   </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      setCountry(value);
+                    }}
+                    value={field.value}
+                  >
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select Country" />
                     </SelectTrigger>
 
                     <SelectContent className="bg-white">
                       <SelectGroup>
-                        {Country.map((country) => (
+                        {countries?.map((country) => (
                           <SelectItem
                             className="bg-white text-black"
                             key={country}
@@ -126,14 +162,20 @@ export default function RegisterForm({ session }) {
                   <FormLabel className="text-landing-button">
                     Select City
                   </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      setCity(value);
+                    }}
+                    value={field.value}
+                  >
                     <SelectTrigger className="w-full p-5">
                       <SelectValue placeholder="Select City" />
                     </SelectTrigger>
 
                     <SelectContent className="bg-white">
                       <SelectGroup>
-                        {cities.map((city) => (
+                        {cities[country]?.map((city) => (
                           <SelectItem
                             className="bg-white text-black"
                             key={city}
@@ -165,13 +207,13 @@ export default function RegisterForm({ session }) {
 
                       <SelectContent className="bg-white">
                         <SelectGroup>
-                          {courses.map((course) => (
+                          {courses?.courses?.map((course) => (
                             <SelectItem
                               className="bg-white text-black"
-                              key={course}
-                              value={course}
+                              key={course._id}
+                              value={course._id}
                             >
-                              {course}
+                              {course.title}
                             </SelectItem>
                           ))}
                         </SelectGroup>

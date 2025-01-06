@@ -58,3 +58,13 @@ export const deleteCourse = async (id) => {
     throw error;
   }
 };
+export const getCoursesByCityAndCountry = async (city, country) => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getCourses}?city=${city}&country=${country}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
