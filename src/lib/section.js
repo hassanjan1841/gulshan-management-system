@@ -13,7 +13,7 @@ export const cities = [
 
 export const courses = ["Web & App", "Artificial Intellegence"];
 
-export const proficiency = ["None", "Beiggner", "Intermediate", "Advanced"];
+export const proficiency = ["None", "Beginner", "Intermediate", "Advanced"];
 
 export const Degries = [
   "Matric",
