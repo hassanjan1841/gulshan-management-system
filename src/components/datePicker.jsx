@@ -1,4 +1,3 @@
-"use client";
 
 import * as React from "react";
 import { format } from "date-fns";
@@ -13,7 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker({ selected, onChange, className }) {
+export default function DatePicker({ selected, onChange, className }) {
   const [date, setDate] = React.useState();
 
   return (

@@ -11,7 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Select,
@@ -33,7 +33,7 @@ import {
   // courses,
   proficiency,
 } from "@/lib/section";
-import { DatePicker } from "@/components/datePicker";
+
 import { useEffect, useState } from "react";
 import ButtonSpinner from "../../components/ButtonSpinner";
 
@@ -50,7 +50,6 @@ import {
 //   Turkey: ["Istanbul", "Ankara", "Izmir", "Antalya", "Bursa"],
 //   England: ["London", "Manchester", "Birmingham", "Liverpool", "Leeds"],
 // };
-import ButtonSpinner from "../../components/ButtonSpinner";
 import { DatePickerWithYearDropdown } from "./DatePickerWithYearDropdown";
 import { createUser } from "../../services/api/user";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -77,41 +76,42 @@ const formSchema = z.object({
 });
 
 let uploadPic = (image) => {
-  console.log("image>>" , image);
-  
+  console.log("image>>", image);
+
   return new Promise((resolve, reject) => {
-      let files = image
-      console.log("files>>", files);
-      const randomNum = Math.random().toString().slice(2)
-      const storageRef = ref(storage, `images/${randomNum}`);
-      const uploadTask = uploadBytesResumable(storageRef, files);
+    let files = image;
+    console.log("files>>", files);
+    const randomNum = Math.random().toString().slice(2);
+    const storageRef = ref(storage, `images/${randomNum}`);
+    const uploadTask = uploadBytesResumable(storageRef, files);
 
-      uploadTask.on('state_changed',
-          (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log('Upload is ' + progress + '% done');
-              switch (snapshot.state) {
-                  case 'paused':
-                      console.log('Upload is paused');
-                      break;
-                  case 'running':
-                      console.log('Upload is running');
-                      break;
-              }
-          },
-          (error) => {
-              reject(error.message)
-          },
-          () => {
-              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                  console.log('File available at', downloadURL);
-                  resolve(downloadURL)
-              });
-          }
-      );
-  })
-
-}
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        reject(error.message);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          resolve(downloadURL);
+        });
+      }
+    );
+  });
+};
 export default function RegisterForm({ session }) {
   const [countries, setCountries] = useState(null);
   const [cities, setCities] = useState(null);
@@ -190,14 +190,15 @@ export default function RegisterForm({ session }) {
 
   async function onSubmit(values) {
     values.role = "student";
-    values.course = "675eaaf5d42dfcca480d93f2";
-    values.age = 27;
+
+    // values.age = 27;
     try {
-    let formattedValues;
-    const formattedDate = values.date_of_birth
-    ? new Date(values.date_of_birth).toISOString().split("T")[0] : null;
-    let res = await uploadPic(values.profilePic)
-      values.profilePic = res
+      let formattedValues;
+      const formattedDate = values.date_of_birth
+        ? new Date(values.date_of_birth).toISOString().split("T")[0]
+        : null;
+      let res = await uploadPic(values.profilePic);
+      values.profilePic = res;
       formattedValues = {
         ...values,
         date_of_birth: formattedDate,
