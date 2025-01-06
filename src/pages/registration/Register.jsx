@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import RegisterForm from "./registerForm";
+import IdCard from "../idcard/IdCard";
 
 export default function Register() {
   return (
@@ -31,6 +32,8 @@ export default function Register() {
       <hr className="border-b-gray-500" />
 
       <RegisterForm />
+      <Button href="/idcard">Download ID Card</Button>
+      <IdCard />
     </div>
   );
 }
