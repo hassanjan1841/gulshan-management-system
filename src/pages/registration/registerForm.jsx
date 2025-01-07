@@ -218,6 +218,18 @@ export default function RegisterForm({ session }) {
       };
       const newUser = await createUser(formattedValues);
       form.reset();
+      toast.success(
+        "Your Application is submitted, you can now Login in Portal.",
+        {
+          position: "bottom-right", // Or choose "top-right", "top-center", etc.
+          // autoClose: 5000, // Toast disappears after 5 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark", // Change the theme if needed
+        }
+      );
       // toast({
       //   title:
       //     "your application is submitted you can now login in the Student Portal",
