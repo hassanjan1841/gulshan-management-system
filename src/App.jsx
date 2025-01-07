@@ -28,6 +28,7 @@ import Register from "./pages/registration/Register";
 import TeacherDashboardMain from "./components/TeacherDashboard/TeacherDashboardMain";
 import StudentDashboardMain from "./components/StudentDashboard/studentDashboardMain";
 import IdCard from "./pages/idcard/IdCard";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { currentUser } = useAuth();
@@ -45,47 +46,50 @@ function App() {
   // }, [currentUser]);
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/idcard" element={<IdCard />} />
-      <Route path="*" element={<NotFound />} />
+    <>
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/idcard" element={<IdCard />} />
+        <Route path="*" element={<NotFound />} />
 
-      {/* student routes */}
-      <Route path="/student" element={<DashboardLayout role={"student"} />}>
-        <Route index element={<StudentDashboardMain />} />
-        <Route path="course/:id" element={<StudentDashboard />} />
-        <Route path="assignments" element={<StudentAssignment />} />
-        <Route path="quizzes" element={<StudentQuiz />} />
-        <Route path="certificates" element={<StudentCertificate />} />
-        <Route path="services" element={<StudentServices />} />
-      </Route>
-      {/* student routes end */}
+        {/* student routes */}
+        <Route path="/student" element={<DashboardLayout role={"student"} />}>
+          <Route index element={<StudentDashboardMain />} />
+          <Route path="course/:id" element={<StudentDashboard />} />
+          <Route path="assignments" element={<StudentAssignment />} />
+          <Route path="quizzes" element={<StudentQuiz />} />
+          <Route path="certificates" element={<StudentCertificate />} />
+          <Route path="services" element={<StudentServices />} />
+        </Route>
+        {/* student routes end */}
 
-      <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
-        <Route index element={<TeacherDashboardMain />} />
-        <Route path="section/:id" element={<TeacherDashboard />} />
-        <Route path="assignments" element={<TeacherAssignment />} />
-        <Route path="assignments/:id" element={<AssignmentDetail />} />
-        <Route path="quizzes" element={<QuizTable />} />
-        <Route path="quizzes/:id" element={<QuizDetail />} />
-        <Route path="services" element={<TeacherServices />} />
-      </Route>
+        <Route path="/teacher" element={<DashboardLayout role={"teacher"} />}>
+          <Route index element={<TeacherDashboardMain />} />
+          <Route path="section/:id" element={<TeacherDashboard />} />
+          <Route path="assignments" element={<TeacherAssignment />} />
+          <Route path="assignments/:id" element={<AssignmentDetail />} />
+          <Route path="quizzes" element={<QuizTable />} />
+          <Route path="quizzes/:id" element={<QuizDetail />} />
+          <Route path="services" element={<TeacherServices />} />
+        </Route>
 
-      <Route path="/admin" element={<AdminLogin />} />
-      <Route
-        path="/admin/dashboard"
-        element={<DashboardLayout role={"admin"} />}
-      >
-        <Route index element={<DashboardPage />} />
-        <Route path="students" element={<AdminStudents />} />
-        <Route path="courses" element={<AdminCourses />} />
-        <Route path="courses/:id" element={<CourseDetails />} />
-        <Route path="batches" element={<AdminBatches />} />
-        <Route path="batches/:id" element={<BatchDetail />} />
-      </Route>
-    </Routes>
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route
+          path="/admin/dashboard"
+          element={<DashboardLayout role={"admin"} />}
+        >
+          <Route index element={<DashboardPage />} />
+          <Route path="students" element={<AdminStudents />} />
+          <Route path="courses" element={<AdminCourses />} />
+          <Route path="courses/:id" element={<CourseDetails />} />
+          <Route path="batches" element={<AdminBatches />} />
+          <Route path="batches/:id" element={<BatchDetail />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

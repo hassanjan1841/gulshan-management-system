@@ -109,6 +109,7 @@ export const getCoursesByCityAndCountry = async (city, country) => {
     throw error;
   }
 };
+
 export const getBranchesByCountryCityAndCourse = async (
   country,
   city,

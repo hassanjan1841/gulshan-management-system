@@ -22,6 +22,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -76,8 +79,6 @@ const formSchema = z.object({
 });
 
 let uploadPic = (image) => {
-  console.log("image>>", image);
-
   return new Promise((resolve, reject) => {
     let files = image;
     console.log("files>>", files);
@@ -112,6 +113,7 @@ let uploadPic = (image) => {
     );
   });
 };
+
 export default function RegisterForm({ session }) {
   const [countries, setCountries] = useState(null);
   const [cities, setCities] = useState(null);
@@ -131,9 +133,11 @@ export default function RegisterForm({ session }) {
     };
     allCountries();
   }, []);
+
   useEffect(() => {
     const allCities = async () => {
       if (country) {
+        console.log("country>", country);
         try {
           const response = await getAllCitiesByCountry(country);
           setCities(response);
@@ -145,6 +149,7 @@ export default function RegisterForm({ session }) {
     };
     allCities();
   }, [country]);
+
   useEffect(() => {
     const allCourses = async () => {
       try {
@@ -164,8 +169,8 @@ export default function RegisterForm({ session }) {
     allCourses();
     console.log(courses);
   }, [city]);
+
   // const { toast } = useToast();
-  const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -212,9 +217,25 @@ export default function RegisterForm({ session }) {
         ],
       };
       const newUser = await createUser(formattedValues);
+      form.reset();
+      // toast({
+      //   title:
+      //     "your application is submitted you can now login in the Student Portal",
+      // });
       console.log("newUser>", newUser);
     } catch (error) {
       console.log("error in new uSer>", error);
+      error.response.data.errors.forEach((data) => {
+        toast.error(data.msg, {
+          position: "bottom-right", // Or choose "top-right", "top-center", etc.
+          // autoClose: 5000, // Toast disappears after 5 seconds
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark", // Change the theme if needed
+        });
+      });
     }
   }
 
@@ -376,7 +397,7 @@ export default function RegisterForm({ session }) {
                       <Input
                         {...field}
                         placeholder="Enter Your name"
-                        className="border-none shadow-md"
+                        className=""
                       />
                     </FormControl>
                     <FormMessage />
@@ -397,7 +418,7 @@ export default function RegisterForm({ session }) {
                       <Input
                         {...field}
                         placeholder="Enter Your Father name"
-                        className="p-5 shadow-md border-none"
+                        className="p-5 "
                       />
                     </FormControl>
                     <FormMessage />
@@ -415,7 +436,7 @@ export default function RegisterForm({ session }) {
                     <Input
                       type="email"
                       placeholder="Enter Your Email Address"
-                      className="p-5 shadow-md border-none"
+                      className="p-5 "
                       {...field}
                     />
                   </FormControl>
@@ -434,7 +455,7 @@ export default function RegisterForm({ session }) {
                   <FormControl>
                     <Input
                       {...field}
-                      className="p-5 shadow-md border-none"
+                      className="p-5 "
                       placeholder="e.g +923123456789"
                     />
                   </FormControl>
@@ -452,7 +473,7 @@ export default function RegisterForm({ session }) {
                     <Input
                       type="text"
                       placeholder="e.g 420110-5875269-3"
-                      className="p-5 shadow-md border-none"
+                      className="p-5 "
                       {...field}
                     />
                   </FormControl>
@@ -471,7 +492,7 @@ export default function RegisterForm({ session }) {
                     <Input
                       type="text"
                       placeholder="e.g 420110-5875269-3"
-                      className="p-5 shadow-md border-none"
+                      className="p-5 "
                       {...field}
                     />
                   </FormControl>
@@ -493,7 +514,7 @@ export default function RegisterForm({ session }) {
                   </label>
                   <DatePickerWithYearDropdown
                     field={field}
-                    className="p-5 w-full h-10 border-none shadow-md outline-none rounded-md"
+                    className="p-5 w-full h-10  outline-none rounded-md"
                   />
                 </div>
               )}
