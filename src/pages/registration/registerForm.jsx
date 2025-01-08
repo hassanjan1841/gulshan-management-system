@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import "react-datepicker/dist/react-datepicker.css";
 import {
   Select,
@@ -24,8 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import {
   // Country,
@@ -39,24 +36,16 @@ import {
 
 import { useEffect, useState } from "react";
 import ButtonSpinner from "../../components/ButtonSpinner";
-
 import {
   getAllCitiesByCountry,
   getAllCountriesFromBatchWithAdmissionOpen,
   getCoursesByCityAndCountry,
 } from "../../services/api/batches";
-
-// const countries = ["Pakistan", "Turkey", "England"];
-
-// const cities = {
-//   Pakistan: ["Karachi", "Lahore", "Islamabad", "Quetta", "Peshawar"],
-//   Turkey: ["Istanbul", "Ankara", "Izmir", "Antalya", "Bursa"],
-//   England: ["London", "Manchester", "Birmingham", "Liverpool", "Leeds"],
-// };
 import { DatePickerWithYearDropdown } from "./DatePickerWithYearDropdown";
 import { createUser } from "../../services/api/user";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase/config";
+import { sendEmail } from "../../services/api/email";
 const formSchema = z.object({
   country: z.string().min(2).max(120),
   city: z.string().min(2).max(120),
@@ -81,7 +70,6 @@ const formSchema = z.object({
 let uploadPic = (image) => {
   return new Promise((resolve, reject) => {
     let files = image;
-    console.log("files>>", files);
     const randomNum = Math.random().toString().slice(2);
     const storageRef = ref(storage, `images/${randomNum}`);
     const uploadTask = uploadBytesResumable(storageRef, files);
@@ -106,13 +94,13 @@ let uploadPic = (image) => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
           resolve(downloadURL);
         });
       }
     );
   });
 };
+
 
 export default function RegisterForm({ session }) {
   const [countries, setCountries] = useState(null);
@@ -126,7 +114,6 @@ export default function RegisterForm({ session }) {
       try {
         const response = await getAllCountriesFromBatchWithAdmissionOpen();
         setCountries(response);
-        console.log("countries data", response);
       } catch (error) {
         console.error("Error fetching countries:", error);
       }
@@ -137,11 +124,9 @@ export default function RegisterForm({ session }) {
   useEffect(() => {
     const allCities = async () => {
       if (country) {
-        console.log("country>", country);
         try {
           const response = await getAllCitiesByCountry(country);
           setCities(response);
-          console.log("cities data", response);
         } catch (error) {
           console.error("Error fetching cities:", error);
         }
@@ -153,14 +138,11 @@ export default function RegisterForm({ session }) {
   useEffect(() => {
     const allCourses = async () => {
       try {
-        console.log("course runned");
         if (city && country) {
           const response = await getCoursesByCityAndCountry(city, country);
           setCourses(response);
-          console.log("courses data", response);
         }
       } catch (error) {
-        console.error("Error fetching courses:", error);
         if (error.response.status === 404) {
           setCourses(null);
         }
@@ -170,7 +152,6 @@ export default function RegisterForm({ session }) {
     console.log(courses);
   }, [city]);
 
-  // const { toast } = useToast();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -194,10 +175,9 @@ export default function RegisterForm({ session }) {
   });
 
   async function onSubmit(values) {
-    values.role = "student";
-
     // values.age = 27;
     try {
+      values.role = 'student'
       let formattedValues;
       const formattedDate = values.date_of_birth
         ? new Date(values.date_of_birth).toISOString().split("T")[0]
@@ -217,30 +197,45 @@ export default function RegisterForm({ session }) {
         ],
       };
       const newUser = await createUser(formattedValues);
-      form.reset();
-      toast.success(
-        "Your Application is submitted, you can now Login in Portal.",
-        {
-          position: "bottom-right", // Or choose "top-right", "top-center", etc.
-          // autoClose: 5000, // Toast disappears after 5 seconds
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "dark", // Change the theme if needed
-        }
-      );
-      // toast({
-      //   title:
-      //     "your application is submitted you can now login in the Student Portal",
-      // });
+      const response = await sendEmail({
+        senderName: "Asad Raza",
+        sender: 'ar535363@gmail.com',
+        receiver: formattedValues.email,
+        subject: 'hello',
+        message: 'your quiz shedule will be soon sheduled kindly connect with or social media pages'
+      })
+      if(!response.error) return (
+        toast.success(
+          "Your Application is submitted.",
+          {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark", // Change the theme if needed
+          }
+        ),
+        toast.success(
+          "Your email is sent, check your email.",
+          {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark", // Change the theme if needed
+          }
+        ),
+        form.reset()
+      )
+      console.log("email>", email);
       console.log("newUser>", newUser);
     } catch (error) {
       console.log("error in new uSer>", error);
-      error.response.data.errors.forEach((data) => {
+      error?.response?.data?.errors?.forEach((data) => {
         toast.error(data.msg, {
-          position: "bottom-right", // Or choose "top-right", "top-center", etc.
-          // autoClose: 5000, // Toast disappears after 5 seconds
+          position: "bottom-right",
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

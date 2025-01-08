@@ -23,4 +23,5 @@ export const appRoutes = {
   getBatchesByCourseId: BASE_URL + "batch/course",
   getSections: BASE_URL + "section",
   getSingleSection: BASE_URL + "section",
+  sendEmail : BASE_URL + 'sendEmail'
 };
