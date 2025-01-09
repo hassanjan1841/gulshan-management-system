@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useParams } from "react-router-dom";
-import { getSingleCourse } from "../../services/api/courses";
-import { getAllUsers } from "../../services/api/user";
-import Loader from "../Loader";
-import { getBatchesByCourseId } from "../../services/api/batches";
-import { useToast } from "../../hooks/use-toast";
+import { getSingleCourse } from "../../../services/api/courses";
+import { getAllUsers } from "../../../services/api/user";
+import Loader from "../../Loader";
+import { getBatchesByCourseId } from "../../../services/api/batches";
+import { useToast } from "../../../hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const CourseDetails = () => {

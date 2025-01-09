@@ -8,15 +8,17 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AddCourseSheet } from "./AddCoursesSheet";
-import { getCourses } from "@/services/api/courses";
-import Loader from "../Loader";
-import { Link } from "react-router-dom";
+import { UpdateCourseSheet } from "./UpdateCourseSheet";
+import { getCourses, deleteCourse } from "@/services/api/courses";
+import Loader from "../../Loader";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { usePaginate } from "@/context/PaginateContext";
 import Pagination from "@/components/Pagination";
+import Cookies from "js-cookie";
+import ConfirmDialog from "../../ConfirmDialog";
+import { Link } from "react-router";
 
-// Mock function to fetch courses
 const fetchCourses = async (page, limit) => {
   let courses = await getCourses(page, limit);
   return courses;
@@ -37,7 +39,7 @@ const AdminCourses = () => {
         setTotalPages(newCourses.totalPages);
         setLoading(false);
       } catch (error) {
-        if (error.message == "Network Error") {
+        if (error.message === "Network Error") {
           setLoading(false);
           toast({
             title: "Network Error",
@@ -50,6 +52,34 @@ const AdminCourses = () => {
     loadCourses();
   }, [page, limit]);
 
+  const handleDeleteCourse = async (courseId) => {
+    try {
+      await deleteCourse(courseId, Cookies.get("token"));
+      setCourses((prevCourses) =>
+        prevCourses.filter((course) => course._id !== courseId)
+      );
+      toast({
+        title: "Course deleted successfully",
+        description: "The course has been removed from the system.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          "There was an error deleting the course. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdateCourse = (updatedCourse) => {
+    setCourses((prevCourses) =>
+      prevCourses.map((course) =>
+        course._id === updatedCourse._id ? updatedCourse : course
+      )
+    );
+  };
+
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between mb-8">
@@ -60,8 +90,8 @@ const AdminCourses = () => {
           }
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {courses?.map((course, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {courses?.map((course) => (
           <Card key={course._id} className="flex flex-col justify-between">
             <CardHeader>
               <CardTitle>{course.title}</CardTitle>
@@ -81,14 +111,24 @@ const AdminCourses = () => {
                 </Badge>
               </div>
             </CardContent>
-            <CardFooter className="flex flex-col items-end text-sm text-muted-foreground">
-              <div className="mt-4">
+            <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
+              <div className="flex space-x-2">
                 <Button variant="outline" asChild>
                   <Link to={`/admin/dashboard/courses/${course._id}`}>
                     View Details
                   </Link>
                 </Button>
+                <UpdateCourseSheet
+                  course={course}
+                  onCourseUpdate={handleUpdateCourse}
+                />
               </div>
+              <ConfirmDialog
+                title="Are you sure?"
+                description="This action cannot be undone. This will permanently delete the course and remove the data from our servers."
+                onConfirm={() => handleDeleteCourse(course._id)}
+                triggerText="Delete"
+              />
             </CardFooter>
           </Card>
         ))}

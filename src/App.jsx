@@ -16,8 +16,8 @@ import AdminLogin from "@/components/Admin/AdminLogin";
 import { useAuth } from "@/context/authContext";
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import AdminStudents from "@/components/Admin/AdminStudents";
-import AdminCourses from "@/components/Admin/AdminCourses";
-import CourseDetails from "@/components/Admin/CourseDetailSheet";
+import AdminCourses from "@/components/Admin/Courses/AdminCourses";
+import CourseDetails from "@/components/Admin/Courses/CourseDetailSheet";
 import AdminBatches from "@/components/Admin/AdminBatches";
 import HomePage from "@/pages/homepage/HomePage";
 import DashboardPage from "@/pages/admin/DashboardTry";
@@ -29,6 +29,7 @@ import TeacherDashboardMain from "./components/TeacherDashboard/TeacherDashboard
 import StudentDashboardMain from "./components/StudentDashboard/studentDashboardMain";
 import IdCard from "./pages/idcard/IdCard";
 import { ToastContainer } from "react-toastify";
+import AdminBranches from "./components/Admin/Branches/AdminBrances";
 
 function App() {
   const { currentUser } = useAuth();
@@ -87,6 +88,7 @@ function App() {
           <Route path="courses/:id" element={<CourseDetails />} />
           <Route path="batches" element={<AdminBatches />} />
           <Route path="batches/:id" element={<BatchDetail />} />
+          <Route path="branches" element={<AdminBranches />} />
         </Route>
       </Routes>
     </>

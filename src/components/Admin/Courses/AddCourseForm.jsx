@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useToast } from "../../hooks/use-toast";
+import { useToast } from "../../../hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createCourse } from "../../services/api/courses";
+import { createCourse } from "../../../services/api/courses";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import ButtonSpinner from "../ButtonSpinner";

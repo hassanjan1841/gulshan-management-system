@@ -35,6 +35,7 @@ const adminItems = [
   { name: "Students", href: "/admin/dashboard/students", icon: Users },
   { name: "Courses", href: "/admin/dashboard/courses", icon: BookOpen },
   { name: "Batches", href: "/admin/dashboard/batches", icon: BookOpen },
+  { name: "Branches", href: "/admin/dashboard/branches", icon: BookOpen },
 ];
 
 const teacherItems = [

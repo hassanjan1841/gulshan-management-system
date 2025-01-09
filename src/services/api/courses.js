@@ -53,7 +53,7 @@ export const createCourse = async (course, token) => {
 
 export const updateCourse = async (course) => {
   try {
-    const response = await axios.put(appRoutes.updateCourse, course);
+    const response = await axios.put(appRoutes.updateCourse, course,);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
