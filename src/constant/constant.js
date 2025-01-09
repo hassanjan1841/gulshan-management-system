@@ -2,7 +2,7 @@ import { get } from "react-hook-form";
 
 const prodUrl = import.meta.env.VITE_PROD_URL;
 const devUrl = import.meta.env.VITE_DEV_URL;
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_URL;
 const BASE_URL = apiUrl;
 // console.log(BASE_URL)
 
@@ -25,5 +25,17 @@ export const appRoutes = {
   getBatchesByCourseId: BASE_URL + "batch/course",
   getSections: BASE_URL + "section",
   getSingleSection: BASE_URL + "section",
-  sendEmail : BASE_URL + 'sendEmail'
+  sendEmail: BASE_URL + "sendEmail",
+
+  // Branch Routes
+  getBranches: BASE_URL + "branch", // Get all branches
+  getSingleBranch: BASE_URL + "branch", // Get a single branch by ID
+  createBranch: BASE_URL + "branch", // Create a new branch
+  updateBranch: BASE_URL + "branch", // Update a branch by ID
+  deleteBranch: BASE_URL + "branch", // Delete a branch by ID
+  getBranchesByCourseId: BASE_URL + "branch/course", // Get branches by course ID
+  getBranchesByCountryCityAndCourse: BASE_URL + "branch", // Get branches by country, city, and course
+  getBranchesByCityAndCountry: BASE_URL + "branch", // Get branches by city and country
+  getAllCountriesFromBranchWithAdmissionOpen: BASE_URL + "branch?admissionOpen=true", // Get countries where branches have open admission
+  getAllCitiesByCountryForBranches: BASE_URL + "branch?country=", // Get cities by country for branches
 };
