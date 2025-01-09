@@ -10,28 +10,31 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Link } from "react-router";
+import { Badge } from "@/components/ui/badge";
+import BatchDetailSheet from "./BatchDetailSheet";
+import { usePaginate } from "../../context/PaginateContext";
+import Loader from "../Loader";
 
-const fetchBatches = async (course, page, limit) => {
-  let courses = await getBatches(course, page, limit);
+const fetchBatches = async (course) => {
+  let courses = await getBatches(course);
+
   return courses;
 };
 
 const AdminBatchesCard = ({ course }) => {
   const [batches, setBatches] = useState([]);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const limit = 9;
+  // const { page, limit, setTotalPages } = usePaginate();
+  // const limit = 9;
 
   useEffect(() => {
     const loadBatches = async () => {
       try {
         setLoading(true);
-        const newBatches = await fetchBatches(course._id, page, limit);
-        console.log("newBatches", newBatches);
-        
+        const newBatches = await fetchBatches(course._id);
         setBatches(newBatches.batches);
+        // setTotalPages(newBatches.totalPages);
         setLoading(false);
       } catch (error) {
         if (error.response.data.error) {
@@ -40,13 +43,13 @@ const AdminBatchesCard = ({ course }) => {
             message: error.response.data.message,
           });
           setLoading(false);
-        }else{
+        } else {
           console.log("error in system>", error);
         }
       }
     };
     loadBatches();
-  }, [page]);
+  }, [course]);
   return (
     <div className="">
       {batches?.error ? (
@@ -85,39 +88,34 @@ const AdminBatchesCard = ({ course }) => {
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-2 text-sm">
-                  <div className="flex items-center justify-between py-1 border-t">
-                    <span className="text-muted-foreground font-medium">
-                      Start Date
-                    </span>
-                    <span className="tabular-nums">
+                  <div className=" py-1 ">
+                    <Badge variant="outline" className="flex justify-between">
+                      <span>Start Date</span>
                       {new Date(batch.createdAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
                       })}
-                    </span>
+                    </Badge>
                   </div>
-                  <div className="flex items-center justify-between py-1 border-t">
-                    <span className="text-muted-foreground font-medium">
-                      End Date
-                    </span>
-                    <span className="tabular-nums">
+                  <div className=" py-1">
+                    <Badge variant="outline" className="flex justify-between">
+                      <span>End Date</span>
                       {new Date(batch.updatedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
                       })}
-                    </span>
+                    </Badge>
                   </div>
                   <div className="flex justify-end pt-2">
-                    <Link to={`/admin/dashboard/batches/${batch._id}`}>
-                    <Button variant='outline'>View Details</Button>
-                    </Link>
+                    <BatchDetailSheet id={batch._id} />
                   </div>
                 </div>
               </CardContent>
             </Card>
           ))}
+          {loading && <Loader />}
         </div>
       )}
     </div>

@@ -1,16 +1,28 @@
 import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
-export const getCourses = async (page, limit) => {
+export const getCourses = async (page, limit, course) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getCourses}?page=${page}&limit=${limit}`
+      `${appRoutes.getCourses}?page=${page}&limit=${limit}${course && '&course='+course}`
     );
     return response.data;
   } catch (error) {
     throw error;
   }
 };
+export const getCoursesWithoutLimit = async () => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getCourses}?allcourses=true`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 
 export const getSingleCourse = async (id) => {
   try {

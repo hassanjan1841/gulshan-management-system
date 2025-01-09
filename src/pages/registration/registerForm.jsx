@@ -149,7 +149,6 @@ export default function RegisterForm({ session }) {
       }
     };
     allCourses();
-    console.log(courses);
   }, [city]);
 
   const form = useForm({

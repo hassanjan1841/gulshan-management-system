@@ -32,7 +32,7 @@ const AdminCourses = () => {
     const loadCourses = async () => {
       try {
         setLoading(true);
-        const newCourses = await fetchCourses(page, limit);        
+        const newCourses = await fetchCourses(page, limit);
         setCourses(newCourses.courses);
         setTotalPages(newCourses.totalPages);
         setLoading(false);
@@ -60,7 +60,7 @@ const AdminCourses = () => {
           }
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {courses?.map((course, index) => (
           <Card key={course._id} className="flex flex-col justify-between">
             <CardHeader>
@@ -68,14 +68,17 @@ const AdminCourses = () => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-4">
-                {course.description}
+                {course.description.slice(0, 75)}...
               </p>
-              <div className="flex flex-wrap gap-2 items-center">
-                <Badge variant="secondary">{course.duration}</Badge>
-                <Badge variant="outline">{course.level}</Badge>
-                <span className="text-sm font-medium ml-auto">
-                  ${course.fee}
-                </span>
+              <div className="flex flex-col gap-2">
+                <Badge variant="outline" className="flex justify-between">
+                  <span>Duration</span>
+                  {course.duration}
+                </Badge>
+                <Badge variant="outline" className="flex justify-between">
+                  <span>Level</span>
+                  {course.level}
+                </Badge>
               </div>
             </CardContent>
             <CardFooter className="flex flex-col items-end text-sm text-muted-foreground">

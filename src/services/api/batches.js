@@ -1,10 +1,10 @@
 import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
-export const getBatches = async (course, page, limit) => {
+export const getBatches = async (course) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getBatches}?course=${course}&page=${page}&limit=${limit}`
+      `${appRoutes.getBatches}?course=${course}`
     );
     return response.data;
   } catch (error) {
@@ -22,16 +22,11 @@ export const getSingleBatch = async (id) => {
   }
 };
 
-export const createBatch = async (batch, token) => {
+export const createBatch = async (batch) => {
   try {
     const response = await axios.post(
       appRoutes.createBatch,
-      batch,
-      token && {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      batch
     );
     return response.data;
   } catch (error) {

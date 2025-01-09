@@ -23,6 +23,7 @@ import {
 import { createCourse } from "../../services/api/courses";
 import { useState } from "react";
 import Cookies from "js-cookie";
+import ButtonSpinner from "../ButtonSpinner";
 
 // Form validation schema
 const formSchema = z.object({
@@ -56,6 +57,8 @@ export function AddCourseForm({ onCourseAdd }) {
   async function onSubmit(values) {
     setLoading(true);
     try {
+      console.log("cookies", Cookies.get('token'));
+      
       const course = await createCourse(values, Cookies.get("token"));
       toast({
         title: "Course Added",
@@ -176,7 +179,7 @@ export function AddCourseForm({ onCourseAdd }) {
 
         {/* Submit Button */}
         <Button type="submit" className="w-full" loading={loading}>
-          {loading ? "Submitting..." : "Submit"}
+          {loading ? <ButtonSpinner/> : "Add New Course"}
         </Button>
       </form>
     </Form>
