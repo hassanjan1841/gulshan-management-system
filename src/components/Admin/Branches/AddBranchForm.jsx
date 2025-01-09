@@ -13,7 +13,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "react-toastify";
+import { createBranch } from "../../../services/api/branches";
+import Cookies from 'js-cookie'
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -28,23 +30,25 @@ const formSchema = z.object({
   address: z.string().min(5, {
     message: "Address must be at least 5 characters.",
   }),
-  students_limit: z.string().regex(/^\d+$/, {
-    message: "Students limit must be a number.",
-  }),
+  students_limit:z.string().min(1,{
+    message:"Students limit should be greater than 0"
+  })
+  
 });
 
 export function AddBranchForm({ onBranchAdd }) {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
+  
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       country: "",
       city: "",
       address: "",
-      students_limit: "",
+      students_limit:""
+      
     },
   });
 
@@ -53,18 +57,31 @@ export function AddBranchForm({ onBranchAdd }) {
     try {
       // Here you would typically make an API call to add the branch
       // For now, we'll just simulate it with a timeout
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      onBranchAdd(values);
-      toast({
-        title: "Branch added successfully",
-        description: "The new branch has been added to the system.",
-      });
+      console.log('values in branchform', values)
+     
+      const data = await createBranch(values, Cookies.get('token'))
+      console.log('data in branch form',data)
+      onBranchAdd(data.branch)
+      toast.success(
+        "Branch Added Successfully.",
+        {
+          position: "bottom-right",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark", // Change the theme if needed
+        }
+      )
       form.reset();
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "There was an error adding the branch. Please try again.",
-        variant: "destructive",
+      toast.error("Branch error",{
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark", // Change the theme if needed
       });
     } finally {
       setIsLoading(false);
@@ -136,12 +153,13 @@ export function AddBranchForm({ onBranchAdd }) {
             <FormItem>
               <FormLabel>Students Limit</FormLabel>
               <FormControl>
-                <Input placeholder="Students limit" type="number" {...field} />
+                <Input placeholder="Students Limit" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Adding..." : "Add Branch"}
         </Button>
