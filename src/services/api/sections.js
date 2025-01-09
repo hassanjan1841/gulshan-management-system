@@ -3,6 +3,7 @@ import { appRoutes } from "../../constant/constant";
 
 export const getSections = async (batch) => {
   try {
+    console.log('appRoutes.getSections',appRoutes.getSections)
     const response = await axios.get(
       `${appRoutes.getSections}?batch=${!batch ? "" : batch}`
     );
