@@ -16,8 +16,8 @@ import AdminLogin from "@/components/Admin/AdminLogin";
 import { useAuth } from "@/context/authContext";
 import { Route, Routes, useNavigate, useParams } from "react-router";
 import AdminStudents from "@/components/Admin/AdminStudents";
-import AdminCourses from "@/components/Admin/AdminCourses";
-import CourseDetails from "@/components/Admin/CourseDetailSheet";
+import AdminCourses from "@/components/Admin/Courses/AdminCourses";
+import CourseDetails from "@/components/Admin/Courses/CourseDetailSheet";
 import AdminBatches from "@/components/Admin/AdminBatches";
 import HomePage from "@/pages/homepage/HomePage";
 import DashboardPage from "@/pages/admin/DashboardTry";
@@ -89,7 +89,6 @@ function App() {
           <Route path="batches" element={<AdminBatches />} />
           <Route path="batches/:id" element={<BatchDetail />} />
           <Route path="branches" element={<AdminBranches />} />
-          
         </Route>
       </Routes>
     </>

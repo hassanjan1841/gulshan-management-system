@@ -17,6 +17,7 @@ export const appRoutes = {
   getSingleCourse: BASE_URL + "course",
   createCourse: BASE_URL + "course",
   updateCourse: BASE_URL + "course",
+  deleteCourse: BASE_URL + "course",
   getBatches: BASE_URL + "batch",
   getSingleBatch: BASE_URL + "batch",
   createBatch: BASE_URL + "batch",
