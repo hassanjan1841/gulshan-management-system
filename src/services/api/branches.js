@@ -44,9 +44,9 @@ export const createBranch = async (branch, token) => {
 };
 
 // Update a branch by ID
-export const updateBranch = async (branch) => {
+export const updateBranch = async (id, branch) => {
   try {
-    const response = await axios.put(appRoutes.updateBranch, branch);
+    const response = await axios.put(`${appRoutes.updateBranch}/${id}`, branch);
     return response.data;
   } catch (error) {
     console.error("Error updating branch:", error);

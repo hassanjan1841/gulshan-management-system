@@ -24,6 +24,9 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 
 import { Pencil } from 'lucide-react';
+import { updateBranch } from "../../../services/api/branches";
+import { useBranchContext } from "../../../context/branchContext";
+import ButtonSpinner from "../../ButtonSpinner";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -43,10 +46,9 @@ const formSchema = z.object({
   }),
 });
 
-export function UpdateBranchSheet({ branch, onBranchUpdate }) {
+export function UpdateBranchSheet({ branch }) {
   const [isLoading, setIsLoading] = useState(false);
-  
-
+    const {changingInBranch, setChangingInBranch} = useBranchContext()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,12 +61,10 @@ export function UpdateBranchSheet({ branch, onBranchUpdate }) {
   });
 
   async function onSubmit(values) {
-    setIsLoading(true);
     try {
-      // Here you would typically make an API call to update the branch
-      // For now, we'll just simulate it with a timeout
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      onBranchUpdate({ ...branch, ...values });
+    setIsLoading(true);
+      const branchUpdate = await updateBranch(branch._id , values)
+      setChangingInBranch(() => changingInBranch + 1)
       toast.success(
               "Branch Updated Successfully.",
               {
@@ -100,7 +100,7 @@ export function UpdateBranchSheet({ branch, onBranchUpdate }) {
           <Pencil className="h-4 w-4" />
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className='overflow-y-scroll'>
         <SheetHeader>
           <SheetTitle>Update Branch</SheetTitle>
           <SheetDescription>
@@ -177,8 +177,8 @@ export function UpdateBranchSheet({ branch, onBranchUpdate }) {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Updating..." : "Update Branch"}
+            <Button className='w-full' type="submit" disabled={isLoading}>
+              {isLoading ? <ButtonSpinner/> : "Update Branch"}
             </Button>
           </form>
         </Form>

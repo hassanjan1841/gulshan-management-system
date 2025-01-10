@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import { createBranch } from "../../../services/api/branches";
 import Cookies from 'js-cookie'
+import { useBranchContext } from "../../../context/branchContext";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -36,8 +37,9 @@ const formSchema = z.object({
   
 });
 
-export function AddBranchForm({ onBranchAdd }) {
+export function AddBranchForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const {changingInBranch, setChangingInBranch} = useBranchContext()
   
 
   const form = useForm({
@@ -55,13 +57,8 @@ export function AddBranchForm({ onBranchAdd }) {
   async function onSubmit(values) {
     setIsLoading(true);
     try {
-      // Here you would typically make an API call to add the branch
-      // For now, we'll just simulate it with a timeout
-      console.log('values in branchform', values)
-     
       const data = await createBranch(values, Cookies.get('token'))
-      console.log('data in branch form',data)
-      onBranchAdd(data.branch)
+      setChangingInBranch(() => changingInBranch + 1)
       toast.success(
         "Branch Added Successfully.",
         {

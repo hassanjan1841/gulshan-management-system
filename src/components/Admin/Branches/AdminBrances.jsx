@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { AddBranchSheet } from "./AddBranchSheet";
 import { UpdateBranchSheet } from "./UpdateBranchSheet";
-import { getBranches, deleteBranch } from "@/services/api/branches";
+
 import { Button } from "@/components/ui/button";
 
 import { toast } from "react-toastify";
@@ -18,6 +18,8 @@ import Pagination from "@/components/Pagination";
 import Loader from "../../Loader";
 import BranchDetailsSheet from "./BranchDetailSheet";
 import ConfirmDialog from "../../ConfirmDialog";
+import { deleteBranch, getBranches } from "../../../services/api/branches";
+import { useBranchContext } from "../../../context/branchContext";
 
 // Mock function to fetch branches
 const fetchBranches = async (page, limit) => {
@@ -28,6 +30,7 @@ const fetchBranches = async (page, limit) => {
 const AdminBranches = () => {
   const [branches, setBranches] = useState([]);
   const [loading, setLoading] = useState(false);
+  const {changingInBranch, setChangingInBranch} = useBranchContext()
 
   const { page, limit, setTotalPages } = usePaginate();
 
@@ -51,17 +54,13 @@ const AdminBranches = () => {
       }
     };
     loadBranches();
-  }, [page, limit]);
+  }, [page, limit, changingInBranch]);
 
   const handleDeleteBranch = async (branchId) => {
+    console.log("branchId for delete>", branchId);
     try {
-      await deleteBranch(branchId);
-      setTimeout(() => {
-        // Perform the state update after the delay
-        setBranches((prevBranches) =>
-          prevBranches.filter((branch) => branch._id !== branchId)
-        );
-      }, 2000);
+     const branchDelete =  await deleteBranch(branchId);
+     setChangingInBranch(() => changingInBranch + 1)
       toast.success("Branch Deleted Successfully.", {
         position: "bottom-right",
         hideProgressBar: false,
@@ -71,7 +70,7 @@ const AdminBranches = () => {
         theme: "dark", // Change the theme if needed
       });
     } catch (error) {
-      toast.error("Somethin went wrong.", {
+      toast.error("Something went wrong.", {
         position: "bottom-right",
         hideProgressBar: false,
         closeOnClick: true,
@@ -82,23 +81,11 @@ const AdminBranches = () => {
     }
   };
 
-  const handleUpdateBranch = (updatedBranch) => {
-    setBranches((prevBranches) =>
-      prevBranches.map((branch) =>
-        branch._id === updatedBranch._id ? updatedBranch : branch
-      )
-    );
-  };
-
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between mb-8">
         <h1 className="text-3xl font-bold">Branches</h1>
-        <AddBranchSheet
-          onBranchAdd={(values) =>
-            setBranches((prevBranches) => [values, ...prevBranches])
-          }
-        />
+        <AddBranchSheet/>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {branches?.map((branch) => (
@@ -122,7 +109,6 @@ const AdminBranches = () => {
                 <BranchDetailsSheet branch={branch} />
                 <UpdateBranchSheet
                   branch={branch}
-                  onBranchUpdate={handleUpdateBranch}
                 />
               </div>
               <ConfirmDialog

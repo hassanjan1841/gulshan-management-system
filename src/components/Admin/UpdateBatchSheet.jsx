@@ -71,17 +71,17 @@ function UpdateBatchSheet({ batch }) {
   const [selectedCourse, setSelectedCourse] = useState(
     batch?.course?._id || null
   );
-    const {changingInBatch, SetChangingInBatch} = useBatchContext()
+  const { changingInBatch, SetChangingInBatch } = useBatchContext();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: batch.title,
-      course: batch.course,
+      course: batch.course?._id,
       description: batch.description,
       country: batch?.branch?.country,
       city: batch?.branch?.city,
-      branch: batch?.branch,
+      branch: batch?.branch?._id,
       batch_limit: batch.batch_limit,
     },
   });
@@ -143,7 +143,7 @@ function UpdateBatchSheet({ batch }) {
     try {
       const newBatch = await updateBatch(batch._id, data);
       form.reset();
-      SetChangingInBatch(() => changingInBatch + 1)
+      SetChangingInBatch(() => changingInBatch + 1);
       toast.success("Batch Updated.", {
         position: "bottom-right",
         hideProgressBar: false,
@@ -388,7 +388,11 @@ function UpdateBatchSheet({ batch }) {
 
             <div className="">
               <Button type="submit" className="mt-4 w-full">
-                {form.formState.isSubmitting ? <ButtonSpinner/> : "Update Batch"}
+                {form.formState.isSubmitting ? (
+                  <ButtonSpinner />
+                ) : (
+                  "Update Batch"
+                )}
               </Button>
             </div>
           </form>

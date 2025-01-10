@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { AddBranchForm } from "./AddBranchForm";
 
-export function AddBranchSheet({ onBranchAdd }) {
+export function AddBranchSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -23,7 +23,7 @@ export function AddBranchSheet({ onBranchAdd }) {
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          <AddBranchForm onBranchAdd={onBranchAdd} />
+          <AddBranchForm />
         </div>
       </SheetContent>
     </Sheet>

@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router";
 import { ThemeProvider } from "./components/theme-provider.jsx";
 import { PaginateProvider } from "./context/PaginateContext.jsx";
 import { ChangingInBatchContextProvider } from "./context/batchContext.jsx";
+import { ChangingInBranchContextProvider } from "./context/branchContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
@@ -15,10 +16,12 @@ createRoot(document.getElementById("root")).render(
       <PaginateProvider>
         <AuthProvider>
           <ChangingInBatchContextProvider>
+            <ChangingInBranchContextProvider>
           <StrictMode>
             <App />
             <Toaster />
           </StrictMode>
+            </ChangingInBranchContextProvider>
           </ChangingInBatchContextProvider>
         </AuthProvider>
       </PaginateProvider>
