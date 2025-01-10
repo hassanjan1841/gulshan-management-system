@@ -78,63 +78,42 @@ export const getBranchesByCourseId = async (courseId) => {
   }
 };
 
-// Fetch all countries with open branches (assuming the flag is similar to batches)
-export const getAllCountriesFromBranchWithAdmissionOpen = async () => {
+export const getAllCountriesFromBranches = async () => {
   try {
     const response = await axios.get(
-      `${appRoutes.getBranches}?admissionOpen=true`
+      `${appRoutes.getBranches}?createNewBranch=true`
     );
     return response.data;
   } catch (error) {
     console.error(
-      "Error fetching countries from branches with admission open:",
+      "Error fetching countries from batches with admission open:",
       error
     );
     throw error;
   }
 };
 
-// Fetch cities by country for branches
-export const getAllCitiesByCountryForBranches = async (country) => {
+export const getAllCitiesByCountry = async (country) => {
   try {
     const response = await axios.get(
       `${appRoutes.getBranches}?country=${country}`
     );
-    return response.data; // Return unique cities for branches
+
+    return response.data; // Return unique cities
   } catch (error) {
-    console.error("Error fetching cities by country for branches:", error);
+    console.error("Error fetching cities by country:", error);
     throw error;
   }
 };
-
-// Fetch branches by city and country
-export const getBranchesByCityAndCountry = async (city, country) => {
+export const getAllBranchesByCities = async (city, country) => {
   try {
     const response = await axios.get(
       `${appRoutes.getBranches}?city=${city}&country=${country}`
     );
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
-// Fetch branches by country, city, and course (if applicable)
-export const getBranchesByCountryCityAndCourse = async (
-  country,
-  city,
-  course
-) => {
-  try {
-    const response = await axios.get(
-      `${appRoutes.getBranches}?country=${country}&city=${city}&course=${course}&admissionOpen=true`
-    );
-    return response.data;
+    return response.data; // Return unique cities
   } catch (error) {
-    console.error(
-      "Error fetching branches by country, city, and course:",
-      error
-    );
+    console.error("Error fetching cities by country:", error);
     throw error;
   }
 };

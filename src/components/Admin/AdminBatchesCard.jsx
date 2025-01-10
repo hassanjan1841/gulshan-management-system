@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getBatches } from "../../services/api/batches";
+import { deleteBatch, getBatches } from "../../services/api/batches";
 
 import {
   Card,
@@ -7,13 +7,17 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
+  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import BatchDetailSheet from "./BatchDetailSheet";
-import { usePaginate } from "../../context/PaginateContext";
 import Loader from "../Loader";
+import ConfirmDialog from "../ConfirmDialog";
+import UpdateBatchSheet from "./UpdateBatchSheet";
+import { useBatchContext } from "../../context/batchContext";
+import { toast } from "react-toastify";
 
 const fetchBatches = async (course) => {
   let courses = await getBatches(course);
@@ -27,6 +31,7 @@ const AdminBatchesCard = ({ course }) => {
   const [loading, setLoading] = useState(false);
   // const { page, limit, setTotalPages } = usePaginate();
   // const limit = 9;
+    const {changingInBatch, SetChangingInBatch} = useBatchContext()
 
   useEffect(() => {
     const loadBatches = async () => {
@@ -50,6 +55,41 @@ const AdminBatchesCard = ({ course }) => {
     };
     loadBatches();
   }, [course]);
+
+const handleDeleteBatch = async (batchId) => {
+  try {
+    const batchDelete = await deleteBatch(batchId)
+    SetChangingInBatch(() => changingInBatch + 1)
+          toast.success("Batch Deleted.", {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
+  } catch (error) {
+       if (error.response?.data?.error) {
+            toast.error(error.response.data.message, {
+              position: "bottom-right",
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "dark",
+            });
+          }
+          toast.error(error.message, {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
+  }
+}
+
   return (
     <div className="">
       {batches?.error ? (
@@ -108,11 +148,23 @@ const AdminBatchesCard = ({ course }) => {
                       })}
                     </Badge>
                   </div>
-                  <div className="flex justify-end pt-2">
-                    <BatchDetailSheet id={batch._id} />
-                  </div>
                 </div>
               </CardContent>
+              <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
+              <div className="flex space-x-2">
+                    <BatchDetailSheet batchData={batch} />
+                    <UpdateBatchSheet
+                    batch={batch}
+                  />
+                  </div>
+
+                <ConfirmDialog
+                  title="Are you sure?"
+                  description="This action cannot be undone. This will permanently delete the branch and remove the data from our servers."
+                  onConfirm={() => handleDeleteBatch(batch._id)}
+                  triggerText="Delete"
+                />
+              </CardFooter>
             </Card>
           ))}
           {loading && <Loader />}

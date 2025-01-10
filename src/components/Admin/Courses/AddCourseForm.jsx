@@ -23,7 +23,7 @@ import {
 import { createCourse } from "../../../services/api/courses";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import ButtonSpinner from "../ButtonSpinner";
+import ButtonSpinner from "../../ButtonSpinner";
 
 // Form validation schema
 const formSchema = z.object({

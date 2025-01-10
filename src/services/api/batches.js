@@ -22,11 +22,17 @@ export const getSingleBatch = async (id) => {
   }
 };
 
-export const createBatch = async (batch) => {
+export const createBatch = async (batch, token) => {
+  console.log("batch in createbatch", batch);
   try {
     const response = await axios.post(
       appRoutes.createBatch,
-      batch
+      batch,
+      token && {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -35,9 +41,9 @@ export const createBatch = async (batch) => {
   }
 };
 
-export const updateBatch = async (batch) => {
+export const updateBatch = async (id, batch) => {
   try {
-    const response = await axios.put(appRoutes.updateBatch, batch);
+    const response = await axios.put(`${appRoutes.updateBatch}/${id}`, batch);
     return response.data;
   } catch (error) {
     console.error("Error updating batch:", error);

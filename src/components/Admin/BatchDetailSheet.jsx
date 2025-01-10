@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
 import { getSections } from "../../services/api/sections";
-import { getSingleBatch } from "../../services/api/batches";
 import { useToast } from "../../hooks/use-toast";
 import { Button } from "../ui/button";
 
@@ -38,55 +37,31 @@ function SectionCard({ section }) {
   );
 }
 
-function BatchDetailSheet({ id }) {
+function BatchDetailSheet({ batchData }) {
+
   const [loading, setLoading] = useState(false);
   const [sections, setSections] = useState([]);
-  const [batch, setBatch] = useState([]);
+  const [batch, setBatch] = useState(null);
   const { toast } = useToast();
 
-  const getBatch = async (id) => {
-    try {
-      const thisBatch = await getSingleBatch(id);
-      setBatch(thisBatch.batch);
-      return thisBatch;
-    } catch (error) {
-      throw error;
-    }
-  };
-  const getSectionsOfThisBatch = async (batch) => {
-    try {
-      const sections = await getSections(batch);
-      return sections;
-    } catch (error) {
-      throw error;
-    }
-  };
+  useEffect(() => {
+    setBatch(batchData);
+  }, [batchData]);
 
   useEffect(() => {
     const loadBatch = async () => {
       try {
-        // Fetch the batch data based on the provided ID
-        const thisBatch = await getBatch(id);
+        setLoading(true);
 
-        if (thisBatch) {
-          setLoading(true);
-
-          try {
-            // Fetch the sections for the given batch
-            const sectionsResponse = await getSectionsOfThisBatch(
-              thisBatch.batch._id
-            );
-            setSections(sectionsResponse.sections);
-          } catch (error) {
-            // Handle errors while fetching sections
-            handleFetchError(error);
-          } finally {
-            setLoading(false);
-          }
+        if (batch) {
+          // Fetch the sections for the given batch
+          const sectionsResponse = await getSections(batch._id);
+          setSections(sectionsResponse.sections);
         }
       } catch (error) {
-        // Handle errors while fetching the batch
-        handleBatchError(error);
+        handleFetchError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -99,15 +74,11 @@ function BatchDetailSheet({ id }) {
       }
     };
 
-    const handleBatchError = (error) => {
-      toast({
-        title: error.response?.data?.message || "An error occurred",
-        variant: "destructive",
-      });
-    };
-
-    loadBatch();
-  }, []);
+    // Call the loader function if batch exists
+    if (batch) {
+      loadBatch();
+    }
+  }, [batch, toast]);
 
   return (
     <Sheet>
@@ -126,13 +97,17 @@ function BatchDetailSheet({ id }) {
               <span className="font-medium">Description:</span>{" "}
               {batch?.description}
             </p>
+            <p className="text-sm text-muted-foreground mb-2">
+              <span className="font-medium">Batch Limit:</span>{" "}
+              {batch?.batch_limit}
+            </p>
             <p className="text-sm">
               <span className="font-medium">Admission:</span>{" "}
               {batch?.is_admission_open ? "Open" : "Closed"}
             </p>
             <p className="text-sm">
               <span className="font-medium">Created:</span>{" "}
-              {new Date(batch.createdAt).toLocaleDateString("en-US", {
+              {new Date(batch?.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "short",
                 day: "numeric",
@@ -140,7 +115,7 @@ function BatchDetailSheet({ id }) {
             </p>
             <p className="text-sm">
               <span className="font-medium">Last Updated:</span>{" "}
-              {new Date(batch.updatedAt).toLocaleDateString("en-US", {
+              {new Date(batch?.updatedAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "short",
                 day: "numeric",

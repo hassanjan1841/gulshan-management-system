@@ -35,8 +35,9 @@ import {
   getAllCountriesFromBranches,
 } from "../../services/api/branches";
 import ButtonSpinner from "@/components/ButtonSpinner";
-import Cookies from "js-cookie";
-import { createBatch } from "../../services/api/batches";
+import { updateBatch } from "../../services/api/batches";
+import { Pencil } from "lucide-react";
+import { getCoursesWithoutLimit } from "../../services/api/courses";
 import { useBatchContext } from "../../context/batchContext";
 // Zod schema for form validation
 const formSchema = z.object({
@@ -55,26 +56,47 @@ const formSchema = z.object({
   batch_limit: z.string().nonempty({ message: "batchLimit is required." }),
 });
 
-function AddBatchSheet({ courses }) {
+function UpdateBatchSheet({ batch }) {
+  // console.log("batch get in UpdateBatchSheet", batch);
+
   const [countries, setCountries] = useState(null);
   const [cities, setCities] = useState(null);
-  const [country, setCountry] = useState(null);
-  const [city, setCity] = useState(null);
+  const [country, setCountry] = useState(batch?.branch?.country || null);
+  const [city, setCity] = useState(batch?.branch?.city || null);
   const [branch, setBranch] = useState(null);
-  const {changingInBatch, SetChangingInBatch } = useBatchContext()
+  const [courses, setCourses] = useState([]);
+  const [selectedBranch, setSelectedBranch] = useState(
+    batch?.branch?._id || null
+  );
+  const [selectedCourse, setSelectedCourse] = useState(
+    batch?.course?._id || null
+  );
+    const {changingInBatch, SetChangingInBatch} = useBatchContext()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      course: "",
-      description: "",
-      country: "",
-      city: "",
-      branch: "",
-      batch_limit: "",
+      title: batch.title,
+      course: batch.course,
+      description: batch.description,
+      country: batch?.branch?.country,
+      city: batch?.branch?.city,
+      branch: batch?.branch,
+      batch_limit: batch.batch_limit,
     },
   });
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const allCourses = await getCoursesWithoutLimit();
+        setCourses(allCourses.courses);
+      } catch (error) {
+        console.log("error in updateBatch in fetched Courses>", error);
+      }
+    };
+    fetchCourses();
+  }, []);
 
   useEffect(() => {
     const getCountry = async () => {
@@ -117,30 +139,29 @@ function AddBatchSheet({ courses }) {
     allBranches();
   }, [city]);
 
-  const handleAddBatch = async (data) => {
-    console.log("data in batchf omr", data);
+  const handleUpdateBatch = async (data) => {
     try {
-      const newBatch = await createBatch(data);
+      const newBatch = await updateBatch(batch._id, data);
       form.reset();
       SetChangingInBatch(() => changingInBatch + 1)
-      toast.success("New Batch Added.", {
+      toast.success("Batch Updated.", {
         position: "bottom-right",
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        theme: "dark", // Change the theme if needed
+        theme: "dark",
       });
     } catch (error) {
       console.log("error", error);
-      if (error.response.data.error) {
+      if (error.response?.data?.error) {
         toast.error(error.response.data.message, {
           position: "bottom-right",
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          theme: "dark", // Change the theme if needed
+          theme: "dark",
         });
       }
       toast.error(error.message, {
@@ -149,11 +170,10 @@ function AddBatchSheet({ courses }) {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        theme: "dark", // Change the theme if needed
+        theme: "dark",
       });
     }
   };
-
   const {
     control,
     handleSubmit,
@@ -163,7 +183,9 @@ function AddBatchSheet({ courses }) {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Add Batch</Button>
+        <Button variant="outline" size="icon">
+          <Pencil className="h-4 w-4" />
+        </Button>
       </SheetTrigger>
 
       <SheetContent
@@ -172,18 +194,18 @@ function AddBatchSheet({ courses }) {
       >
         <SheetHeader>
           <SheetTitle className="text-xl font-semibold mb-5">
-            Add New Batch
+            Update Batch
           </SheetTitle>
         </SheetHeader>
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleAddBatch)}
+            onSubmit={form.handleSubmit(handleUpdateBatch)}
             className="space-y-6"
           >
-            {/* country  */}
+            {/* Country */}
             <FormField
-              control={control}
+              control={form.control}
               name="country"
               render={({ field }) => (
                 <FormItem>
@@ -193,7 +215,7 @@ function AddBatchSheet({ courses }) {
                       field.onChange(value);
                       setCountry(value);
                     }}
-                    defaultValue={field.value}
+                    defaultValue={country}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -216,7 +238,7 @@ function AddBatchSheet({ courses }) {
               )}
             />
 
-            {/* city  */}
+            {/* City */}
             <FormField
               control={control}
               name="city"
@@ -228,7 +250,7 @@ function AddBatchSheet({ courses }) {
                       field.onChange(value);
                       setCity(value);
                     }}
-                    defaultValue={field.value}
+                    defaultValue={city}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -248,7 +270,8 @@ function AddBatchSheet({ courses }) {
                 </FormItem>
               )}
             />
-            {/* branch  */}
+
+            {/* Branch */}
             <FormField
               control={control}
               name="branch"
@@ -258,8 +281,9 @@ function AddBatchSheet({ courses }) {
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value);
+                      setSelectedBranch(value);
                     }}
-                    defaultValue={field.value}
+                    defaultValue={selectedBranch}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -282,16 +306,19 @@ function AddBatchSheet({ courses }) {
               )}
             />
 
-            {/* course  */}
+            {/* Course */}
             <FormField
               control={control}
               name="course"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Coure</FormLabel>
+                  <FormLabel>Course</FormLabel>
                   <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      setSelectedCourse(value);
+                    }}
+                    defaultValue={selectedCourse}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -314,7 +341,7 @@ function AddBatchSheet({ courses }) {
               )}
             />
 
-            {/* title  */}
+            {/* Title */}
             <FormField
               control={control}
               name="title"
@@ -329,7 +356,7 @@ function AddBatchSheet({ courses }) {
               )}
             />
 
-            {/* batch_limit  */}
+            {/* Batch Limit */}
             <FormField
               control={control}
               name="batch_limit"
@@ -344,7 +371,7 @@ function AddBatchSheet({ courses }) {
               )}
             />
 
-            {/* description  */}
+            {/* Description */}
             <FormField
               control={control}
               name="description"
@@ -361,11 +388,7 @@ function AddBatchSheet({ courses }) {
 
             <div className="">
               <Button type="submit" className="mt-4 w-full">
-                {form.formState.isSubmitting ? (
-                  <ButtonSpinner />
-                ) : (
-                  "Add New Batch"
-                )}
+                {form.formState.isSubmitting ? <ButtonSpinner/> : "Update Batch"}
               </Button>
             </div>
           </form>
@@ -375,4 +398,4 @@ function AddBatchSheet({ courses }) {
   );
 }
 
-export default AddBatchSheet;
+export default UpdateBatchSheet;
