@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { toast } from "react-toastify";
 import {
   Form,
   FormControl,
@@ -21,7 +22,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { Pencil } from "lucide-react";
 import {
   Select,
@@ -30,8 +30,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { updateCourse } from "@/services/api/courses";
 import Cookies from "js-cookie";
+import { updateCourse } from "../../../services/api/courses";
+import { useCourseContext } from "../../../context/courseContext ";
+import ButtonSpinner from "../../ButtonSpinner";
 
 const formSchema = z.object({
   title: z
@@ -43,13 +45,12 @@ const formSchema = z.object({
     .min(15, { message: "Description must be at least 15 characters." })
     .max(200, { message: "Description must not exceed 120 characters." }),
   duration: z.string().nonempty({ message: "Duration is required." }),
-  fee: z.string().nonempty({ message: "Fee is required." }),
   level: z.string().nonempty({ message: "Level is required." }),
 });
 
-export function UpdateCourseSheet({ course, onCourseUpdate }) {
+export function UpdateCourseSheet({ course }) {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
+  const { changingInCourse, setChangingInCourse } = useCourseContext();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -57,30 +58,32 @@ export function UpdateCourseSheet({ course, onCourseUpdate }) {
       title: course.title,
       description: course.description,
       duration: course.duration,
-      fee: course.fee.toString(),
       level: course.level,
     },
   });
 
   async function onSubmit(values) {
-    setIsLoading(true);
     try {
-      const updatedCourse = await updateCourse(
-        course._id,
-        values,
-        Cookies.get("token")
-      );
-      onCourseUpdate(updatedCourse);
-      toast({
-        title: "Course updated successfully",
-        description: "The course has been updated in the system.",
+      setIsLoading(true);
+      const updatedCourse = await updateCourse(course._id, values);
+      setChangingInCourse(() => changingInCourse + 1);
+      toast.success("Branch Added Successfully.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark", // Change the theme if needed
       });
+      form.reset();
     } catch (error) {
-      toast({
-        title: "Error",
-        description:
-          "There was an error updating the course. Please try again.",
-        variant: "destructive",
+      toast.error("Branch error", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark", // Change the theme if needed
       });
     } finally {
       setIsLoading(false);
@@ -176,21 +179,8 @@ export function UpdateCourseSheet({ course, onCourseUpdate }) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="fee"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Fee</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter course fee" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Updating..." : "Update Course"}
+            <Button className='w-full' type="submit" disabled={isLoading}>
+              {isLoading ? <ButtonSpinner/> : "Update Course"}
             </Button>
           </form>
         </Form>
