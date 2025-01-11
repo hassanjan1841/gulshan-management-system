@@ -28,7 +28,7 @@ import { useBatchContext } from "../../context/batchContext";
 export function ComboboxList({ allCourses, setSelectedCourse }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  // console.log("allCourses", allCourses);
+  console.log("allCourses", allCourses);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -126,7 +126,7 @@ const AdminBatches = () => {
   useEffect(() => {
     allCourses();
   }, []);
-  allCourses();
+
   useEffect(() => {
     loadCourses();
   }, [page, limit, selectedCourse, changingInBatch]);
