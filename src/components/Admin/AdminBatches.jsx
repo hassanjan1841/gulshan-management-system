@@ -28,6 +28,7 @@ import { useBatchContext } from "../../context/batchContext";
 export function ComboboxList({ allCourses, setSelectedCourse }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  console.log("allCourses", allCourses);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -84,10 +85,6 @@ const fetchCourses = async (page, limit, course) => {
   let courses = await getCourses(page, limit, course);
   return courses;
 };
-const allCourses = async () => {
-  let courses = await getCoursesWithoutLimit();
-  return courses;
-};
 
 const AdminBatches = () => {
   const [courses, setCourses] = useState([]);
@@ -100,11 +97,18 @@ const AdminBatches = () => {
 
   console.log("changingInBatch in admin", changingInBatch);
 
+  const allCourses = async () => {
+    let courses = await getCoursesWithoutLimit();
+    console.log("courses in all courses", courses);
+    setAllCourses(courses.courses);
+    // return courses;
+  };
+
   const loadCourses = async () => {
     try {
       setLoading(true);
       const newCourses = await fetchCourses(page, limit, selectedCourse);
-      console.log(newCourses);
+      // console.log(newCourses);
       setCourses(newCourses.courses);
       setTotalPages(newCourses.totalPages);
       setLoading(false);
@@ -120,9 +124,9 @@ const AdminBatches = () => {
     }
   };
   useEffect(() => {
+    allCourses();
     loadCourses();
   }, [page, limit, selectedCourse, changingInBatch]);
-  
 
   if (loading) return <Loader />;
   return (
