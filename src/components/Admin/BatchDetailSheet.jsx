@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import { Link } from "react-router";
 
 function SectionCard({ section }) {
-  console.log("section selected>", section);
+  // console.log("section selected>", section);
 
   return (
     <div className="bg-foreground/10 shadow-md rounded-lg p-4 mb-4">
@@ -45,19 +45,21 @@ function BatchDetailSheet({ batchData }) {
   const [batch, setBatch] = useState(null);
   const { toast } = useToast();
 
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     setBatch(batchData);
   }, [batchData]);
 
   useEffect(() => {
-    const loadBatch = async () => {
+    const loadSections = async () => {
       try {
         setLoading(true);
-
         if (batch) {
           // Fetch the sections for the given batch
           const sectionsResponse = await getSections(1, 100, batch._id);
           setSections(sectionsResponse.sections);
+          console.log("section response", sectionsResponse);
         }
       } catch (error) {
         handleFetchError(error);
@@ -77,12 +79,17 @@ function BatchDetailSheet({ batchData }) {
 
     // Call the loader function if batch exists
     if (batch) {
-      loadBatch();
+      if (isOpen) loadSections();
     }
-  }, [batch, toast]);
+  }, [batch, toast, isOpen]);
 
   return (
-    <Sheet>
+    <Sheet
+      open={isOpen}
+      onOpenChange={() => {
+        setIsOpen(!isOpen);
+      }}
+    >
       <SheetTrigger>
         <Button variant="outline">Show Detail</Button>
       </SheetTrigger>
@@ -129,7 +136,7 @@ function BatchDetailSheet({ batchData }) {
           {loading ? (
             <p>Loading sections...</p>
           ) : sections.length > 0 ? (
-            sections.map((section) => (
+            sections?.map((section) => (
               <Link
                 to={`/admin/dashboard/sections/${section._id}`}
                 key={section._id}

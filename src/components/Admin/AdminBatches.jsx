@@ -28,7 +28,7 @@ import { useBatchContext } from "../../context/batchContext";
 export function ComboboxList({ allCourses, setSelectedCourse }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  console.log("allCourses", allCourses);
+  // console.log("allCourses", allCourses);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -53,24 +53,22 @@ export function ComboboxList({ allCourses, setSelectedCourse }) {
               {allCourses?.map((course) => {
                 course.value = course.title.toLowerCase();
                 return (
-                  <>
-                    <CommandItem
-                      key={course._id}
-                      value={course.value}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue);
-                        setSelectedCourse(course._id);
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={`mr-2 h-4 w-4 ${
-                          value === course.title ? "opacity-100" : "opacity-0"
-                        }`}
-                      />
-                      {course.title}
-                    </CommandItem>
-                  </>
+                  <CommandItem
+                    key={course._id}
+                    value={course.value}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue);
+                      setSelectedCourse(course._id);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={`mr-2 h-4 w-4 ${
+                        value === course.title ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    {course.title}
+                  </CommandItem>
                 );
               })}
             </CommandGroup>
@@ -82,11 +80,17 @@ export function ComboboxList({ allCourses, setSelectedCourse }) {
 }
 
 const fetchCourses = async (page, limit, course) => {
-  let courses = await getCourses(page, limit, course);
-  return courses;
+  try {
+    let courses = await getCourses(page, limit, course);
+    return courses;
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    throw error;
+  }
 };
 
 const AdminBatches = () => {
+  // console.log("adminbatches");
   const [courses, setCourses] = useState([]);
   const [allcourses, setAllCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -98,10 +102,18 @@ const AdminBatches = () => {
   // console.log("changingInBatch in admin", changingInBatch);
 
   const allCourses = async () => {
-    let courses = await getCoursesWithoutLimit();
-    // console.log("courses in all courses", courses);
-    setAllCourses(courses.courses);
-    // return courses;
+    try {
+      let courses = await getCoursesWithoutLimit();
+      // console.log("courses in all courses", courses);
+      setAllCourses(courses.courses);
+      // return courses;
+    } catch (error) {
+      console.error("Error fetching all courses:", error);
+      toast({
+        title: "Error fetching all courses",
+        variant: "destructive",
+      });
+    }
   };
 
   const loadCourses = async () => {
@@ -146,13 +158,13 @@ const AdminBatches = () => {
       {loading && <Loader />}
       <div className="flex flex-col space-y-8">
         {courses?.map((course, index) => (
-          <>
+          <div key={index}>
             <h1 className="text-2xl">
               <span className="font-medium">Course Name: </span>
               {course.title}
             </h1>
-            <AdminBatchesCard course={course} key={index} />
-          </>
+            <AdminBatchesCard course={course} />
+          </div>
         ))}
       </div>
       <Pagination />

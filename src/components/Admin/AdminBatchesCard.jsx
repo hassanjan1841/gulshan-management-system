@@ -26,6 +26,7 @@ const fetchBatches = async (course) => {
 };
 
 const AdminBatchesCard = ({ course }) => {
+  // console.log("course in adminbatchcard", course);
   const [batches, setBatches] = useState([]);
   // const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ const AdminBatchesCard = ({ course }) => {
         setLoading(true);
         const newBatches = await fetchBatches(course._id);
         setBatches(newBatches.batches);
-        // console.log("batches in adminbatches card", batches);
+        // console.log("batches in adminbatches card", newBatches);
         // setTotalPages(newBatches.totalPages);
         setLoading(false);
       } catch (error) {

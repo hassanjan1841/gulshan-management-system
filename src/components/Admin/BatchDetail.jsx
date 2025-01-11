@@ -3,12 +3,7 @@ import { useParams } from "react-router";
 import { getSingleBatch } from "../../services/api/batches";
 import { getSections } from "../../services/api/sections";
 import { useToast } from "../../hooks/use-toast";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "../ui/button";
 
 const BatchDetail = () => {
@@ -19,21 +14,13 @@ const BatchDetail = () => {
   const { toast } = useToast();
 
   const getBatch = async (id) => {
-    try {
-      const batch = await getSingleBatch(id);
-      return batch;
-    } catch (error) {
-      throw error;
-    }
+    const batch = await getSingleBatch(id);
+    return batch;
   };
 
   const getSectionsOfThisBatch = async (batch) => {
-    try {
-      const sections = await getSections(batch);
-      return sections;
-    } catch (error) {
-      throw error;
-    }
+    const sections = await getSections(batch);
+    return sections;
   };
 
   useEffect(() => {
@@ -79,24 +66,23 @@ const BatchDetail = () => {
       <h3 className="text-xl ml-2">Sections</h3>
       <div className="grid grid-cols-3 gap-4 mb-8">
         {sections?.map((section) => {
-          console.log("section in div", section);
+          // console.log("section in div", section);
           return (
-            <Card>
+            <Card key={section._id}>
               <CardHeader>
                 <CardTitle>{section?.title}</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col gap-2">
-                <p className="text-md font-bold">{section?.description}</p>
-                <div className="flex justify-end">
-                <Button variant="outline">View Details</Button>
-                </div>
+                  <p className="text-md font-bold">{section?.description}</p>
+                  <div className="flex justify-end">
+                    <Button variant="outline">View Details</Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           );
         })}
-        <p>{}</p>
       </div>
     </>
   );

@@ -57,8 +57,6 @@ const formSchema = z.object({
 });
 
 function UpdateBatchSheet({ batch }) {
-  console.log("batch get in UpdateBatchSheet", batch);
-
   const [countries, setCountries] = useState(null);
   const [cities, setCities] = useState(null);
   const [country, setCountry] = useState(batch?.branch?.country || null);
@@ -72,7 +70,7 @@ function UpdateBatchSheet({ batch }) {
     batch?.course?._id || null
   );
   const { changingInBatch, SetChangingInBatch } = useBatchContext();
-  console.log("batch", batch);
+  // console.log("batch", batch);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -130,7 +128,7 @@ function UpdateBatchSheet({ batch }) {
         try {
           const branches = await getAllBranchesByCities(city, country);
           setBranch(branches.branches);
-          console.log("branches>>", branches);
+          // console.log("branches>>", branches);
         } catch (error) {
           console.error("Error fetching cities:", error);
         }
@@ -180,8 +178,11 @@ function UpdateBatchSheet({ batch }) {
     formState: { errors },
   } = form;
 
+  const [isOpen, setIsOpen] = useState(false);
+  // console.log(isOpen && "open hogya");
+
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="outline" size="icon">
           <Pencil className="h-4 w-4" />
