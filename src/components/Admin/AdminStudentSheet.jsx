@@ -15,7 +15,7 @@ const AdminStudentSheet = ({ student }) => {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline">
-          <Eye className="h-4 w-4 mr-2" /> View Details
+         View Details
         </Button>
       </SheetTrigger>
       <SheetContent

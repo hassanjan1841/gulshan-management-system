@@ -1,4 +1,4 @@
-import { Edit } from "lucide-react";
+import { Edit, Pencil } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -12,12 +12,18 @@ import { Badge } from "@/components/ui/badge";
 
 import AdminStudentSheet from "./AdminStudentSheet";
 import { capitalizeName } from "@/lib/helper";
+import ConfirmDialog from "../ConfirmDialog";
 
 const AdminStudentCard = ({ student }) => {
   // console.log("students in adminstudencard", student);
 
+const handleDeleteStudent = (studentId) => {
+console.log("hi", studentId);
+
+}
+
   return (
-    <Card className="shadow-lg border border-border hover:shadow-2xl hover:scale-105 transition-transform">
+    <Card className="shadow-sm hover:scale-105 transition-transform">
       <CardHeader>
         <div className="flex items-center space-x-4">
           <img
@@ -48,11 +54,32 @@ const AdminStudentCard = ({ student }) => {
           <strong>Teacher:</strong> {student?.section?.teacher?.full_name}
         </p>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <AdminStudentSheet student={student} />
-        <Button variant="ghost">
-          <Edit className="h-4 w-4 mr-2" /> Edit
-        </Button>
+      {/* <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
+        <div className="flex space-x-2">
+          <BatchDetailSheet batchData={batch} />
+          <UpdateBatchSheet batch={batch} />
+        </div>
+
+        <ConfirmDialog
+          title="Are you sure?"
+          description="This action cannot be undone. This will permanently delete the branch and remove the data from our servers."
+          onConfirm={() => handleDeleteBatch(batch._id)}
+          triggerText="Delete"
+        />
+      </CardFooter> */}
+      <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
+        <div className="flex space-x-2">
+          <AdminStudentSheet student={student} />
+          <Button variant="outline" size="icon">
+            <Pencil className="h-4 w-4" />
+          </Button>
+        </div>
+        <ConfirmDialog
+          title="Are you sure?"
+          description="This action cannot be undone. This will permanently delete the branch and remove the data from our servers."
+          onConfirm={() => handleDeleteStudent(student._id)}
+          triggerText="Delete"
+        />
       </CardFooter>
     </Card>
   );

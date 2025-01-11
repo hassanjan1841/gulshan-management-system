@@ -4,7 +4,6 @@ const prodUrl = import.meta.env.VITE_PROD_URL;
 const devUrl = import.meta.env.VITE_DEV_URL;
 const apiUrl = import.meta.env.VITE_API_URL;
 const BASE_URL = apiUrl;
-// console.log(BASE_URL)
 
 export const appRoutes = {
   login: BASE_URL + "auth/login",

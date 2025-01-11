@@ -32,8 +32,8 @@ import { ToastContainer } from "react-toastify";
 import AdminBranches from "./components/Admin/Branches/AdminBrances";
 
 function App() {
-  const { currentUser } = useAuth();
-  console.log("currentUser", currentUser);
+  // const { currentUser } = useAuth();
+  // console.log("currentUser", currentUser);
   const navigate = useNavigate();
   const params = useParams();
   console.log("params", params);
