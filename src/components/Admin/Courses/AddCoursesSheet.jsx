@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { AddCourseForm } from "./AddCourseForm";
 
-export function AddCourseSheet({ onCourseAdd }) {
+export function AddCourseSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -27,7 +27,7 @@ export function AddCourseSheet({ onCourseAdd }) {
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          <AddCourseForm onCourseAdd={onCourseAdd} />
+          <AddCourseForm />
         </div>
       </SheetContent>
     </Sheet>

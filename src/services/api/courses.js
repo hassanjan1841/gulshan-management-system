@@ -32,6 +32,9 @@ export const getSingleCourse = async (id) => {
 };
 
 export const createCourse = async (course, token) => {
+  console.log("course data in createCourse>", course );
+  console.log("course token in createCourse>", token );
+  
   try {
     const response = await axios.post(
       appRoutes.createCourse,
@@ -49,9 +52,9 @@ export const createCourse = async (course, token) => {
   }
 };
 
-export const updateCourse = async (course) => {
+export const updateCourse = async (id,course) => {
   try {
-    const response = await axios.put(appRoutes.updateCourse, course);
+    const response = await axios.put(`${appRoutes.updateCourse}/${id}`, course);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
