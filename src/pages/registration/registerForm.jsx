@@ -112,10 +112,9 @@ export default function RegisterForm({ session }) {
     const allCountries = async () => {
       try {
         const response = await getAllCountriesFromBatchWithAdmissionOpen();
-        console.log(response)
+        console.log(response);
         setCountries(response);
       } catch (error) {
-
         toast.error(
           error.response.data.message
             ? error.response.data.message
@@ -313,16 +312,32 @@ export default function RegisterForm({ session }) {
       console.log("newUser>", newUser);
     } catch (error) {
       console.log("error in new uSer>", error);
-      error?.response?.data?.errors?.forEach((data) => {
-        toast.error(data.msg, {
-          position: "bottom-right",
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "dark", // Change the theme if needed
+      if (Array.isArray(error?.response?.data?.errors)) {
+        error.response.data.errors.forEach((data) => {
+          toast.error(data.msg, {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark", // Change the theme if needed
+          });
         });
-      });
+      } else {
+        toast.error(
+          error.response.data.message
+            ? error.response.data.message
+            : error.message,
+          {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark", // Change the theme if needed
+          }
+        );
+      }
     }
   }
 
