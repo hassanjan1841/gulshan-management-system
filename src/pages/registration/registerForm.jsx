@@ -275,7 +275,7 @@ export default function RegisterForm({ session }) {
       
                 <p>If you have any concerns or need assistance, don't hesitate to reach out to us at any time. We are here to help you!</p>
       
-                <a href="https://www.example.com" class="cta-button">Visit Our Website</a>
+                <a href="http://localhost:5173/" class="cta-button">Visit Our Website</a>
       
                 <div class="footer">
                   <p>Best regards,</p>
