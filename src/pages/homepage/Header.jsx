@@ -39,7 +39,7 @@ const Header = () => {
               whileTap={{ scale: 0.95 }}
               className="bg-landing-other-button-dark text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button transition duration-300"
             >
-              Student Portal
+              Student / Teacher
             </motion.button>
           </Link>
           <motion.button
