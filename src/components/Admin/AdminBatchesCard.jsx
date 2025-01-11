@@ -31,7 +31,7 @@ const AdminBatchesCard = ({ course }) => {
   const [loading, setLoading] = useState(false);
   // const { page, limit, setTotalPages } = usePaginate();
   // const limit = 9;
-    const {changingInBatch, SetChangingInBatch} = useBatchContext()
+  const { changingInBatch, SetChangingInBatch } = useBatchContext();
 
   useEffect(() => {
     const loadBatches = async () => {
@@ -56,39 +56,39 @@ const AdminBatchesCard = ({ course }) => {
     loadBatches();
   }, [course]);
 
-const handleDeleteBatch = async (batchId) => {
-  try {
-    const batchDelete = await deleteBatch(batchId)
-    SetChangingInBatch(() => changingInBatch + 1)
-          toast.success("Batch Deleted.", {
-            position: "bottom-right",
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "dark",
-          });
-  } catch (error) {
-       if (error.response?.data?.error) {
-            toast.error(error.response.data.message, {
-              position: "bottom-right",
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              theme: "dark",
-            });
-          }
-          toast.error(error.message, {
-            position: "bottom-right",
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "dark",
-          });
-  }
-}
+  const handleDeleteBatch = async (batchId) => {
+    try {
+      const batchDelete = await deleteBatch(batchId);
+      SetChangingInBatch(() => changingInBatch + 1);
+      toast.success("Batch Deleted.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    } catch (error) {
+      if (error.response?.data?.error) {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
+      }
+      toast.error(error.message, {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    }
+  };
 
   return (
     <div className="">
@@ -151,12 +151,10 @@ const handleDeleteBatch = async (batchId) => {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
-              <div className="flex space-x-2">
-                    <BatchDetailSheet batchData={batch} />
-                    <UpdateBatchSheet
-                    batch={batch}
-                  />
-                  </div>
+                <div className="flex space-x-2">
+                  <BatchDetailSheet batchData={batch} />
+                  <UpdateBatchSheet batch={batch} />
+                </div>
 
                 <ConfirmDialog
                   title="Are you sure?"

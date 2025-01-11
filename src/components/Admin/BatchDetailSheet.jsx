@@ -10,17 +10,19 @@ import { useEffect, useState } from "react";
 import { getSections } from "../../services/api/sections";
 import { useToast } from "../../hooks/use-toast";
 import { Button } from "../ui/button";
+import { Link } from "react-router";
 
 function SectionCard({ section }) {
   console.log("section selected>", section);
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+    <div className="bg-foreground/10 shadow-md rounded-lg p-4 mb-4">
       <h3 className="font-semibold text-lg mb-2">{section.title}</h3>
-      <p className="text-sm text-gray-600 mb-2">{section.description}</p>
+      <p className="text-sm text-foreground mb-2">{section.description}</p>
       <div className="grid grid-cols-2 gap-2 text-sm">
         <p>
-          <span className="font-medium">Days:</span> {section.days}
+          <span className="font-medium">Days:</span>{" "}
+          {section.days.map((day) => day.charAt(0).toUpperCase()).join(" ")}
         </p>
         <p>
           <span className="font-medium">Time:</span> {section.startTime} -{" "}
@@ -38,7 +40,6 @@ function SectionCard({ section }) {
 }
 
 function BatchDetailSheet({ batchData }) {
-
   const [loading, setLoading] = useState(false);
   const [sections, setSections] = useState([]);
   const [batch, setBatch] = useState(null);
@@ -55,7 +56,7 @@ function BatchDetailSheet({ batchData }) {
 
         if (batch) {
           // Fetch the sections for the given batch
-          const sectionsResponse = await getSections(batch._id);
+          const sectionsResponse = await getSections(1, 100, batch._id);
           setSections(sectionsResponse.sections);
         }
       } catch (error) {
@@ -129,7 +130,12 @@ function BatchDetailSheet({ batchData }) {
             <p>Loading sections...</p>
           ) : sections.length > 0 ? (
             sections.map((section) => (
-              <SectionCard key={section._id} section={section} />
+              <Link
+                to={`/admin/dashboard/sections/${section._id}`}
+                key={section._id}
+              >
+                <SectionCard key={section._id} section={section} />
+              </Link>
             ))
           ) : (
             <p>No sections available for this batch.</p>

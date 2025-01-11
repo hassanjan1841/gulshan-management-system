@@ -9,6 +9,7 @@ import { ThemeProvider } from "./components/theme-provider.jsx";
 import { PaginateProvider } from "./context/PaginateContext.jsx";
 import { ChangingInBatchContextProvider } from "./context/batchContext.jsx";
 import { ChangingInBranchContextProvider } from "./context/branchContext.jsx";
+import { ChangingInSectionContextProvider } from "./context/sectionContext.jsx";
 import { ChangingInCourseContextProvider } from "./context/courseContext .jsx";
 import { ChangingInStudentContextProvider } from "./context/studentContext.jsx";
 
@@ -19,14 +20,16 @@ createRoot(document.getElementById("root")).render(
         <AuthProvider>
           <ChangingInBatchContextProvider>
             <ChangingInBranchContextProvider>
-              <ChangingInCourseContextProvider>
-                <ChangingInStudentContextProvider>
-                  <StrictMode>
-                    <App />
-                    <Toaster />
-                  </StrictMode>
-                </ChangingInStudentContextProvider>
-              </ChangingInCourseContextProvider>
+              <ChangingInStudentContextProvider>
+                <ChangingInSectionContextProvider>
+                  <ChangingInCourseContextProvider>
+                    <StrictMode>
+                      <App />
+                      <Toaster />
+                    </StrictMode>
+                  </ChangingInCourseContextProvider>
+                </ChangingInSectionContextProvider>
+              </ChangingInStudentContextProvider>
             </ChangingInBranchContextProvider>
           </ChangingInBatchContextProvider>
         </AuthProvider>

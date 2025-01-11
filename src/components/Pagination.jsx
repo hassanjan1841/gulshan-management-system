@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Select,
   SelectTrigger,
@@ -21,8 +21,16 @@ const Pagination = () => {
     handlePageInputChange,
     handlePageInputSubmit,
     handleLimitChange,
+    setPage,
+    setCurrentPageInput,
   } = usePaginate();
-
+  console.log("totalpages=>", totalPages);
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+      setCurrentPageInput(totalPages.toString());
+    }
+  }, [totalPages, page, limit]);
   return (
     <div className="grid grid-cols-3 items-center mt-6">
       <div>

@@ -38,6 +38,7 @@ import ButtonSpinner from "@/components/ButtonSpinner";
 import Cookies from "js-cookie";
 import { createBatch } from "../../services/api/batches";
 import { useBatchContext } from "../../context/batchContext";
+import TimePicker from "../TimePicker";
 // Zod schema for form validation
 const formSchema = z.object({
   title: z
@@ -61,7 +62,7 @@ function AddBatchSheet({ courses }) {
   const [country, setCountry] = useState(null);
   const [city, setCity] = useState(null);
   const [branch, setBranch] = useState(null);
-  const {changingInBatch, SetChangingInBatch } = useBatchContext()
+  const { changingInBatch, SetChangingInBatch } = useBatchContext();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -122,7 +123,7 @@ function AddBatchSheet({ courses }) {
     try {
       const newBatch = await createBatch(data);
       form.reset();
-      SetChangingInBatch(() => changingInBatch + 1)
+      SetChangingInBatch(() => changingInBatch + 1);
       toast.success("New Batch Added.", {
         position: "bottom-right",
         hideProgressBar: false,
@@ -168,7 +169,7 @@ function AddBatchSheet({ courses }) {
 
       <SheetContent
         side="right"
-        className="w-[400px] overflow-y-scroll rounded-lg shadow-xl"
+        className="w-[400px] overflow-y-scroll overflow-x-hidden rounded-lg shadow-xl"
       >
         <SheetHeader>
           <SheetTitle className="text-xl font-semibold mb-5">

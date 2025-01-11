@@ -101,7 +101,6 @@ let uploadPic = (image) => {
   });
 };
 
-
 export default function RegisterForm({ session }) {
   const [countries, setCountries] = useState(null);
   const [cities, setCities] = useState(null);
@@ -113,8 +112,23 @@ export default function RegisterForm({ session }) {
     const allCountries = async () => {
       try {
         const response = await getAllCountriesFromBatchWithAdmissionOpen();
+        console.log(response)
         setCountries(response);
       } catch (error) {
+
+        toast.error(
+          error.response.data.message
+            ? error.response.data.message
+            : error.message,
+          {
+            position: "bottom-right",
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          }
+        );
         console.error("Error fetching countries:", error);
       }
     };
@@ -176,7 +190,7 @@ export default function RegisterForm({ session }) {
   async function onSubmit(values) {
     // values.age = 27;
     try {
-      values.role = 'student'
+      values.role = "student";
       let formattedValues;
       const formattedDate = values.date_of_birth
         ? new Date(values.date_of_birth).toISOString().split("T")[0]
@@ -197,37 +211,104 @@ export default function RegisterForm({ session }) {
       };
       const newUser = await createUser(formattedValues);
       const response = await sendEmail({
-        senderName: "Asad Raza",
-        sender: 'ar535363@gmail.com',
+        senderName: formattedValues.full_name,
+        sender: "ar535363@gmail.com",
         receiver: formattedValues.email,
-        subject: 'hello',
-        message: 'your quiz shedule will be soon sheduled kindly connect with or social media pages'
-      })
-      if(!response.error) return (
-        toast.success(
-          "Your Application is submitted.",
-          {
+        subject: "Registration Confirmation & Quiz Schedule",
+        message: `
+          <html>
+            <head>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f4f4f9;
+                  margin: 0;
+                  padding: 0;
+                }
+                .container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  background-color: #ffffff;
+                  border-radius: 10px;
+                  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                }
+                h1 {
+                  color: #333;
+                  text-align: center;
+                }
+                p {
+                  color: #555;
+                  line-height: 1.6;
+                  font-size: 16px;
+                }
+                .highlight {
+                  color: #0066cc;
+                  font-weight: bold;
+                }
+                .cta-button {
+                  display: inline-block;
+                  padding: 10px 20px;
+                  margin: 20px 0;
+                  background-color: #0066cc;
+                  color: #fff;
+                  text-decoration: none;
+                  font-size: 16px;
+                  border-radius: 5px;
+                  text-align: center;
+                }
+                .footer {
+                  text-align: center;
+                  font-size: 14px;
+                  color: #888;
+                  margin-top: 30px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <h1>Registration Confirmation</h1>
+                <p>Hello <strong class="highlight">${formattedValues.full_name}</strong>,</p>
+                <p>Thank you for registering with us! We are excited to have you onboard. Your registration has been successfully completed, and we are looking forward to your participation in the upcoming quiz.</p>
+                
+                <p><strong>Important Information:</strong></p>
+                <p>Your quiz schedule will be sent to you in the coming week. Please expect the quiz email within 7 days from now. In the meantime, feel free to connect with us on our <a href="https://www.facebook.com" target="_blank" class="highlight">social media pages</a> for updates and any questions you may have.</p>
+      
+                <p>If you have any concerns or need assistance, don't hesitate to reach out to us at any time. We are here to help you!</p>
+      
+                <a href="https://www.example.com" class="cta-button">Visit Our Website</a>
+      
+                <div class="footer">
+                  <p>Best regards,</p>
+                  <p><strong>Your Quiz Team</strong></p>
+                  <p><em>We are here to help you succeed!</em></p>
+                </div>
+              </div>
+            </body>
+          </html>
+        `,
+      });
+
+      if (!response.error)
+        return (
+          toast.success("Your Application is submitted.", {
             position: "bottom-right",
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             theme: "dark", // Change the theme if needed
-          }
-        ),
-        toast.success(
-          "Your email is sent, check your email.",
-          {
+          }),
+          toast.success("Your email is sent, check your email.", {
             position: "bottom-right",
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             theme: "dark", // Change the theme if needed
-          }
-        ),
-        form.reset()
-      )
+          }),
+          form.reset()
+        );
       console.log("email>", email);
       console.log("newUser>", newUser);
     } catch (error) {

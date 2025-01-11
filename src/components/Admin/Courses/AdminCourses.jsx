@@ -224,7 +224,6 @@ const AdminCourses = () => {
         ))}
       </div>
       <Pagination />
-      {loading && <Loader />}
     </div>
   );
 };
