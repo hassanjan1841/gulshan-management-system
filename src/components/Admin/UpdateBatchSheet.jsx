@@ -57,7 +57,7 @@ const formSchema = z.object({
 });
 
 function UpdateBatchSheet({ batch }) {
-  // console.log("batch get in UpdateBatchSheet", batch);
+  console.log("batch get in UpdateBatchSheet", batch);
 
   const [countries, setCountries] = useState(null);
   const [cities, setCities] = useState(null);
@@ -72,13 +72,13 @@ function UpdateBatchSheet({ batch }) {
     batch?.course?._id || null
   );
   const { changingInBatch, SetChangingInBatch } = useBatchContext();
-
+  console.log("batch", batch);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: batch.title,
-      course: batch.course?._id,
-      description: batch.description,
+      title: batch?.title,
+      course: batch?.course?._id,
+      description: batch?.description,
       country: batch?.branch?.country,
       city: batch?.branch?.city,
       branch: batch?.branch?._id,

@@ -28,7 +28,7 @@ import { useBatchContext } from "../../context/batchContext";
 export function ComboboxList({ allCourses, setSelectedCourse }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  console.log("allCourses", allCourses);
+  // console.log("allCourses", allCourses);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -95,11 +95,11 @@ const AdminBatches = () => {
   const { toast } = useToast();
   const { changingInBatch } = useBatchContext();
 
-  console.log("changingInBatch in admin", changingInBatch);
+  // console.log("changingInBatch in admin", changingInBatch);
 
   const allCourses = async () => {
     let courses = await getCoursesWithoutLimit();
-    console.log("courses in all courses", courses);
+    // console.log("courses in all courses", courses);
     setAllCourses(courses.courses);
     // return courses;
   };
@@ -123,8 +123,11 @@ const AdminBatches = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
+  useEffect(()=>{
     allCourses();
+  },[])
+  allCourses();
+  useEffect(() => {
     loadCourses();
   }, [page, limit, selectedCourse, changingInBatch]);
 
