@@ -9,6 +9,7 @@ import { ThemeProvider } from "./components/theme-provider.jsx";
 import { PaginateProvider } from "./context/PaginateContext.jsx";
 import { ChangingInBatchContextProvider } from "./context/batchContext.jsx";
 import { ChangingInBranchContextProvider } from "./context/branchContext.jsx";
+import { ChangingInSectionContextProvider } from "./context/sectionContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
@@ -17,10 +18,12 @@ createRoot(document.getElementById("root")).render(
         <AuthProvider>
           <ChangingInBatchContextProvider>
             <ChangingInBranchContextProvider>
-          <StrictMode>
-            <App />
-            <Toaster />
-          </StrictMode>
+              <ChangingInSectionContextProvider>
+                <StrictMode>
+                  <App />
+                  <Toaster />
+                </StrictMode>
+              </ChangingInSectionContextProvider>
             </ChangingInBranchContextProvider>
           </ChangingInBatchContextProvider>
         </AuthProvider>

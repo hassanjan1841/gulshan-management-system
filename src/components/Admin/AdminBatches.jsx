@@ -96,10 +96,9 @@ const AdminBatches = () => {
   const { page, limit, setTotalPages } = usePaginate();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const {changingInBatch} = useBatchContext()
+  const { changingInBatch } = useBatchContext();
 
   console.log("changingInBatch in admin", changingInBatch);
-  
 
   const loadCourses = async () => {
     try {
@@ -124,18 +123,8 @@ const AdminBatches = () => {
     loadCourses();
   }, [page, limit, selectedCourse, changingInBatch]);
   
-  useEffect(() => {
-    const loadCourses = async () => {
-      try {
-        const courses = await allCourses();
-        setAllCourses(courses.courses);
-      } catch (error) {
-        console.log("error>>", error);
-      }
-    };
-    loadCourses();
-  }, []);
 
+  if (loading) return <Loader />;
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-10">
@@ -146,7 +135,7 @@ const AdminBatches = () => {
             allCourses={allcourses}
           />
         </div>
-        <AddBatchSheet courses={courses}/>
+        <AddBatchSheet courses={courses} />
       </div>
       <div className="flex flex-col space-y-8">
         {courses?.map((course, index) => (
@@ -160,7 +149,6 @@ const AdminBatches = () => {
         ))}
       </div>
       <Pagination />
-      {loading && <Loader />}
     </div>
   );
 };

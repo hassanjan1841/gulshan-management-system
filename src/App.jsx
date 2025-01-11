@@ -30,6 +30,7 @@ import StudentDashboardMain from "./components/StudentDashboard/studentDashboard
 import IdCard from "./pages/idcard/IdCard";
 import { ToastContainer } from "react-toastify";
 import AdminBranches from "./components/Admin/Branches/AdminBrances";
+import AdminSections from "./components/Admin/Sections/AdminSections";
 
 function App() {
   const { currentUser } = useAuth();
@@ -89,6 +90,7 @@ function App() {
           <Route path="batches" element={<AdminBatches />} />
           <Route path="batches/:id" element={<BatchDetail />} />
           <Route path="branches" element={<AdminBranches />} />
+          <Route path="sections" element={<AdminSections />} />
         </Route>
       </Routes>
     </>

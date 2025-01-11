@@ -30,37 +30,40 @@ const fetchBranches = async (page, limit) => {
 const AdminBranches = () => {
   const [branches, setBranches] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {changingInBranch, setChangingInBranch} = useBranchContext()
+  const { changingInBranch, setChangingInBranch } = useBranchContext();
 
   const { page, limit, setTotalPages } = usePaginate();
 
-  useEffect(() => {
-    const loadBranches = async () => {
-      try {
-        setLoading(true);
-        const newBranches = await fetchBranches(page, limit);
-        setBranches(newBranches.branches);
-        setTotalPages(newBranches.totalPages);
+  const loadBranches = async () => {
+    try {
+      setLoading(true);
+      const newBranches = await fetchBranches(page, limit);
+      setBranches(newBranches.branches);
+      console.log("newBranches=>", newBranches);
+      setTotalPages(newBranches.totalPages);
+      setLoading(false);
+    } catch (error) {
+      if (error.message === "Network Error") {
         setLoading(false);
-      } catch (error) {
-        if (error.message === "Network Error") {
-          setLoading(false);
-          toast({
-            title: "Network Error",
-            variant: "destructive",
-          });
-        }
-        setLoading(false);
+        toast({
+          title: "Network Error",
+          variant: "destructive",
+        });
       }
-    };
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     loadBranches();
   }, [page, limit, changingInBranch]);
 
   const handleDeleteBranch = async (branchId) => {
     console.log("branchId for delete>", branchId);
     try {
-     const branchDelete =  await deleteBranch(branchId);
-     setChangingInBranch(() => changingInBranch + 1)
+      const branchDelete = await deleteBranch(branchId);
+      // setChangingInBranch(() => changingInBranch + 1);
+      await loadBranches();
       toast.success("Branch Deleted Successfully.", {
         position: "bottom-right",
         hideProgressBar: false,
@@ -81,11 +84,13 @@ const AdminBranches = () => {
     }
   };
 
+  if (loading) return <Loader />;
+
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between mb-8">
         <h1 className="text-3xl font-bold">Branches</h1>
-        <AddBranchSheet/>
+        <AddBranchSheet />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {branches?.map((branch) => (
@@ -107,9 +112,7 @@ const AdminBranches = () => {
             <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
               <div className="flex space-x-2">
                 <BranchDetailsSheet branch={branch} />
-                <UpdateBranchSheet
-                  branch={branch}
-                />
+                <UpdateBranchSheet branch={branch} />
               </div>
               <ConfirmDialog
                 title="Are you sure?"
@@ -122,7 +125,6 @@ const AdminBranches = () => {
         ))}
       </div>
       <Pagination />
-      {loading && <Loader />}
     </div>
   );
 };

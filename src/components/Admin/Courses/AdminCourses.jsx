@@ -80,6 +80,8 @@ const AdminCourses = () => {
     );
   };
 
+  if (loading) return <Loader />;
+
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between mb-8">
@@ -134,7 +136,6 @@ const AdminCourses = () => {
         ))}
       </div>
       <Pagination />
-      {loading && <Loader />}
     </div>
   );
 };

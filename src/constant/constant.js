@@ -26,6 +26,9 @@ export const appRoutes = {
   getBatchesByCourseId: BASE_URL + "batch/course",
   getSections: BASE_URL + "section",
   getSingleSection: BASE_URL + "section",
+  updateSection: BASE_URL + "section",
+  deleteSection: BASE_URL + "section",
+  createSection: BASE_URL + "section",
   sendEmail: BASE_URL + "sendEmail",
 
   // Branch Routes
@@ -37,6 +40,7 @@ export const appRoutes = {
   getBranchesByCourseId: BASE_URL + "branch/course", // Get branches by course ID
   getBranchesByCountryCityAndCourse: BASE_URL + "branch", // Get branches by country, city, and course
   getBranchesByCityAndCountry: BASE_URL + "branch", // Get branches by city and country
-  getAllCountriesFromBranchWithAdmissionOpen: BASE_URL + "branch?admissionOpen=true", // Get countries where branches have open admission
+  getAllCountriesFromBranchWithAdmissionOpen:
+    BASE_URL + "branch?admissionOpen=true", // Get countries where branches have open admission
   getAllCitiesByCountryForBranches: BASE_URL + "branch?country=", // Get cities by country for branches
 };
