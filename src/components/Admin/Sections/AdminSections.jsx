@@ -19,6 +19,8 @@ import ConfirmDialog from "../../ConfirmDialog";
 import { deleteSection, getSections } from "../../../services/api/sections";
 import TimePicker from "../../TimePicker";
 import { useSectionContext } from "../../../context/sectionContext";
+import SectionDetails from "./SectionDetails";
+import { Link } from "react-router";
 
 // Mock function to fetch sections
 const fetchSections = async (page, limit) => {
@@ -117,7 +119,11 @@ const AdminSections = () => {
             </CardContent>
             <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
               <div className="flex space-x-2">
-                <SectionDetailsSheet section={section} />
+                <Button asChild>
+                  <Link to={`/admin/dashboard/sections/${section._id}`}>
+                    View Details
+                  </Link>
+                </Button>
                 <UpdateSectionSheet section={section} />
               </div>
               <ConfirmDialog

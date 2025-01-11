@@ -31,6 +31,7 @@ import IdCard from "./pages/idcard/IdCard";
 import { ToastContainer } from "react-toastify";
 import AdminBranches from "./components/Admin/Branches/AdminBrances";
 import AdminSections from "./components/Admin/Sections/AdminSections";
+import SectionDetails from "./components/Admin/Sections/SectionDetails";
 
 function App() {
   const { currentUser } = useAuth();
@@ -91,6 +92,7 @@ function App() {
           <Route path="batches/:id" element={<BatchDetail />} />
           <Route path="branches" element={<AdminBranches />} />
           <Route path="sections" element={<AdminSections />} />
+          <Route path="sections/:id" element={<SectionDetails />} />
         </Route>
       </Routes>
     </>

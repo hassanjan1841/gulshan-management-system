@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { getSections } from "../../services/api/sections";
 import { useToast } from "../../hooks/use-toast";
 import { Button } from "../ui/button";
+import { Link } from "react-router";
 
 function SectionCard({ section }) {
   console.log("section selected>", section);
@@ -129,7 +130,12 @@ function BatchDetailSheet({ batchData }) {
             <p>Loading sections...</p>
           ) : sections.length > 0 ? (
             sections.map((section) => (
-              <SectionCard key={section._id} section={section} />
+              <Link
+                to={`/admin/dashboard/sections/${section._id}`}
+                key={section._id}
+              >
+                <SectionCard key={section._id} section={section} />
+              </Link>
             ))
           ) : (
             <p>No sections available for this batch.</p>
