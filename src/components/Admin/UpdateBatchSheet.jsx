@@ -66,11 +66,12 @@ function UpdateBatchSheet({ batch }) {
   const [selectedBranch, setSelectedBranch] = useState(
     batch?.branch?._id || null
   );
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(
     batch?.course?._id || null
   );
   const { changingInBatch, SetChangingInBatch } = useBatchContext();
-  // console.log("batch", batch);
+  if (isOpen) console.log("batch", batch);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -88,25 +89,27 @@ function UpdateBatchSheet({ batch }) {
     const fetchCourses = async () => {
       try {
         const allCourses = await getCoursesWithoutLimit();
+        console.log("courses in updatesheet");
         setCourses(allCourses.courses);
       } catch (error) {
         console.log("error in updateBatch in fetched Courses>", error);
       }
     };
-    fetchCourses();
-  }, []);
+    if (isOpen) fetchCourses();
+  }, [isOpen]);
 
   useEffect(() => {
     const getCountry = async () => {
       try {
         const countries = await getAllCountriesFromBranches();
+        console.log("countries", countries);
         setCountries(countries.countries);
       } catch (error) {
         console.log("error in get country", country);
       }
     };
-    getCountry();
-  }, []);
+    if (isOpen) getCountry();
+  }, [isOpen]);
 
   useEffect(() => {
     const allCities = async () => {
@@ -119,8 +122,9 @@ function UpdateBatchSheet({ batch }) {
         }
       }
     };
-    allCities();
-  }, [country]);
+
+    if (isOpen) allCities();
+  }, [country, isOpen]);
 
   useEffect(() => {
     const allBranches = async () => {
@@ -128,18 +132,20 @@ function UpdateBatchSheet({ batch }) {
         try {
           const branches = await getAllBranchesByCities(city, country);
           setBranch(branches.branches);
-          // console.log("branches>>", branches);
+          console.log("branches in updatesheet>>", branches);
         } catch (error) {
           console.error("Error fetching cities:", error);
         }
       }
     };
-    allBranches();
-  }, [city]);
+
+    if (isOpen) allBranches();
+  }, [city, isOpen]);
 
   const handleUpdateBatch = async (data) => {
     try {
       const newBatch = await updateBatch(batch._id, data);
+
       form.reset();
       SetChangingInBatch(() => changingInBatch + 1);
       toast.success("Batch Updated.", {
@@ -178,11 +184,15 @@ function UpdateBatchSheet({ batch }) {
     formState: { errors },
   } = form;
 
-  const [isOpen, setIsOpen] = useState(false);
-  // console.log(isOpen && "open hogya");
+  // console.log(countries, cities, courses);
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet
+      open={isOpen}
+      onOpenChange={() => {
+        setIsOpen(!isOpen);
+      }}
+    >
       <SheetTrigger asChild>
         <Button variant="outline" size="icon">
           <Pencil className="h-4 w-4" />
