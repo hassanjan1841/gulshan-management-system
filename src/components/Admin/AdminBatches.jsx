@@ -123,15 +123,14 @@ const AdminBatches = () => {
       setLoading(false);
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     allCourses();
-  },[])
+  }, []);
   allCourses();
   useEffect(() => {
     loadCourses();
   }, [page, limit, selectedCourse, changingInBatch]);
 
-  if (loading) return <Loader />;
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-10">
@@ -144,6 +143,7 @@ const AdminBatches = () => {
         </div>
         <AddBatchSheet courses={courses} />
       </div>
+      {loading && <Loader />}
       <div className="flex flex-col space-y-8">
         {courses?.map((course, index) => (
           <>
