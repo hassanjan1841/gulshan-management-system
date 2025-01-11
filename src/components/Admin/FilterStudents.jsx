@@ -22,8 +22,7 @@ import { getCourses } from "../../services/api/courses";
 const FilterStudents = ({
   filters,
   handleFilterChange,
-  setFilters,
-  debouncedHandleFilterChange,
+  
 }) => {
   const [batches, setBatches] = useState([]);
   const [teachers, setTeachers] = useState([]);
@@ -32,14 +31,18 @@ const FilterStudents = ({
   useEffect(() => {
     const loadData = async () => {
       try {
+        // const allBatches = await getBatches()
+        // const allCourses = await getCourses()
+        // const allUsers = await getAllUsers('teacher')
+
         const [batchesData, teachersData, coursesData] = await Promise.all([
           getBatches(),
           getAllUsers("teacher"),
           getCourses(),
         ]);
-        console.log("data in batches", batchesData.batches);
-        console.log("data in teachers", teachersData);
-        console.log("data in courses", coursesData);
+        // console.log("data in batches", allBatches);
+        // // console.log("data in teachers", allUsers);
+        // console.log("data in courses", allCourses);
         setBatches(batchesData.batches);
         setTeachers(teachersData.users);
         setCourses(coursesData.courses);
@@ -56,8 +59,9 @@ const FilterStudents = ({
         <Input
           name="search"
           value={filters.search}
-          onChange={(e) =>
-            debouncedHandleFilterChange({ search: e.target.value })
+          onChange={(e) => {
+            handleFilterChange({ search: e.target.value })
+          }
           }
           placeholder="Search by name or father's name"
         />
@@ -105,7 +109,7 @@ const FilterStudents = ({
           <SelectContent>
             <SelectItem value="all">All Teachers</SelectItem>
             {teachers?.map((teacher) => (
-              <SelectItem key={teacher._id} value={teacher._id}>
+              <SelectItem key={teacher._id} value={teacher?._id}>
                 {teacher.name}
               </SelectItem>
             ))}
@@ -123,7 +127,7 @@ const FilterStudents = ({
           <SelectContent>
             <SelectItem value="all">All Courses</SelectItem>
             {courses?.map((course) => (
-              <SelectItem key={course._id} value={course._id}>
+              <SelectItem key={course._id} value={course?._id}>
                 {course.title}
               </SelectItem>
             ))}
@@ -146,7 +150,7 @@ const FilterStudents = ({
                 name="search"
                 value={filters.search}
                 onChange={(e) =>
-                  debouncedHandleFilterChange({ search: e.target.value })
+                  handleFilterChange({ search: e.target.value })
                 }
                 placeholder="Search by name or father's name"
               />

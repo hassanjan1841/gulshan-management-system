@@ -11,6 +11,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import ButtonSpinner from "../../components/ButtonSpinner";
+
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
@@ -240,8 +242,8 @@ function AddStudentSheet({ onAddStudent }) {
               )}
             />
 
-            <Button type="submit" className="mt-4">
-              Add Student
+            <Button className='w-full' type="submit">
+              {form.formState.isSubmitting ? <ButtonSpinner/> : "Add Student"}
             </Button>
           </form>
         </Form>

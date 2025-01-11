@@ -34,8 +34,8 @@ import AdminSections from "./components/Admin/Sections/AdminSections";
 import SectionDetails from "./components/Admin/Sections/SectionDetails";
 
 function App() {
-  const { currentUser } = useAuth();
-  console.log("currentUser", currentUser);
+  // const { currentUser } = useAuth();
+  // console.log("currentUser", currentUser);
   const navigate = useNavigate();
   const params = useParams();
   console.log("params", params);
