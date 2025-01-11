@@ -13,14 +13,38 @@ import { Badge } from "@/components/ui/badge";
 import AdminStudentSheet from "./AdminStudentSheet";
 import { capitalizeName } from "@/lib/helper";
 import ConfirmDialog from "../ConfirmDialog";
+import { deleteUser } from "../../services/api/user";
+import { useStudentContext } from "../../context/studentContext";
+import { toast } from "react-toastify";
 
 const AdminStudentCard = ({ student }) => {
   // console.log("students in adminstudencard", student);
+  const { setChangingInStudent } = useStudentContext();
 
-const handleDeleteStudent = (studentId) => {
-console.log("hi", studentId);
-
-}
+  const handleDeleteStudent = async (studentId) => {
+    try {
+      await deleteUser(studentId);
+      setChangingInStudent((prev) => prev + 1);
+      // await loadSections();
+      toast.success("Section Deleted Successfully.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    } catch (error) {
+      toast.error("Something went wrong.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    }
+  };
 
   return (
     <Card className="shadow-sm hover:scale-105 transition-transform">
@@ -77,7 +101,7 @@ console.log("hi", studentId);
         <ConfirmDialog
           title="Are you sure?"
           description="This action cannot be undone. This will permanently delete the branch and remove the data from our servers."
-          onConfirm={() => handleDeleteStudent(student._id)}
+          onConfirm={() => handleDeleteStudent(student?._id)}
           triggerText="Delete"
         />
       </CardFooter>
