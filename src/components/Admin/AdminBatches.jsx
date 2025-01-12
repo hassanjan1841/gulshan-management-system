@@ -159,7 +159,7 @@ const AdminBatches = () => {
       <div className="flex flex-col space-y-8">
         {courses?.map((course, index) => (
           <div key={index}>
-            <h1 className="text-2xl">
+            <h1 className="text-2xl mb-4">
               <span className="font-medium">Course Name: </span>
               {course.title}
             </h1>
