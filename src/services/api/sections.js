@@ -60,3 +60,15 @@ export const deleteSection = async (id) => {
     throw error;
   }
 };
+
+export const getTeacherSections = async (teacherId) => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getTeacherSections}?teacher=${teacherId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching sections:", error);
+    throw error;
+  }
+};

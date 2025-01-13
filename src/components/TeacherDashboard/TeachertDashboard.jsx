@@ -65,10 +65,10 @@ export default function TeacherDashboardMain() {
     <>
       <div className="flex flex-col gap-6 p-6 bg-background">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-1">
+          {/* <div className="md:col-span-1">
             <TeacherInfo teacher={section?.teacher} />
-          </div>
-          <div className="md:col-span-2">
+          </div> */}
+          <div className="md:col-span-4">
             <div className="grid grid-cols-2 gap-4">
               <SectionInfoCard title={"Section"} value={section?.title} />
               <SectionInfoCard
@@ -77,8 +77,8 @@ export default function TeacherDashboardMain() {
               />
               <SectionInfoCard title={"Batch"} value={section?.batch?.title} />
               <SectionInfoCard
-                title={"Total Students"}
-                value={section?.title}
+                title={"Total Students in this section"}
+                value={'85'}
               />
             </div>
           </div>

@@ -31,7 +31,7 @@ export default function Header() {
             </span>
           </div>
           <div>
-            <ProfileSheet data={currentUser} />
+            <ProfileSheet data={currentUser && currentUser} />
           </div>
         </div>
       </div>

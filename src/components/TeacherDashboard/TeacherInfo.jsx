@@ -4,10 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 export default function TeacherInfo({ teacher }) {
   console.log("teacher", teacher);
   return (
-    <Card className="w-full h-full flex items-start">
+    <Card className="w-full h-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-4">
-          <Avatar className="w-48 h-48">
+        <CardTitle className="flex flex-col items-center gap-4">
+          <Avatar className="w-44 h-44">
             <AvatarImage
               src={teacher?.profilePic}
               className="object-cover"
