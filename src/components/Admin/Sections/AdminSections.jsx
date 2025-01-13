@@ -98,7 +98,7 @@ const AdminSections = () => {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground mb-2">
-                Course: {section?.course?.title}
+                Course Name: {section?.course?.title}
               </p>
               <p className="text-sm text-muted-foreground mb-2">
                 Batch: {section?.batch?.title}
@@ -106,11 +106,13 @@ const AdminSections = () => {
               <p className="text-sm text-muted-foreground mb-2">
                 Teacher: {section?.teacher?.full_name}
               </p>
-              <p className="text-sm text-muted-foreground mb-4">
-                {section.days
+              <p className="text-sm text-muted-foreground mb-2">
+               Days: {section.days
                   .map((day) => day.charAt(0).toUpperCase())
                   .join(" ")}
-                | {section.startTime} - {section.endTime}
+              </p>
+              <p className="text-sm text-muted-foreground mb-4">
+               Time: {section.startTime} - {section.endTime}
               </p>
               <div className="flex flex-wrap gap-2 items-center">
                 <Badge variant="secondary">{section?.status}</Badge>
@@ -119,7 +121,7 @@ const AdminSections = () => {
             </CardContent>
             <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
               <div className="flex space-x-2">
-                <Button asChild>
+                <Button variant='outline' asChild>
                   <Link to={`/admin/dashboard/sections/${section._id}`}>
                     View Details
                   </Link>

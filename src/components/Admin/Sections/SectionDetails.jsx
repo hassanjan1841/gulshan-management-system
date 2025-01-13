@@ -18,10 +18,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { getSectionById } from "../../../services/api/sections";
 import { Link, useParams } from "react-router";
 import { UpdateSectionSheet } from "./UpdateSectionSheet";
+import { useSectionContext } from "../../../context/sectionContext";
 
 export default function SectionDetails() {
   const [isUpdateSheetOpen, setIsUpdateSheetOpen] = useState(false);
   const [section, setSection] = useState({});
+    const { changingInSection, SetChangingInSection } = useSectionContext();
 
   const { id } = useParams();
   console.log("id", id);
@@ -35,7 +37,7 @@ export default function SectionDetails() {
     };
 
     fetchSection();
-  }, [id]);
+  }, [id, changingInSection]);
 
   return (
     <div className="container mx-auto py-6">
@@ -99,7 +101,7 @@ export default function SectionDetails() {
               <p>
                 {section?.days
                   ?.map((day) => day.charAt(0).toUpperCase())
-                  .join(" ")}
+                  .join(" ")}{" "}
                 | {section?.startTime} - {section?.endTime}
               </p>
             </div>
