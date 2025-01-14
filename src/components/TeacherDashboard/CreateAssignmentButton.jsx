@@ -18,7 +18,7 @@ function CreateAssignmentButton() {
       <SheetTrigger asChild>
         <Button className="mb-4">Create Assignment</Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className='overflow-y-scroll'>
         <SheetHeader>
           <SheetTitle>Create New Assignment</SheetTitle>
           <SheetDescription>
