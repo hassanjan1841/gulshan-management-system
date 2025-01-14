@@ -11,7 +11,7 @@ export function DatePickerWithYearDropdown({ field, className }) {
       {...field}
       selected={field.value}
       onChange={(date) => field.onChange(date)}
-      placeholderText="Date Of Birth"
+      placeholderText="Due Date"
       className={className}
       dateFormat="yyyy-MM-dd"
       showYearDropdown

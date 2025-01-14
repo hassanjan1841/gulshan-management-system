@@ -7,10 +7,15 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getSectionById } from "../../services/api/sections";
 import Loader from "../Loader";
+import { useTeacherSectionContext } from "../../context/teacherSectionContext";
 
-export default function TeacherDashboardMain() {
+export default function TeacherDashboard() {
   const [section, setSection] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {teacherSection, setTeacherSection} = useTeacherSectionContext()
+  console.log("teacherSection>>", teacherSection);
+  
+
 
   const students = [
     {
@@ -51,7 +56,7 @@ export default function TeacherDashboardMain() {
         setLoading(true);
         const data = await getSectionById(id);
         setSection(data);
-        console.log("section", section);
+        setTeacherSection(data)
         setLoading(false);
       } catch (error) {
         console.log(error);

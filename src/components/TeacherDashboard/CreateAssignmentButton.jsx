@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import CreateAssignmentForm from "./AssignmentForm";
+import AssignmentForm from "./AssignmentForm";
 
 function CreateAssignmentButton() {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,7 @@ function CreateAssignmentButton() {
             Fill in the details to create a new assignment.
           </SheetDescription>
         </SheetHeader>
-        <CreateAssignmentForm onSuccess={() => setOpen(false)} />
+        <AssignmentForm onSuccess={() => setOpen(false)} />
       </SheetContent>
     </Sheet>
   );

@@ -4,7 +4,7 @@ import Login from "@/pages/Login";
 import StudentDashboard from "@/components/StudentDashboard/studentDashboard";
 import DashboardLayout from "@/pages/student/DashboardLayout";
 import StudentAssignment from "@/components/StudentDashboard/StudentAssignment";
-import TeacherDashboard from "@/components/TeacherDashboard/TeachertDashboard";
+// import TeacherDashboard from "@/components/TeacherDashboard/TeachertDashboard";
 import StudentQuiz from "@/components/StudentDashboard/StudentQuiz";
 import StudentCertificate from "@/components/StudentDashboard/StudentCertificate";
 import TeacherAssignment from "@/components/TeacherDashboard/TeacherAssignment";
@@ -32,6 +32,7 @@ import { ToastContainer } from "react-toastify";
 import AdminBranches from "./components/Admin/Branches/AdminBrances";
 import AdminSections from "./components/Admin/Sections/AdminSections";
 import SectionDetails from "./components/Admin/Sections/SectionDetails";
+import TeacherDashboard from "./components/TeacherDashboard/TeachertDashboard";
 
 function App() {
   // const { currentUser } = useAuth();

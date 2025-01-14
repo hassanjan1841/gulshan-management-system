@@ -1,16 +1,13 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { CalendarIcon } from 'lucide-react'
-import { format } from 'date-fns'
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Calendar } from "@/components/ui/calendar"
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -19,15 +16,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 // import { cn } from "@/lib/utils"
-import { MultipleImageUpload } from './MultipleImageUpload'
-import ButtonSpinner from '../ButtonSpinner'
+import { MultipleImageUpload } from "./MultipleImageUpload";
+import ButtonSpinner from "../ButtonSpinner";
+import { DatePickerWithYearDropdown } from "../../pages/registration/DatePickerWithYearDropdown";
+import { createAssignment } from "../../services/api/assignment";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebase/config";
+import { useAssignmentContext } from "../../context/assignmentContext";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -36,10 +38,50 @@ const formSchema = z.object({
   }),
   description: z.string().min(10, "Description must be at least 10 characters"),
   pictures: z.array(z.instanceof(File)).optional(),
-})
+});
+
+let uploadPics = (images) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Normalize input: If it's a single image, convert it to an array
+      const files = Array.isArray(images) ? images : [images];
+
+      let uploadPromises = files.map((file) => {
+        return new Promise((res, rej) => {
+          const randomNum = Math.random().toString().slice(2);
+          const storageRef = ref(storage, `assignmentImages/${randomNum}`);
+          const uploadTask = uploadBytesResumable(storageRef, file);
+
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            },
+            (error) => {
+              rej(error.message);
+            },
+            () => {
+              getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                res(downloadURL);
+              });
+            }
+          );
+        });
+      });
+
+      // Wait for all uploads to finish
+      const downloadURLs = await Promise.all(uploadPromises);
+      resolve(downloadURLs); // Resolve with an array of download URLs
+    } catch (error) {
+      reject(error.message);
+    }
+  });
+};
 
 export default function AssignmentForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const {changingInAssignment, setChangingInAssignment} = useAssignmentContext()
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -48,29 +90,44 @@ export default function AssignmentForm() {
       description: "",
       pictures: [],
     },
-  })
+  });
 
   async function onSubmit(values) {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     try {
-      // Here you would typically send the form data to your backend
-      console.log("values>>", values)
-      
+      values.section = "678263b387f7d57187547ff8";
+      console.log("values>>", values);
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      alert('Assignment created successfully!')
-      form.reset()
+      const images = await uploadPics(values.pictures);
+      values.pictures = images;
+      const assignment = await createAssignment(values);
+      setChangingInAssignment(() => changingInAssignment + 1)
+      console.log("response assignment", assignment);
+      toast.success("New Assignment Added.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark", // Change the theme if needed
+      });
+      form.reset();
     } catch (error) {
-      console.error('Error submitting form:', error)
-      alert('There was an error creating the assignment. Please try again.')
+      toast.error("something went wrong", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark", // Change the theme if needed
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
   return (
-    <Form {...form} >
+    <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <FormField
           control={form.control}
@@ -89,55 +146,21 @@ export default function AssignmentForm() {
           )}
         />
 
-<FormField
-          control={form.control}
+        <Controller
           name="dueDate"
+          control={form.control}
           render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Due Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={(date) => {
-                      if (date) {
-                        field.onChange(date);
-                      }
-                    }}
-                    disabled={(date) =>
-                      date < new Date() || date < new Date("1900-01-01")
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormDescription>
-                Select the due date for the assignment.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+            <div className="flex flex-col gap-2">
+              <label htmlFor="dueDate" className="text-landing-button">
+                Due Date
+              </label>
+              <DatePickerWithYearDropdown
+                field={field}
+                className="p-5 w-full h-10  outline-none rounded-md"
+              />
+            </div>
           )}
         />
-
         <FormField
           control={form.control}
           name="description"
@@ -166,7 +189,7 @@ export default function AssignmentForm() {
             <FormItem>
               <FormLabel>Pictures</FormLabel>
               <FormControl>
-              <div className="max-h-60 overflow-y-scroll">
+                <div className="max-h-60 overflow-y-scroll">
                   <MultipleImageUpload
                     onChange={field.onChange}
                     value={field.value}
@@ -181,11 +204,14 @@ export default function AssignmentForm() {
           )}
         />
 
-        <Button type="submit" className='w-full' disabled={isSubmitting}>
-          {isSubmitting ? <ButtonSpinner/> : "Create Assignment"}
+        <Button type="submit" className="w-full">
+          {form.formState.isSubmitting ? (
+            <ButtonSpinner />
+          ) : (
+            "Create Assignment"
+          )}
         </Button>
       </form>
     </Form>
-  )
+  );
 }
-

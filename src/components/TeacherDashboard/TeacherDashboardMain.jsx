@@ -1,4 +1,4 @@
-import SectionCard from "@/components/TeacherDashboard/SectionCard";
+
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import { getTeacherSections } from "../../services/api/sections";
@@ -7,6 +7,7 @@ import { getUserById } from "../../services/api/user";
 import Cookies from "js-cookie";
 import TeacherInfo from "./TeacherInfo";
 import SectionInfoCard from "./SectionInfoCard";
+import SectionCard from "./SectionCard";
 
 export default function TeacherDashboardMain() {
   const [sections, setSections] = useState([]);
@@ -39,6 +40,7 @@ export default function TeacherDashboardMain() {
     };
     getSEctions();
   }, []);
+
   if (loading) return <Loader />;
   return (
     <>
@@ -69,6 +71,7 @@ export default function TeacherDashboardMain() {
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {sections?.map((section) => (
             <SectionCard
+              section={section}
               key={section.title}
               title={section.title}
               id={section._id}

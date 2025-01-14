@@ -43,4 +43,8 @@ export const appRoutes = {
   getAllCountriesFromBranchWithAdmissionOpen:
     BASE_URL + "branch?admissionOpen=true", // Get countries where branches have open admission
   getAllCitiesByCountryForBranches: BASE_URL + "branch?country=", // Get cities by country for branches
+
+  //Assignment Route
+  createAssignment : BASE_URL + 'assignment',
+  getAssignments : BASE_URL + 'assignment'
 };

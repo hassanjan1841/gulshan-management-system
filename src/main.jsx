@@ -12,6 +12,8 @@ import { ChangingInBranchContextProvider } from "./context/branchContext.jsx";
 import { ChangingInSectionContextProvider } from "./context/sectionContext.jsx";
 import { ChangingInCourseContextProvider } from "./context/courseContext .jsx";
 import { ChangingInStudentContextProvider } from "./context/studentContext.jsx";
+import { ChangingInAssignmentContextProvider } from "./context/assignmentContext.jsx";
+import { TeacherSectionContextProvider } from "./context/teacherSectionContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
@@ -23,10 +25,14 @@ createRoot(document.getElementById("root")).render(
               <ChangingInStudentContextProvider>
                 <ChangingInSectionContextProvider>
                   <ChangingInCourseContextProvider>
-                    <StrictMode>
-                      <App />
-                      <Toaster />
-                    </StrictMode>
+                    <ChangingInAssignmentContextProvider>
+                      <TeacherSectionContextProvider>
+                        <StrictMode>
+                          <App />
+                          <Toaster />
+                        </StrictMode>
+                      </TeacherSectionContextProvider>
+                    </ChangingInAssignmentContextProvider>
                   </ChangingInCourseContextProvider>
                 </ChangingInSectionContextProvider>
               </ChangingInStudentContextProvider>

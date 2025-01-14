@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router";
 
-export default function SectionCard({ title, id, courseTitle, totalStudents }) {
+export default function SectionCard({section, title, id, courseTitle, totalStudents }) {
   return (
     <Link to={`/teacher/section/${id}`}>
       <Card className="w-full">
