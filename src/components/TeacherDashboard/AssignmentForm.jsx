@@ -30,6 +30,7 @@ import { createAssignment } from "../../services/api/assignment";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase/config";
 import { useAssignmentContext } from "../../context/assignmentContext";
+import { useTeacherSectionContext } from "../../context/teacherSectionContext";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -72,6 +73,7 @@ let uploadPics = (images) => {
 
       // Wait for all uploads to finish
       const downloadURLs = await Promise.all(uploadPromises);
+      console.log("downloadurls", downloadURLs);
       resolve(downloadURLs); // Resolve with an array of download URLs
     } catch (error) {
       reject(error.message);
@@ -80,7 +82,10 @@ let uploadPics = (images) => {
 };
 
 export default function AssignmentForm() {
-  const {changingInAssignment, setChangingInAssignment} = useAssignmentContext()
+  const { changingInAssignment, setChangingInAssignment } =
+    useAssignmentContext();
+
+  const { teacherSection } = useTeacherSectionContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm({
@@ -95,13 +100,15 @@ export default function AssignmentForm() {
   async function onSubmit(values) {
     setIsSubmitting(true);
     try {
-      values.section = "678263b387f7d57187547ff8";
+      values.section = teacherSection?._id;
+      values.createdBy = teacherSection?.teacher?._id;
       console.log("values>>", values);
       // Simulate API call
       const images = await uploadPics(values.pictures);
+      console.log("iages", images);
       values.pictures = images;
       const assignment = await createAssignment(values);
-      setChangingInAssignment(() => changingInAssignment + 1)
+      setChangingInAssignment(() => changingInAssignment + 1);
       console.log("response assignment", assignment);
       toast.success("New Assignment Added.", {
         position: "bottom-right",
@@ -113,7 +120,7 @@ export default function AssignmentForm() {
       });
       form.reset();
     } catch (error) {
-      toast.error("something went wrong", {
+      toast.error(error.message ? error.message : error.response.data.message, {
         position: "bottom-right",
         hideProgressBar: false,
         closeOnClick: true,

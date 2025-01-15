@@ -7,7 +7,7 @@ export default function TeacherInfo({ teacher }) {
     <Card className="w-full h-full">
       <CardHeader>
         <CardTitle className="flex flex-col items-center gap-4">
-          <Avatar className="w-44 h-44">
+          <Avatar className="w-36 h-36">
             <AvatarImage
               src={teacher?.profilePic}
               className="object-cover"

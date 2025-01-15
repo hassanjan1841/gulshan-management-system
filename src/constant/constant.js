@@ -45,6 +45,8 @@ export const appRoutes = {
   getAllCitiesByCountryForBranches: BASE_URL + "branch?country=", // Get cities by country for branches
 
   //Assignment Route
-  createAssignment : BASE_URL + 'assignment',
-  getAssignments : BASE_URL + 'assignment'
+  createAssignment: BASE_URL + "assignment",
+  getAssignments: BASE_URL + "assignment",
+  deleteAssignment: BASE_URL + "assignment",
+  updateAssignment: BASE_URL + "assignment",
 };
