@@ -19,6 +19,7 @@ import { useAuth } from "../context/authContext";
 export default function ProfileSheet({ data }) {
   const [open, setOpen] = useState(false);
   const { setCurrentUser } = useAuth();
+  console.log("data in profile sheet", data);
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -74,7 +75,9 @@ export default function ProfileSheet({ data }) {
               </div>
               <div>
                 <Label>Current Course</Label>
-                <div className="mt-1 font-medium">{data?.section?.course}</div>
+                <div className="mt-1 font-medium">
+                  {data?.section?.course?.title}
+                </div>
               </div>
               <div>
                 <Label>Qualifications</Label>

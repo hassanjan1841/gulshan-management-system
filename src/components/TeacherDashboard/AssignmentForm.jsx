@@ -87,7 +87,7 @@ export default function AssignmentForm() {
 
   const { teacherSection } = useTeacherSectionContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  console.log("teacherSection", teacherSection);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {

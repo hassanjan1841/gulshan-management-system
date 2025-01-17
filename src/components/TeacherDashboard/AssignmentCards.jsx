@@ -29,7 +29,7 @@ import { toast } from "react-toastify";
 import Pagination from "../Pagination";
 
 const AssignmentCards = () => {
-  const { teacherSection, setTeacherSection } = useTeacherSectionContext();
+  const { teacherSection } = useTeacherSectionContext();
   const { page, limit, setTotalPages } = usePaginate();
   const { changingInAssignment, setChangingInAssignment } =
     useAssignmentContext();

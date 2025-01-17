@@ -44,7 +44,7 @@ const teacherItems = [
   { name: "Assignments", href: "/teacher/assignments", icon: FileText },
   { name: "Quizzes", href: "/teacher/quizzes", icon: HelpCircle },
   { name: "Your Services", href: "/teacher/services", icon: TrendingUp },
-]
+];
 
 const studentItems = [
   { name: "Dashboard", href: "/student", icon: LayoutDashboard },
@@ -68,11 +68,13 @@ export default function AppSidebar({ role, ...props }) {
 
   const navItems =
     role === "teacher"
-      ? location.pathname === "/teacher"
+      ? location.pathname === "/teacher" || location.pathname === "/teacher/"
         ? teacherItems.filter((item) => item.name === "Sections")
         : teacherItems
       : role === "admin"
       ? adminItems
+      : location.pathname === "/student" || location.pathname === "/student/"
+      ? studentItems.filter((item) => item.name === "Sections")
       : studentItems;
   const title =
     role === "teacher" ? "Teacher" : role === "admin" ? "Admin" : "Student";
@@ -97,31 +99,27 @@ export default function AppSidebar({ role, ...props }) {
       <SidebarContent>
         <SidebarMenu>
           {navItems?.map((item) => (
-            <SidebarMenuItem key={item.name} className="w-full">             
-                <SidebarMenuButton asChild>
-                  <Link
-                    to={item.href}
-                    className="flex items-center px-4 py-2 text-primary hover:text-black transition-all duration-300 ease-in-out"
+            <SidebarMenuItem key={item.name} className="w-full">
+              <SidebarMenuButton asChild>
+                <Link
+                  to={item.href}
+                  className="flex items-center px-4 py-2 text-primary hover:text-black transition-all duration-300 ease-in-out"
+                >
+                  <item.icon
+                    className="mr-3"
+                    style={{ height: 20, width: 20 }}
+                  />
+                  <span
+                    className={`transition-opacity duration-300 ${
+                      state === "collapsed" ? "opacity-0 hidden" : "opacity-100"
+                    }`}
                   >
-                    <item.icon
-                      className="mr-3"
-                      style={{ height: 20, width: 20 }}
-                    />
-                    <span
-                      className={`transition-opacity duration-300 ${
-                        state === "collapsed"
-                          ? "opacity-0 hidden"
-                          : "opacity-100"
-                      }`}
-                    >
-                      {item.name}
-                    </span>
-                  </Link>
-                </SidebarMenuButton>
-            
+                    {item.name}
+                  </span>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
-          )
-          )}
+          ))}
         </SidebarMenu>
       </SidebarContent>
     </ShadcnSidebar>

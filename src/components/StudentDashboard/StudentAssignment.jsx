@@ -1,5 +1,10 @@
+import { useEffect, useState } from "react";
 import UploadExcel from "../UploadExcel";
 import AllAssignmentCard from "./AllAssignmentCard";
+import { useAuth } from "../../context/authContext";
+import { usePaginate } from "../../context/PaginateContext";
+import { toast } from "react-toastify";
+import { getAssignments } from "../../services/api/assignment";
 
 // Mock data for assignments
 const assignments = [
@@ -50,13 +55,42 @@ const assignments = [
 ];
 
 export default function StudentAssignment() {
+  const { currentUser } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [assignments, setAssignments] = useState([]);
+  const { page, limit, setTotalPages } = usePaginate();
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        setLoading(true);
+        const response = await getAssignments(
+          page,
+          limit,
+          currentUser?.section?._id
+        );
+        console.log(response);
+        setAssignments(response.assignments);
+        setTotalPages(response.totalPages);
+        setLoading(false);
+      } catch (error) {
+        if (error.message === "Network Error") {
+          toast({
+            title: "Network Error",
+            variant: "destructive",
+          });
+        }
+        setLoading(false);
+      }
+    };
+    fetchAssignments();
+  }, [page, limit, currentUser.section._id]);
   return (
     <div className="container mx-auto">
       <h1 className="text-3xl font-bold mb-8">Assignments</h1>
       <div className="flex flex-wrap gap-6">
         {assignments.map((assignment) => (
           <AllAssignmentCard
-            key={assignment.id}
+            key={assignment._id}
             title={assignment.title}
             dueDate={assignment.dueDate}
             description={assignment.description}
