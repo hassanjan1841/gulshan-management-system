@@ -46,13 +46,8 @@ export default function StudentNavbar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0 * 0.1 }}
         >
-          <Card className="max-h-[400px] h-full min-h-[300px]">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Student Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="flex items-center flex-col space-x-4">
+          <Card className="max-h-[400px] h-full min-h-[300px] flex items-center justify-center">
+            <CardContent className="flex items-center flex-col gap-5 ">
               <img
                 src={currentUser.profilePic}
                 alt="Student"
