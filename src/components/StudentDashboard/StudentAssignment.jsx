@@ -95,7 +95,7 @@ export default function StudentAssignment() {
             dueDate={assignment.dueDate}
             description={assignment.description}
             status={assignment.status}
-            sampleFile={assignment.sampleFile}
+            sampleFile={assignment.pictures}
             submittedDate={assignment.submittedDate}
             totalScore={assignment.totalScore}
             obtainedScore={assignment.obtainedScore}

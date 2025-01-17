@@ -1,5 +1,3 @@
-"use client";
-
 import { Download, Eye, Upload } from "lucide-react";
 import { useState } from "react";
 
@@ -16,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 
 export default function AllAssignmentCard({
   title,
@@ -28,16 +27,48 @@ export default function AllAssignmentCard({
   obtainedScore,
 }) {
   const [file, setFile] = useState(null);
+  const [deployLink, setDeployLink] = useState("");
+  const [githubLink, setGithubLink] = useState("");
+  const [videoLink, setVideoLink] = useState("");
 
   const handleFileChange = (e) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.type.startsWith("image/")) {
+      setFile(selectedFile);
+    } else {
+      toast.error("Please upload a valid image file before submitting.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      setFile(null);
     }
   };
 
   const handleSubmit = () => {
-    // Handle file upload logic here
-    console.log("Uploading file:", file);
+    if (!file) {
+      toast.error("Please upload a valid image file before submitting.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      return;
+    }
+
+    const formData = {
+      fileName: file.name,
+      deployLink,
+      githubLink,
+      videoLink,
+    };
+
+    console.log("Submission Details:", formData);
   };
 
   const getStatusBadge = (status) => {
@@ -85,19 +116,22 @@ export default function AllAssignmentCard({
                   <h4 className="text-sm font-medium">Description</h4>
                   <p className="text-sm text-muted-foreground">{description}</p>
                 </div>
-                {sampleFile && (
+                {sampleFile && sampleFile?.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-sm font-medium">Sample File</h4>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start"
-                      asChild
-                    >
-                      <a href={sampleFile} download>
-                        <Download className="mr-2 h-4 w-4" />
-                        Download Sample
-                      </a>
-                    </Button>
+                    <h4 className="text-sm font-medium">Sample Files</h4>
+                    {sampleFile?.map((file, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        className="w-full justify-start mb-2"
+                        asChild
+                      >
+                        <a href={file} target="_blank" download>
+                          <Download className="mr-2 h-4 w-4" />
+                          File {index + 1}
+                        </a>
+                      </Button>
+                    ))}
                   </div>
                 )}
                 <div className="space-y-2">
@@ -111,7 +145,7 @@ export default function AllAssignmentCard({
                 </div>
                 {obtainedScore !== undefined && (
                   <div className="space-y-2">
-                    <p className="text-sm font-medium mt-2 w-fit py-2  rounded-md">
+                    <p className="text-sm font-medium mt-2 w-fit py-2 rounded-md">
                       Score: {obtainedScore} / {totalScore}
                     </p>
                   </div>
@@ -121,7 +155,6 @@ export default function AllAssignmentCard({
             {(status === "missed" || status === "pending") && (
               <div className="border-t pt-4 mt-auto space-y-4">
                 <div className="grid w-full items-center gap-1.5">
-                  <Label htmlFor="assignment">Upload Assignment</Label>
                   <div className="relative">
                     <Input
                       id="assignment"
@@ -140,6 +173,36 @@ export default function AllAssignmentCard({
                       {file ? file.name : "Choose File"}
                     </Button>
                   </div>
+                </div>
+                <div className="grid w-full items-center gap-1.5">
+                  <Label htmlFor="deployLink">Deploy Link</Label>
+                  <Input
+                    id="deployLink"
+                    type="url"
+                    placeholder="Enter deploy link"
+                    value={deployLink}
+                    onChange={(e) => setDeployLink(e.target.value)}
+                  />
+                </div>
+                <div className="grid w-full items-center gap-1.5">
+                  <Label htmlFor="githubLink">GitHub Link</Label>
+                  <Input
+                    id="githubLink"
+                    type="url"
+                    placeholder="Enter GitHub link"
+                    value={githubLink}
+                    onChange={(e) => setGithubLink(e.target.value)}
+                  />
+                </div>
+                <div className="grid w-full items-center gap-1.5">
+                  <Label htmlFor="videoLink">Video Link</Label>
+                  <Input
+                    id="videoLink"
+                    type="url"
+                    placeholder="Enter video link"
+                    value={videoLink}
+                    onChange={(e) => setVideoLink(e.target.value)}
+                  />
                 </div>
                 <Button
                   className="w-full"
