@@ -12,23 +12,28 @@ export const appRoutes = {
   createUser: BASE_URL + "user",
   updateUser: BASE_URL + "user",
   deleteUser: BASE_URL + "user",
+  getCoursesForStudent: BASE_URL + "user/course",
+
   getCourses: BASE_URL + "course",
   getSingleCourse: BASE_URL + "course",
   createCourse: BASE_URL + "course",
   updateCourse: BASE_URL + "course",
   deleteCourse: BASE_URL + "course",
+
   getBatches: BASE_URL + "batch",
   getSingleBatch: BASE_URL + "batch",
   createBatch: BASE_URL + "batch",
   updateBatch: BASE_URL + "batch",
   deleteBatch: BASE_URL + "batch",
   getBatchesByCourseId: BASE_URL + "batch/course",
+
   getSections: BASE_URL + "section",
   getTeacherSections: BASE_URL + "section/teacher",
   getSingleSection: BASE_URL + "section",
   updateSection: BASE_URL + "section",
   deleteSection: BASE_URL + "section",
   createSection: BASE_URL + "section",
+
   sendEmail: BASE_URL + "sendEmail",
 
   // Branch Routes

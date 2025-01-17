@@ -1,32 +1,28 @@
+import { Link } from "react-router";
 import CourseCard from "./CourseInfoCard";
+import { useAuth } from "../../context/authContext";
+import StudentWelcome from "./StudentWelcome";
 
 export default function StudentDashboardMain() {
-  const courses = [
-    {
-      id: 1,
-      title: "Web Development Bootcamp",
-      duration: "12 weeks",
-      status: "Enrolled",
-      batch: "Batch 11",
-      city: "Karachi",
-      campus: "Gulshan-e-Iqbal",
-    },
-    {
-      id: 2,
-      title: "Data Science Fundamentals",
-      duration: "8 weeks",
-      status: "Enrolled",
-      batch: "Batch 11",
-      city: "Karachi",
-      campus: "Gulshan-e-Iqbal",
-    },
-    // Add more courses as needed
-  ];
+  const { currentUser } = useAuth();
+  const courses = currentUser?.courses || [];
+
+  const hasBatch = courses.some((course) => course.batch);
+  console.log("hasb   ", hasBatch);
+  if (!hasBatch) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 w-full">
+        <StudentWelcome />
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-background">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-        {courses.map((course) => (
-          <CourseCard key={course.id} course={course} />
+        {currentUser?.courses?.map((course) => (
+          <Link key={course._id} to={`/student/course/${course._id}`}>
+            <CourseCard course={course} />
+          </Link>
         ))}
       </div>
     </div>

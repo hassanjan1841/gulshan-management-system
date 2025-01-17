@@ -14,7 +14,11 @@ export const getAllUsers = async (
 ) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}${teacher && '&teacher=' + teacher}${status && '&status=' + status}${batch && '&batch=' + batch}${course && '&course=' + course}${search && '&search='+search}}`
+      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}${
+        teacher && "&teacher=" + teacher
+      }${status && "&status=" + status}${batch && "&batch=" + batch}${
+        course && "&course=" + course
+      }${search && "&search=" + search}}`
     );
     return response.data;
   } catch (error) {
@@ -88,3 +92,5 @@ export const deleteUser = async (userId) => {
     throw error;
   }
 };
+
+
