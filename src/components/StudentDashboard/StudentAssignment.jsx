@@ -83,7 +83,7 @@ export default function StudentAssignment() {
       }
     };
     fetchAssignments();
-  }, [page, limit, currentUser.section._id]);
+  }, [page, limit, currentUser]);
   return (
     <div className="container mx-auto">
       <h1 className="text-3xl font-bold mb-8">Assignments</h1>

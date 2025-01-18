@@ -63,6 +63,8 @@ export const deleteSection = async (id) => {
 
 export const getTeacherSections = async (teacherId) => {
   try {
+    console.log("teacherId in getTeacherSections>>", teacherId);
+    
     const response = await axios.get(
       `${appRoutes.getTeacherSections}?teacher=${teacherId}`
     );
