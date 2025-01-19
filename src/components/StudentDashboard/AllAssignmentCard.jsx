@@ -76,11 +76,19 @@ export default function AllAssignmentCard({
 
   return (
     <Card className="w-full max-w-md min-w-[300px] border shadow-md rounded-lg overflow-hidden">
-      <CardHeader className="flex flex-col items-center  p-4 bg-gray-50 border-b">
-        <CardTitle className="text-lg font-semibold text-gray-800">
+      <CardHeader className="flex flex-col items-start p-4 bg-muted-background border-b">
+        <CardTitle className="text-lg font-semibold text-primary">
           {title}
         </CardTitle>
-        <div className="flex gap-2">
+      </CardHeader>
+      <CardContent className="p-4 space-y-6">
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-gray-600">
+            Due date: {dayjs(dueDate).format("DD/MM/YYYY")}
+          </p>
+          {getStatusBadge(status)}
+        </div>
+        <div className="flex gap-2 justify-between w-full">
           {/* Assignment Detail Sheet */}
           <AssignmentDetailSheet
             title={title}
@@ -103,15 +111,8 @@ export default function AllAssignmentCard({
               setGithubLink={setGithubLink}
               videoLink={videoLink}
               setVideoLink={setVideoLink}
-       
             />
           )}
-        </div>
-      </CardHeader>
-      <CardContent className="p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-600"> Due date: {dayjs(dueDate).format("DD/MM/YYYY")}</p>
-          {getStatusBadge(status)}
         </div>
         {obtainedScore !== undefined && (
           <p className="text-sm font-medium mt-2 bg-gray-50 border rounded-md px-3 py-2 text-gray-700">

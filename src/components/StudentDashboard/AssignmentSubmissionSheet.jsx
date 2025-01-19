@@ -24,7 +24,7 @@ export function AssignmentSubmissionSheet({
   videoLink,
   setVideoLink,
 }) {
-    const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.type.startsWith("image/")) {
@@ -43,7 +43,7 @@ export function AssignmentSubmissionSheet({
   };
 
   const handleSubmit = () => {
-    setLoading(true)
+    setLoading(true);
     if (!file) {
       toast.error("Please upload a valid image file before submitting.", {
         position: "bottom-right",
@@ -53,7 +53,7 @@ export function AssignmentSubmissionSheet({
         draggable: true,
         theme: "dark",
       });
-      setLoading(false)
+      setLoading(false);
       return;
     }
 
@@ -62,22 +62,20 @@ export function AssignmentSubmissionSheet({
       deployLink,
       githubLink,
     };
-    setLoading(false)
+    setLoading(false);
     console.log("Submission Details:", formData);
   };
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">
-          Open Submission Form
-        </Button>
+        <Button variant="outline">Open Submission Form</Button>
       </SheetTrigger>
       <SheetContent className="flex flex-col space-y-4">
         <SheetHeader>
           <SheetTitle>Submit Assignment</SheetTitle>
         </SheetHeader>
-        <div className="border-t pt-4 mt-auto space-y-4">
+        <div className="border-t pt-4 mt-auto space-y-4 flex flex-col justify-end h-full">
           <div className="grid w-full items-center gap-1.5">
             <div className="relative">
               <Input
@@ -116,12 +114,8 @@ export function AssignmentSubmissionSheet({
               onChange={(e) => setGithubLink(e.target.value)}
             />
           </div>
-          <Button
-            className="w-full"
-            onClick={handleSubmit}
-            disabled={!file}
-          >
-            {loading ?  <ButtonSpinner/> : 'Submit Assignment'}
+          <Button className="w-full" onClick={handleSubmit} disabled={!file}>
+            {loading ? <ButtonSpinner /> : "Submit Assignment"}
           </Button>
         </div>
       </SheetContent>
