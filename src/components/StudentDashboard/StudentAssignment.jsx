@@ -89,17 +89,7 @@ export default function StudentAssignment() {
       <h1 className="text-3xl font-bold mb-8">Assignments</h1>
       <div className="flex flex-wrap gap-6">
         {assignments.map((assignment) => (
-          <AllAssignmentCard
-            key={assignment._id}
-            title={assignment.title}
-            dueDate={assignment.dueDate}
-            description={assignment.description}
-            status={assignment.status}
-            sampleFile={assignment.pictures}
-            submittedDate={assignment.submittedDate}
-            totalScore={assignment.totalScore}
-            obtainedScore={assignment.obtainedScore}
-          />
+          <AllAssignmentCard key={assignment._id} assignment={assignment} />
         ))}
       </div>
     </div>

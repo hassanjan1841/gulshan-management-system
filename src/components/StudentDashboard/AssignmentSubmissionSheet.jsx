@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export function AssignmentSubmissionSheet({
+  assignmentId,
   file,
   setFile,
   deployLink,
@@ -58,6 +59,7 @@ export function AssignmentSubmissionSheet({
     }
 
     const formData = {
+      assignmentId,
       fileName: file.name,
       deployLink,
       githubLink,

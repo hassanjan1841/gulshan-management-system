@@ -19,16 +19,18 @@ import { toast } from "react-toastify";
 import { AssignmentDetailSheet } from "./AssignmentDetailSheet";
 import { AssignmentSubmissionSheet } from "./AssignmentSubmissionSheet";
 
-export default function AllAssignmentCard({
-  title,
-  dueDate,
-  description,
-  status,
-  sampleFile,
-  submittedDate,
-  totalScore,
-  obtainedScore,
-}) {
+export default function AllAssignmentCard({ assignment }) {
+  const {
+    _id,
+    title,
+    dueDate,
+    description,
+    status,
+    sampleFile,
+    submittedDate,
+    totalScore,
+    obtainedScore,
+  } = assignment;
   const [file, setFile] = useState(null);
   const [deployLink, setDeployLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
@@ -103,6 +105,7 @@ export default function AllAssignmentCard({
           {/* Submission Form Sheet */}
           {(status === "missed" || status === "pending") && (
             <AssignmentSubmissionSheet
+              assignmentId={_id}
               file={file}
               setFile={setFile}
               deployLink={deployLink}
