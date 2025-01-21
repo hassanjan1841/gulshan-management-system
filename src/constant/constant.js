@@ -54,4 +54,10 @@ export const appRoutes = {
   getAssignments: BASE_URL + "assignment",
   deleteAssignment: BASE_URL + "assignment",
   updateAssignment: BASE_URL + "assignment",
+
+  //assignment submission routes
+  createAssignmentSubmission: BASE_URL + "assignment-submission",
+  getAssignmentSubmissions: BASE_URL + "assignment-submission",
+  deleteAssignmentSubmission: BASE_URL + "assignment-submission",
+  updateAssignmentSubmission: BASE_URL + "assignment-submission",
 };

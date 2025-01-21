@@ -13,6 +13,9 @@ import ButtonSpinner from "@/components/ButtonSpinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "../../context/authContext";
+import { createAssignmentSubmission } from "../../services/api/assignmentSubmission";
+import { useAssignmentContext } from "../../context/assignmentContext";
 
 export function AssignmentSubmissionSheet({
   assignmentId,
@@ -25,28 +28,50 @@ export function AssignmentSubmissionSheet({
   videoLink,
   setVideoLink,
 }) {
+  const { currentUser } = useAuth();
+  const { setChangingInAssignment } = useAssignmentContext();
   const [loading, setLoading] = useState(false);
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.type.startsWith("image/")) {
-      setFile(selectedFile);
-    } else {
-      toast.error("Please upload a valid image file before submitting.", {
-        position: "bottom-right",
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-      });
-      setFile(null);
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   if (selectedFile && selectedFile.type.startsWith("image/")) {
+  //     setFile(selectedFile);
+  //   } else {
+  //     toast.error("Please upload a valid image file before submitting.", {
+  //       position: "bottom-right",
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "dark",
+  //     });
+  //     setFile(null);
+  //   }
+  // };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
-    if (!file) {
-      toast.error("Please upload a valid image file before submitting.", {
+    // if (!file) {
+    //   toast.error("Please upload a valid image file before submitting.", {
+    //     position: "bottom-right",
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     theme: "dark",
+    //   });
+    //   setLoading(false);
+    //   return;
+    // }
+
+    const formData = {
+      assignment: assignmentId,
+      student: currentUser._id,
+      submission: { deployLink, githubLink },
+    };
+    try {
+      const response = await createAssignmentSubmission(formData);
+      console.log("Submission Response:", response);
+      toast.success("Assignment submitted successfully!", {
         position: "bottom-right",
         hideProgressBar: false,
         closeOnClick: true,
@@ -55,17 +80,24 @@ export function AssignmentSubmissionSheet({
         theme: "dark",
       });
       setLoading(false);
-      return;
+      setChangingInAssignment((prev) => prev + 1);
+    } catch (error) {
+      console.error("Error creating assignment submission:", error);
+      toast.error(
+        error.response.data.message
+          ? error.response.data.message
+          : error.message,
+        {
+          position: "bottom-right",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        }
+      );
+      setLoading(false);
     }
-
-    const formData = {
-      assignmentId,
-      fileName: file.name,
-      deployLink,
-      githubLink,
-    };
-    setLoading(false);
-    console.log("Submission Details:", formData);
   };
 
   return (
@@ -78,7 +110,7 @@ export function AssignmentSubmissionSheet({
           <SheetTitle>Submit Assignment</SheetTitle>
         </SheetHeader>
         <div className="border-t pt-4 mt-auto space-y-4 flex flex-col justify-end h-full">
-          <div className="grid w-full items-center gap-1.5">
+          {/* <div className="grid w-full items-center gap-1.5">
             <div className="relative">
               <Input
                 id="assignment"
@@ -95,7 +127,7 @@ export function AssignmentSubmissionSheet({
                 {file ? file.name : "Choose File"}
               </Button>
             </div>
-          </div>
+          </div> */}
           <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="deployLink">Deploy Link</Label>
             <Input
@@ -116,7 +148,7 @@ export function AssignmentSubmissionSheet({
               onChange={(e) => setGithubLink(e.target.value)}
             />
           </div>
-          <Button className="w-full" onClick={handleSubmit} disabled={!file}>
+          <Button className="w-full" onClick={handleSubmit}>
             {loading ? <ButtonSpinner /> : "Submit Assignment"}
           </Button>
         </div>
