@@ -1,37 +1,23 @@
-import { Download, Eye, Upload } from "lucide-react";
 import { useState } from "react";
 import dayjs from "dayjs";
-
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
 import { AssignmentDetailSheet } from "./AssignmentDetailSheet";
 import { AssignmentSubmissionSheet } from "./AssignmentSubmissionSheet";
-
 export default function AllAssignmentCard({ assignment }) {
+  
   const {
     _id,
     title,
     dueDate,
     description,
     status,
-    sampleFile,
+    pictures,
     submittedDate,
     totalScore,
     obtainedScore,
   } = assignment;
-
   const [file, setFile] = useState(null);
   const [deployLink, setDeployLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
@@ -97,7 +83,7 @@ export default function AllAssignmentCard({ assignment }) {
             title={title}
             dueDate={dueDate}
             description={description}
-            sampleFile={sampleFile}
+            sampleFile={pictures}
             status={status}
             submittedDate={submittedDate}
             obtainedScore={obtainedScore}

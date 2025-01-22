@@ -9,54 +9,6 @@ import { motion } from "framer-motion";
 import { useAssignmentContext } from "../../context/assignmentContext";
 import Loader from "../Loader";
 
-// Mock data for assignments
-const assignments = [
-  {
-    id: 1,
-    title: "React Fundamentals Assignment",
-    dueDate: "December 20, 2024",
-    description:
-      "Create a simple React application demonstrating the use of hooks, components, and state management.",
-    status: "late",
-    sampleFile: "/sample-react.pdf",
-    submittedDate: "December 21, 2024",
-    obtainedScore: 85,
-    totalScore: 100,
-  },
-  {
-    id: 2,
-    title: "Database Design Project",
-    dueDate: "December 22, 2024",
-    description:
-      "Design and implement a normalized database schema for a social media application.",
-    status: "pending",
-    sampleFile: "/sample-db.pdf",
-    submittedDate: null,
-  },
-  {
-    id: 3,
-    title: "API Integration Task",
-    dueDate: "December 25, 2024",
-    description:
-      "Implement RESTful API endpoints and integrate them with the frontend application.",
-    status: "missed",
-    sampleFile: "/sample-api.pdf",
-    submittedDate: null,
-  },
-  {
-    id: 4,
-    title: "UI/UX Design Assignment",
-    dueDate: "December 28, 2024",
-    description:
-      "Create wireframes and prototypes for an e-commerce mobile application.",
-    status: "submitted",
-    sampleFile: "/sample-design.pdf",
-    submittedDate: "December 27, 2024",
-    obtainedScore: 8,
-    totalScore: 10,
-  },
-];
-
 export default function StudentAssignment() {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -74,7 +26,6 @@ export default function StudentAssignment() {
           limit,
           currentUser?.section?._id
         );
-        // console.log("response assignments", response);
         setAssignments(response.assignments);
         setTotalPages(response.totalPages);
         setLoading(false);
@@ -92,6 +43,7 @@ export default function StudentAssignment() {
   }, [page, limit, currentUser, changingInAssignment]);
   return (
     <>
+      {loading && <Loader />}
       <div className="container mx-auto">
         <div className="flex flex-col">
           <h1 className="text-3xl font-bold mb-8">Assignments</h1>
