@@ -31,37 +31,37 @@ export function AssignmentSubmissionSheet({
   const { currentUser } = useAuth();
   const { setChangingInAssignment } = useAssignmentContext();
   const [loading, setLoading] = useState(false);
-  // const handleFileChange = (e) => {
-  //   const selectedFile = e.target.files[0];
-  //   if (selectedFile && selectedFile.type.startsWith("image/")) {
-  //     setFile(selectedFile);
-  //   } else {
-  //     toast.error("Please upload a valid image file before submitting.", {
-  //       position: "bottom-right",
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       theme: "dark",
-  //     });
-  //     setFile(null);
-  //   }
-  // };
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.type.startsWith("image/")) {
+      setFile(selectedFile);
+    } else {
+      toast.error("Please upload a valid image file before submitting.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      setFile(null);
+    }
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
-    // if (!file) {
-    //   toast.error("Please upload a valid image file before submitting.", {
-    //     position: "bottom-right",
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     theme: "dark",
-    //   });
-    //   setLoading(false);
-    //   return;
-    // }
+    if (!file) {
+      toast.error("Please upload a valid image file before submitting.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+      setLoading(false);
+      return;
+    }
 
     const formData = {
       assignment: assignmentId,
@@ -109,8 +109,8 @@ export function AssignmentSubmissionSheet({
         <SheetHeader>
           <SheetTitle>Submit Assignment</SheetTitle>
         </SheetHeader>
-        <div className="border-t pt-4 mt-auto space-y-4 flex flex-col justify-end h-full">
-          {/* <div className="grid w-full items-center gap-1.5">
+        <div className="border-t pt-4  space-y-4 flex flex-col justify-end h-full">
+           <div className="grid w-full items-center gap-1.5">
             <div className="relative">
               <Input
                 id="assignment"
@@ -127,7 +127,7 @@ export function AssignmentSubmissionSheet({
                 {file ? file.name : "Choose File"}
               </Button>
             </div>
-          </div> */}
+          </div>
           <div className="grid w-full items-center gap-1.5">
             <Label htmlFor="deployLink">Deploy Link</Label>
             <Input
