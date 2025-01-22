@@ -23,7 +23,7 @@ export function AssignmentDetailSheet({
   totalScore,
 }) {
   const getStatusBadge = (status) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "submitted":
         return (
           <Badge variant="success" className="bg-green-500">

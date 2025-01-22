@@ -24,6 +24,17 @@ export const getAssignments = async (page, limit, section) => {
     throw error;
   }
 };
+export const getAssignmentById = async (assignmentId) => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getAssignments}/${assignmentId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching assignment by ID:", error);
+    throw error;
+  }
+};
 export const deleteAssignment = async (assignmentId) => {
   try {
     const response = await axios.delete(

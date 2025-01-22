@@ -31,30 +31,31 @@ export default function AllAssignmentCard({ assignment }) {
     totalScore,
     obtainedScore,
   } = assignment;
+
   const [file, setFile] = useState(null);
   const [deployLink, setDeployLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [videoLink, setVideoLink] = useState("");
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.type.startsWith("image/")) {
-      setFile(selectedFile);
-    } else {
-      toast.error("Please upload a valid image file before submitting.", {
-        position: "bottom-right",
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-      });
-      setFile(null);
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   if (selectedFile && selectedFile.type.startsWith("image/")) {
+  //     setFile(selectedFile);
+  //   } else {
+  //     toast.error("Please upload a valid image file before submitting.", {
+  //       position: "bottom-right",
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       theme: "dark",
+  //     });
+  //     setFile(null);
+  //   }
+  // };
 
   const getStatusBadge = (status) => {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "submitted":
         return (
           <Badge variant="success" className="bg-green-500">
@@ -103,7 +104,8 @@ export default function AllAssignmentCard({ assignment }) {
             totalScore={totalScore}
           />
           {/* Submission Form Sheet */}
-          {(status === "missed" || status === "pending") && (
+          {(status.toLowerCase() === "missed" ||
+            status.toLowerCase() === "pending") && (
             <AssignmentSubmissionSheet
               assignmentId={_id}
               file={file}

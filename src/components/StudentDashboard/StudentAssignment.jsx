@@ -6,6 +6,8 @@ import { usePaginate } from "../../context/PaginateContext";
 import { toast } from "react-toastify";
 import { getAssignments } from "../../services/api/assignment";
 import { motion } from "framer-motion";
+import { useAssignmentContext } from "../../context/assignmentContext";
+import Loader from "../Loader";
 
 // Mock data for assignments
 const assignments = [
@@ -61,18 +63,18 @@ export default function StudentAssignment() {
   const [assignments, setAssignments] = useState([]);
   const [status, setStatus] = useState("pending");
   const { page, limit, setTotalPages } = usePaginate();
+  const { changingInAssignment } = useAssignmentContext();
   useEffect(() => {
     const fetchAssignments = async () => {
       try {
         setLoading(true);
+        // console.log("user incurrent", currentUser.section._id);
         const response = await getAssignments(
           page,
           limit,
-          currentUser?.section?._id,
-
-          status
+          currentUser?.section?._id
         );
-        console.log(response);
+        // console.log("response assignments", response);
         setAssignments(response.assignments);
         setTotalPages(response.totalPages);
         setLoading(false);
@@ -87,7 +89,7 @@ export default function StudentAssignment() {
       }
     };
     fetchAssignments();
-  }, [page, limit, currentUser]);
+  }, [page, limit, currentUser, changingInAssignment]);
   return (
     <>
       <div className="container mx-auto">
@@ -118,9 +120,13 @@ export default function StudentAssignment() {
           </div>
         </div>
         <div className="flex flex-wrap gap-6">
-          {assignments.map((assignment) => (
-            <AllAssignmentCard key={assignment.id} assignment={assignment} />
-          ))}
+          {loading ? (
+            <Loader />
+          ) : (
+            assignments.map((assignment) => (
+              <AllAssignmentCard key={assignment._id} assignment={assignment} />
+            ))
+          )}
         </div>
       </div>
     </>
