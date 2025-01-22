@@ -99,12 +99,9 @@ const AdminBatches = () => {
   const { toast } = useToast();
   const { changingInBatch } = useBatchContext();
 
-  // console.log("changingInBatch in admin", changingInBatch);
-
   const allCourses = async () => {
     try {
       let courses = await getCoursesWithoutLimit();
-      // console.log("courses in all courses", courses);
       setAllCourses(courses.courses);
       // return courses;
     } catch (error) {

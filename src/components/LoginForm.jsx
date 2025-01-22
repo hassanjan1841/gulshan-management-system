@@ -24,8 +24,6 @@ export default function LoginPage() {
     try {
       const user = await signInWithGoogle();
       const userData = await loginUser(user.email);
-
-      console.log("userData", userData.user);
       Cookies.set("token", userData.token);
       setCurrentUser(userData.user);
 

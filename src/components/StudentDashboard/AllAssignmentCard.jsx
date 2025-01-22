@@ -6,13 +6,14 @@ import { toast } from "react-toastify";
 import { AssignmentDetailSheet } from "./AssignmentDetailSheet";
 import { AssignmentSubmissionSheet } from "./AssignmentSubmissionSheet";
 export default function AllAssignmentCard({ assignment }) {
+  
   const {
     _id,
     title,
     dueDate,
     description,
     status,
-    sampleFile,
+    pictures,
     submittedDate,
     totalScore,
     obtainedScore,
@@ -83,7 +84,7 @@ export default function AllAssignmentCard({ assignment }) {
             title={title}
             dueDate={dueDate}
             description={description}
-            sampleFile={sampleFile}
+            sampleFile={pictures}
             status={status}
             submittedDate={submittedDate}
             obtainedScore={obtainedScore}

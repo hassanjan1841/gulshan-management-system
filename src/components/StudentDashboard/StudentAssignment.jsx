@@ -15,6 +15,7 @@ export default function StudentAssignment() {
   const [assignments, setAssignments] = useState([]);
   const [status, setStatus] = useState("pending");
   const { page, limit, setTotalPages } = usePaginate();
+
   useEffect(() => {
     const fetchAssignments = async () => {
       try {
@@ -25,7 +26,6 @@ export default function StudentAssignment() {
           currentUser?.section?._id,
           status
         );
-        console.log(response);
         setAssignments(response.assignments);
         setTotalPages(response.totalPages);
         setLoading(false);
