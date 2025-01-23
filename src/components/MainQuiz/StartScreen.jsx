@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function StartScreen({ onStart }) {
+  const [cnic, setCnic] = useState("");
+  const [isValidCnic, setIsValidCnic] = useState(false);
+
+  const validateCnic = (value) => {
+    // Basic CNIC validation (13 digits)
+    const cnicRegex = /^\d{13}$/;
+    return cnicRegex.test(value);
+  };
+
+  const handleCnicChange = (e) => {
+    const value = e.target.value;
+    setCnic(value);
+    setIsValidCnic(validateCnic(value));
+  };
+
+  const handleStart = () => {
+    if (isValidCnic) {
+      onStart(cnic);
+    }
+  };
   return (
     <motion.div
       className="text-center"
@@ -11,7 +31,24 @@ export default function StartScreen({ onStart }) {
     >
       <h1 className="text-3xl font-bold mb-6 text-muted">
         Welcome to the Quiz
-      </h1>
+      </h1>{" "}
+      <div className="mb-6">
+        <label
+          htmlFor="cnic"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Enter your CNIC (13 digits)
+        </label>
+        <input
+          type="text"
+          id="cnic"
+          value={cnic}
+          onChange={handleCnicChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-muted"
+          placeholder="1234567890123"
+          maxLength={13}
+        />
+      </div>
       <p className="text-lg mb-4 text-gray-600">
         Please note: After starting the quiz, the application will enter
         fullscreen mode.
@@ -20,12 +57,15 @@ export default function StartScreen({ onStart }) {
         If you press Escape, switch to another tab or window, or exit fullscreen
         mode, the quiz will terminate, and you will fail. Please ensure you're
         ready before starting.
-      </p>
+      </p>{" "}
       <motion.button
-        className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors"
-        onClick={onStart}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        className={`bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold transition-colors ${
+          isValidCnic ? "hover:bg-blue-600" : "opacity-50 cursor-not-allowed"
+        }`}
+        onClick={handleStart}
+        disabled={!isValidCnic}
+        whileHover={isValidCnic ? { scale: 1.05 } : {}}
+        whileTap={isValidCnic ? { scale: 0.95 } : {}}
       >
         Start Quiz
       </motion.button>

@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 
-export default function ResultScreen({ answers, questions, failed }) {
+export default function ResultScreen({
+  answers,
+  questions,
+  failed,
+  cnic,
+  timeRemaining,
+}) {
   useEffect(() => {
     const exitFullscreen = () => {
       if (document.exitFullscreen) {
@@ -20,6 +25,16 @@ export default function ResultScreen({ answers, questions, failed }) {
     };
 
     exitFullscreen();
+
+    // Console log all quiz data
+    console.log({
+      cnic,
+      failed,
+      timeRemaining,
+      totalQuestions: questions.length,
+      answers,
+      score: failed ? 0 : calculateScore(),
+    });
   }, []);
 
   const calculateScore = () => {
@@ -80,7 +95,7 @@ export default function ResultScreen({ answers, questions, failed }) {
         </>
       )}
       <motion.button
-        className="bg-blue-500 text-foreground px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors mt-8"
+        className="bg-blue-500 text-muted px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition-colors mt-8"
         onClick={() => window.location.reload()}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
