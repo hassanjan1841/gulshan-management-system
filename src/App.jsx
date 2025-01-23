@@ -33,6 +33,7 @@ import AdminBranches from "./components/Admin/Branches/AdminBrances";
 import AdminSections from "./components/Admin/Sections/AdminSections";
 import SectionDetails from "./components/Admin/Sections/SectionDetails";
 import TeacherDashboard from "./components/TeacherDashboard/TeachertDashboard";
+import QuizApp from "./components/MainQuiz/QuizApp";
 
 function App() {
   // const { currentUser } = useAuth();
@@ -57,6 +58,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/idcard" element={<IdCard />} />
+        <Route path="/quiz" element={<QuizApp />} />
         <Route path="*" element={<NotFound />} />
 
         {/* student routes */}
