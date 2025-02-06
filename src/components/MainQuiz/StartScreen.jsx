@@ -22,7 +22,6 @@ export default function StartScreen({ onStart }) {
       onStart(cnic);
     }
   };
-
   return (
     <motion.div
       className="text-center"

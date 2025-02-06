@@ -86,7 +86,7 @@ export function AssignmentSubmissionSheet({
     }
   }
 
-  return (
+  return (  
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline">Open Submission Form</Button>
