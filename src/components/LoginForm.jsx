@@ -6,8 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
 import { useNavigate } from "react-router";
-import { useToast } from "../hooks/use-toast";  
-import Cookies from "js-cookie"; 
+import { useToast } from "../hooks/use-toast";
+import Cookies from "js-cookie";
 import { useAuth } from "../context/authContext";
 import { loginUser } from "../services/api/user";
 import { signInWithGoogle } from "../firebase/auth";
@@ -18,12 +18,43 @@ export default function LoginPage() {
   const { toast } = useToast();
   const { setCurrentUser } = useAuth();
 
-  const handleGoogleLogin = async () => {
+  // const handleGoogleLogin = async () => {
+  //   setLoading(true);
+  //   // Implement your Google login logic here
+  //   try {
+  //     const user = await signInWithGoogle();
+  //     const userData = await loginUser(user.email);
+  //     Cookies.set("token", userData.token);
+  //     setCurrentUser(userData.user);
+
+  //     toast({
+  //       variant: "success",
+  //       title: "Login Successful",
+  //       description: "You have successfully signed in",
+  //     });
+
+  //     navigate(`/${userData.user.role}`);
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.log("Error signing in:==> ", error.message);
+
+  //     toast({
+  //       variant: "destructive",
+  //       title: error.message ? "Server Error" : "User Validaion",
+  //       description: error?.response?.data?.message
+  //         ? error.response.data.message
+  //         : error?.message,
+  //     });
+  //   }
+  // };
+
+  const [email, setEmail] = useState("");
+
+  const handleEmailLogin = async () => {
     setLoading(true);
-    // Implement your Google login logic here
+    // Implement your email login logic here
     try {
-      const user = await signInWithGoogle();
-      const userData = await loginUser(user.email);
+      const userData = await loginUser(email);
       Cookies.set("token", userData.token);
       setCurrentUser(userData.user);
 
@@ -40,7 +71,7 @@ export default function LoginPage() {
 
       toast({
         variant: "destructive",
-        title: error.message ? "Server Error" : "User Validaion",
+        title: error.message ? "Server Error" : "User Validation",
         description: error?.response?.data?.message
           ? error.response.data.message
           : error?.message,
@@ -63,9 +94,16 @@ export default function LoginPage() {
           <p className="text-muted-foreground text-center">
             Sign in to your account to continue
           </p>
+          <input
+            type="email"
+            className="w-full p-2 border text-black border-gray-300 rounded"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <Button
             className="w-full"
-            onClick={handleGoogleLogin}
+            onClick={handleEmailLogin}
             disabled={loading}
           >
             {loading ? (
@@ -74,7 +112,7 @@ export default function LoginPage() {
                 Signing In...
               </>
             ) : (
-              "Continue with Google"
+              "Sign In"
             )}
           </Button>
         </CardContent>
