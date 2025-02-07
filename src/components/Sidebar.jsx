@@ -4,7 +4,6 @@ import {
   BookOpen,
   PenTool,
   Award,
-  Layers,
   Users,
   TrendingUp,
   FileText,
@@ -18,17 +17,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
-  SidebarMenuSubButton,
   useSidebar,
 } from "./ui/sidebar";
 import { Link, useLocation } from "react-router";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 
 const adminItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
@@ -37,6 +28,7 @@ const adminItems = [
   { name: "Batches", href: "/admin/dashboard/batches", icon: BookOpen },
   { name: "Branches", href: "/admin/dashboard/branches", icon: BookOpen },
   { name: "Sections", href: "/admin/dashboard/sections", icon: BookOpen },
+  { name: "Quizzes", href: "/admin/dashboard/quizzes", icon: BookOpen },
 ];
 
 const teacherItems = [
@@ -60,9 +52,6 @@ const studentItems = [
 
 export default function AppSidebar({ role, ...props }) {
   const { state } = useSidebar();
-  const [openCourse, setOpenCourse] = useState(null);
-  const [openBatch, setOpenBatch] = useState(null);
-  const [openSection, setOpenSection] = useState(null);
 
   const location = useLocation();
 

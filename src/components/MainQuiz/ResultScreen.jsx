@@ -11,6 +11,7 @@ export default function ResultScreen({
   useEffect(() => {
     // Console log all quiz data
     console.log(cnic);
+    console.log(failed);
     console.log({
       cnic,
       failed,
@@ -35,7 +36,8 @@ export default function ResultScreen({
     }, 0);
   };
 
-  const score = failed ? 0 : calculateScore();
+  const score = calculateScore();
+  const isFailed = score === 0;
 
   return (
     <motion.div
@@ -45,7 +47,7 @@ export default function ResultScreen({
       transition={{ duration: 0.5 }}
     >
       <h2 className="text-3xl font-bold mb-6 text-primary-foreground">
-        {failed ? "Quiz Failed" : "Quiz Completed"}
+        {isFailed ? "Quiz Failed" : "Quiz Completed"}
       </h2>
       {failed ? (
         <p className="text-xl text-red-600 mb-4">

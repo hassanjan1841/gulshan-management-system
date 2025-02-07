@@ -35,6 +35,7 @@ export const appRoutes = {
   createSection: BASE_URL + "section",
 
   sendEmail: BASE_URL + "sendEmail",
+  scheduleEmails: BASE_URL + "sendEmail/schedule",
 
   // Branch Routes
   getBranches: BASE_URL + "branch", // Get all branches
