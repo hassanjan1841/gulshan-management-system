@@ -61,4 +61,19 @@ export const appRoutes = {
   getAssignmentSubmissions: BASE_URL + "assignment-submission",
   deleteAssignmentSubmission: BASE_URL + "assignment-submission",
   updateAssignmentSubmission: BASE_URL + "assignment-submission",
+
+  //Quiz Routes
+  getQuizzes: BASE_URL + "main-quiz",
+  getSingleQuiz: BASE_URL + "main-quiz",
+  createQuiz: BASE_URL + "main-quiz",
+  updateQuiz: BASE_URL + "main-quiz",
+  deleteQuiz: BASE_URL + "main-quiz",
+
+  //Quiz Question Routes
+  getQuizzesByCourseAndBatch: BASE_URL + "main-quiz",
+  createQuizQuestion: BASE_URL + "main-quiz/question",
+  deleteQuizQuestion: BASE_URL + "main-quiz/question",
+  updateQuizQuestion: BASE_URL + "main-quiz/question",
+  getQuestionsFromQuiz: (quizId) => `${BASE_URL}main-quiz/${quizId}/questions`,
+  updateQuizActiveStatus: BASE_URL + "main-quiz",
 };
