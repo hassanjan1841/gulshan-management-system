@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import CoursesPage from "./CoursesPage";
-
+import { ToastContainer } from "react-toastify";
 function Quiz() {
   // const toggleQuizActive = (quizId) => {
   //   setQuizzes((prevQuizzes) =>
@@ -12,6 +12,7 @@ function Quiz() {
 
   return (
     <AnimatePresence mode="wait">
+      <ToastContainer />
       <CoursesPage />
     </AnimatePresence>
   );

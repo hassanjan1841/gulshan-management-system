@@ -9,10 +9,9 @@ import {
   getSingleQuiz,
 } from "../../../services/api/mainQuiz";
 import AddQuestionModal from "./AdQuestionModal";
-
 import QuestionItem from "./components/QuestionItem";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 // Move the fetch function outside
 const fetchQuestionsFromQuiz = async (quizId, setLoading, setQuestions) => {
@@ -42,6 +41,9 @@ const PageHeader = ({
       <AddQuestionModal
         quizId={quizId}
         refreshQuestions={() =>
+          fetchQuestionsFromQuiz(quizId, setLoading, setQuestions)
+        }
+        addQuestion={() =>
           fetchQuestionsFromQuiz(quizId, setLoading, setQuestions)
         }
       />
@@ -111,6 +113,7 @@ function QuestionsPage() {
       exit={{ opacity: 0 }}
       className="container mx-auto p-4"
     >
+      <ToastContainer />
       <PageHeader
         handleGoBack={() => navigate(-1)}
         quizId={quizId}
