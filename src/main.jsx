@@ -14,6 +14,7 @@ import { ChangingInCourseContextProvider } from "./context/courseContext .jsx";
 import { ChangingInStudentContextProvider } from "./context/studentContext.jsx";
 import { ChangingInAssignmentContextProvider } from "./context/assignmentContext.jsx";
 import { TeacherSectionContextProvider } from "./context/teacherSectionContext.jsx";
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 createRoot(document.getElementById("root")).render(
   <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
@@ -28,6 +29,7 @@ createRoot(document.getElementById("root")).render(
                     <ChangingInAssignmentContextProvider>
                       <TeacherSectionContextProvider>
                         <StrictMode>
+                          
                           <App />
                           <Toaster />
                         </StrictMode>

@@ -37,6 +37,7 @@ import MainQuiz from "./components/MainQuiz";
 import EmailScheduler from "./components/EmailSchedule";
 import Quiz from "./components/Admin/Quizzes";
 import QuestionsPage from "./components/Admin/Quizzes/QuestionsPage";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   // const { currentUser } = useAuth();
@@ -55,6 +56,7 @@ function App() {
 
   return (
     <>
+      <SpeedInsights />
       <ToastContainer />
       <Routes>
         <Route path="/" element={<HomePage />} />
