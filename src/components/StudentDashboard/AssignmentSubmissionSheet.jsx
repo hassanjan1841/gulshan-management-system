@@ -1,16 +1,20 @@
-"use client"
-
-import React, { useState } from "react"
-import { Upload } from "lucide-react"
-import { toast } from "react-toastify"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import ButtonSpinner from "@/components/ButtonSpinner"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useAuth } from "../../context/authContext"
-import { createAssignmentSubmission } from "../../services/api/assignmentSubmission"
-import { useAssignmentContext } from "../../context/assignmentContext"
+import React, { useState } from "react";
+import { Upload } from "lucide-react";
+import { toast } from "react-toastify";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import ButtonSpinner from "@/components/ButtonSpinner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "../../context/authContext";
+import { createAssignmentSubmission } from "../../services/api/assignmentSubmission";
+import { useAssignmentContext } from "../../context/assignmentContext";
 
 export function AssignmentSubmissionSheet({
   assignmentId,
@@ -21,14 +25,14 @@ export function AssignmentSubmissionSheet({
   githubLink,
   setGithubLink,
 }) {
-  const { currentUser } = useAuth()
-  const { setChangingInAssignment } = useAssignmentContext()
-  const [loading, setLoading] = useState(false)
+  const { currentUser } = useAuth();
+  const { setChangingInAssignment } = useAssignmentContext();
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0]
+    const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.type.startsWith("image/")) {
-      setFile(selectedFile)
+      setFile(selectedFile);
     } else {
       toast.error("Please upload a valid image file before submitting.", {
         position: "bottom-right",
@@ -37,13 +41,13 @@ export function AssignmentSubmissionSheet({
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-      })
-      setFile(null)
+      });
+      setFile(null);
     }
-  }
+  };
 
   const handleSubmit = async () => {
-    setLoading(true)
+    setLoading(true);
     if (!file) {
       toast.error("Please upload a valid image file before submitting.", {
         position: "bottom-right",
@@ -52,17 +56,17 @@ export function AssignmentSubmissionSheet({
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-      })
-      setLoading(false)
-      return
+      });
+      setLoading(false);
+      return;
     }
     const formData = {
       assignment: assignmentId,
       student: currentUser._id,
       submission: { deployLink, githubLink },
-    }
+    };
     try {
-      const response = await createAssignmentSubmission(formData)
+      const response = await createAssignmentSubmission(formData);
       toast.success("Assignment submitted successfully!", {
         position: "bottom-right",
         hideProgressBar: false,
@@ -70,23 +74,28 @@ export function AssignmentSubmissionSheet({
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-      })
-      setLoading(false)
-      setChangingInAssignment((prev) => prev + 1)
+      });
+      setLoading(false);
+      setChangingInAssignment((prev) => prev + 1);
     } catch (error) {
-      toast.error(error.response.data.message ? error.response.data.message : error.message, {
-        position: "bottom-right",
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-      })
-      setLoading(false)
+      toast.error(
+        error.response.data.message
+          ? error.response.data.message
+          : error.message,
+        {
+          position: "bottom-right",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        }
+      );
+      setLoading(false);
     }
-  }
+  };
 
-  return (  
+  return (
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline">Open Submission Form</Button>
@@ -97,7 +106,12 @@ export function AssignmentSubmissionSheet({
         </SheetHeader>
         <div className="mt-6 space-y-4">
           <div className="relative">
-            <Input id="assignment" type="file" className="hidden" onChange={handleFileChange} />
+            <Input
+              id="assignment"
+              type="file"
+              className="hidden"
+              onChange={handleFileChange}
+            />
             <Button
               variant="outline"
               className="w-full justify-start"
@@ -135,6 +149,5 @@ export function AssignmentSubmissionSheet({
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
-

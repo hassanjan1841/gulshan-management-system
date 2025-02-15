@@ -1,5 +1,3 @@
-"use client";
-
 import PerformanceCharts from "../../components/Admin/Dashboard/PerformanceCharts";
 import UpcomingMeetings from "../../components/Admin/Dashboard/UpcomingMeetings";
 import MainStats from "../../components/Admin/Dashboard/MainStats";

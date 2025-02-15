@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import AdminBatchesCard from "./AdminBatchesCard";
 import Loader from "../Loader";

@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import {
   Card,
@@ -23,7 +21,7 @@ import { useSectionContext } from "../../../context/sectionContext";
 export default function SectionDetails() {
   const [isUpdateSheetOpen, setIsUpdateSheetOpen] = useState(false);
   const [section, setSection] = useState({});
-    const { changingInSection, SetChangingInSection } = useSectionContext();
+  const { changingInSection, SetChangingInSection } = useSectionContext();
 
   const { id } = useParams();
   console.log("id", id);

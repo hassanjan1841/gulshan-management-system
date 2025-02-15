@@ -63,11 +63,9 @@ export const deleteQuiz = async (id) => {
 
 export const getAllQuestionsFromQuiz = async (quizId) => {
   try {
-    console.log(appRoutes.getQuestionsFromQuiz(quizId));
-    // const response = await axios.get(
-    //   `${appRoutes.getAllQuestionsFromQuiz}/${quizId}`
-    // );
-    // return response.data;
+    const url = appRoutes.getQuestionsFromQuiz(quizId);
+    const response = await axios.get(url);
+    return response.data;
   } catch (error) {
     console.error("Error fetching questions:", error);
     throw error;
@@ -88,8 +86,9 @@ export const getQuestionFromQuiz = async (quizId, questionId) => {
 
 export const addQuestionToQuiz = async (quizId, question, token) => {
   try {
+    const url = appRoutes.addQuestionToQuiz(quizId);
     const response = await axios.post(
-      `${appRoutes.addQuestionToQuiz}/${quizId}`,
+      url,
       question,
       token && {
         headers: {
@@ -119,9 +118,8 @@ export const updateQuestionInQuiz = async (quizId, questionId, question) => {
 
 export const deleteQuestionFromQuiz = async (quizId, questionId) => {
   try {
-    const response = await axios.delete(
-      `${appRoutes.deleteQuestionFromQuiz}/${quizId}/${questionId}`
-    );
+    const url = appRoutes.deleteQuestionFromQuiz(quizId, questionId);
+    const response = await axios.delete(url);
     return response.data;
   } catch (error) {
     console.error("Error deleting question:", error);
@@ -146,7 +144,7 @@ export const updateQuizActiveStatus = async (id, active) => {
     console.log("updateQuizActiveStatus", id, active);
     const response = await axios.put(
       `${appRoutes.updateQuizActiveStatus}/${id}`,
-      {active}
+      { active }
     );
     return response.data;
   } catch (error) {

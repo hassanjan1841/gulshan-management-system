@@ -1,48 +1,68 @@
-"use client"
-
-import { useState, useMemo } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
+import { useState, useMemo } from "react";
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 function QuizzesPage({ quizzes, onQuizSelect }) {
-  const [courseFilter, setCourseFilter] = useState("")
-  const [batchFilter, setBatchFilter] = useState("")
+  const [courseFilter, setCourseFilter] = useState("");
+  const [batchFilter, setBatchFilter] = useState("");
 
   const courses = useMemo(() => {
-    if (!Array.isArray(quizzes)) return []
-    return [...new Set(quizzes.map((quiz) => quiz.course))]
-  }, [quizzes])
+    if (!Array.isArray(quizzes)) return [];
+    return [...new Set(quizzes.map((quiz) => quiz.course))];
+  }, [quizzes]);
 
   const batches = useMemo(() => {
-    if (!Array.isArray(quizzes) || !courseFilter) return []
-    return [...new Set(quizzes.filter((quiz) => quiz.course === courseFilter).map((quiz) => quiz.batch))]
-  }, [quizzes, courseFilter])
+    if (!Array.isArray(quizzes) || !courseFilter) return [];
+    return [
+      ...new Set(
+        quizzes
+          .filter((quiz) => quiz.course === courseFilter)
+          .map((quiz) => quiz.batch)
+      ),
+    ];
+  }, [quizzes, courseFilter]);
 
   const toggleQuizActive = (quizId) => {
-    if (!Array.isArray(quizzes)) return
+    if (!Array.isArray(quizzes)) return;
     const updatedQuizzes = quizzes.map((quiz) =>
-      quiz.id === quizId ? { ...quiz, active: true } : { ...quiz, active: false },
-    )
+      quiz.id === quizId
+        ? { ...quiz, active: true }
+        : { ...quiz, active: false }
+    );
     // Assuming you have a function to update quizzes in the parent component
     // updateQuizzes(updatedQuizzes)
-  }
+  };
 
   const filteredQuizzes = useMemo(() => {
-    if (!Array.isArray(quizzes) || !courseFilter || !batchFilter) return []
-    return quizzes.filter((quiz) => quiz.course === courseFilter && quiz.batch === batchFilter)
-  }, [quizzes, courseFilter, batchFilter])
+    if (!Array.isArray(quizzes) || !courseFilter || !batchFilter) return [];
+    return quizzes.filter(
+      (quiz) => quiz.course === courseFilter && quiz.batch === batchFilter
+    );
+  }, [quizzes, courseFilter, batchFilter]);
 
   const handleCourseChange = (course) => {
-    setCourseFilter(course)
-    setBatchFilter("") // Reset batch filter when course changes
-  }
+    setCourseFilter(course);
+    setBatchFilter(""); // Reset batch filter when course changes
+  };
 
   if (!Array.isArray(quizzes)) {
-    return <p className="text-center text-lg">No quizzes available.</p>
+    return <p className="text-center text-lg">No quizzes available.</p>;
   }
 
   return (
@@ -88,11 +108,17 @@ function QuizzesPage({ quizzes, onQuizSelect }) {
         )}
       </div>
       {!courseFilter ? (
-        <p className="text-center text-lg">Please select a course to view available batches.</p>
+        <p className="text-center text-lg">
+          Please select a course to view available batches.
+        </p>
       ) : !batchFilter ? (
-        <p className="text-center text-lg">Please select a batch to view quizzes.</p>
+        <p className="text-center text-lg">
+          Please select a batch to view quizzes.
+        </p>
       ) : filteredQuizzes.length === 0 ? (
-        <p className="text-center text-lg">No quizzes found for the selected course and batch.</p>
+        <p className="text-center text-lg">
+          No quizzes found for the selected course and batch.
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredQuizzes.map((quiz) => (
@@ -114,15 +140,16 @@ function QuizzesPage({ quizzes, onQuizSelect }) {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button onClick={() => onQuizSelect(quiz.id)}>View Questions</Button>
+                <Button onClick={() => onQuizSelect(quiz.id)}>
+                  View Questions
+                </Button>
               </CardFooter>
             </Card>
           ))}
         </div>
       )}
     </motion.div>
-  )
+  );
 }
 
-export default QuizzesPage
-
+export default QuizzesPage;

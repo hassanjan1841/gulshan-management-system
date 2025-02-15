@@ -76,4 +76,7 @@ export const appRoutes = {
   updateQuizQuestion: BASE_URL + "main-quiz/question",
   getQuestionsFromQuiz: (quizId) => `${BASE_URL}main-quiz/${quizId}/questions`,
   updateQuizActiveStatus: BASE_URL + "main-quiz",
+  addQuestionToQuiz: (quizId) => `${BASE_URL}main-quiz/${quizId}/questions`,
+  deleteQuestionFromQuiz: (quizId, questionId) =>
+    `${BASE_URL}main-quiz/${quizId}/questions/${questionId}`,
 };

@@ -36,6 +36,7 @@ import TeacherDashboard from "./components/TeacherDashboard/TeachertDashboard";
 import MainQuiz from "./components/MainQuiz";
 import EmailScheduler from "./components/EmailSchedule";
 import Quiz from "./components/Admin/Quizzes";
+import QuestionsPage from "./components/Admin/Quizzes/QuestionsPage";
 
 function App() {
   // const { currentUser } = useAuth();
@@ -100,6 +101,7 @@ function App() {
           <Route path="sections" element={<AdminSections />} />
           <Route path="sections/:id" element={<SectionDetails />} />
           <Route path="quizzes" element={<Quiz />} />
+          <Route path="quizzes/:id" element={<QuestionsPage />} />
         </Route>
       </Routes>
     </>
