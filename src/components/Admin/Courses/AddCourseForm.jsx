@@ -1,9 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useToast } from "../../hooks/use-toast";
-
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -22,10 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createCourse } from "../../services/api/courses";
+import { createCourse } from "../../../services/api/courses";
 import { useState } from "react";
 import Cookies from "js-cookie";
-
+import ButtonSpinner from "../../ButtonSpinner";
+import { useCourseContext } from "../../../context/courseContext ";
+import { toast } from "react-toastify";
 // Form validation schema
 const formSchema = z.object({
   title: z
@@ -37,45 +36,50 @@ const formSchema = z.object({
     .min(15, { message: "Description must be at least 15 characters." })
     .max(200, { message: "Description must not exceed 120 characters." }),
   duration: z.string().nonempty({ message: "Duration is required." }),
-  fee: z.string().nonempty({ message: "Fee is required." }),
   level: z.string().nonempty({ message: "Level is required." }),
 });
 
-export function AddCourseForm({ onCourseAdd }) {
+export function AddCourseForm() {
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const {changingInCourse, setChangingInCourse} = useCourseContext()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       description: "",
       duration: "",
-      fee: "",
       level: "",
     },
   });
 
   async function onSubmit(values) {
-    setLoading(true);
+    console.log("values courses>>", values);
+    
     try {
+      setLoading(true);
       const course = await createCourse(values, Cookies.get("token"));
-      toast({
-        title: "Course Added",
-        message: "Course has been added successfully.",
-        type: "success",
-      });
-
-      onCourseAdd(values);
-      form.reset();
+      setChangingInCourse(() => changingInCourse + 1)
+         toast.success(
+           "Branch Added Successfully.",
+           {
+             position: "bottom-right",
+             hideProgressBar: false,
+             closeOnClick: true,
+             pauseOnHover: true,
+             draggable: true,
+             theme: "dark", // Change the theme if needed
+           }
+         )
+         form.reset();
     } catch (error) {
-      console.error("Error submitting form:", error);
-      toast({
-        variant: "destructive",
-        title: error.message ? "Server Error" : "User Validation",
-        description: error?.response?.data?.message
-          ? error.response.data.message
-          : error?.message,
-      });
+      toast.error("Branch error",{
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark", // Change the theme if needed
+      })
     } finally {
       setLoading(false);
     }
@@ -162,24 +166,9 @@ export function AddCourseForm({ onCourseAdd }) {
           )}
         />
 
-        {/* Fee Field */}
-        <FormField
-          control={form.control}
-          name="fee"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Fee</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter course fee" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         {/* Submit Button */}
         <Button type="submit" className="w-full" loading={loading}>
-          {loading ? "Submitting..." : "Submit"}
+          {loading ? <ButtonSpinner/> : "Add New Course"}
         </Button>
       </form>
     </Form>

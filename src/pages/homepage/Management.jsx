@@ -22,15 +22,15 @@ const Manager = ({ name, role, image }) => {
 const Management = () => {
   const managers = [
     {
+      name: "Wajidullah",
+      role: "Administrator",
+      image: Wajidullah,
+    },
+    {
       name: "Muhammad Bashir Farooq",
       role: "Chairman",
       image:
         "https://res.cloudinary.com/saylani-welfare/image/upload/v1647964514/website-images/static/62.jpg",
-    },
-    {
-      name: "Wajidullah",
-      role: "Administrator",
-      image: Wajidullah,
     },
     {
       name: "Zeeshan Aijaz",

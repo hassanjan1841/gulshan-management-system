@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getBatches } from "../../services/api/batches";
+import { deleteBatch, getBatches } from "../../services/api/batches";
 
 import {
   Card,
@@ -7,29 +7,41 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
+  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import BatchDetailSheet from "./BatchDetailSheet";
+import Loader from "../Loader";
+import ConfirmDialog from "../ConfirmDialog";
+import UpdateBatchSheet from "./UpdateBatchSheet";
+import { useBatchContext } from "../../context/batchContext";
+import { toast } from "react-toastify";
 
-const fetchBatches = async (course, page, limit) => {
-  let courses = await getBatches(course, page, limit);
+const fetchBatches = async (course) => {
+  let courses = await getBatches(course);
+
   return courses;
 };
 
 const AdminBatchesCard = ({ course }) => {
+  // console.log("course in adminbatchcard", course);
   const [batches, setBatches] = useState([]);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const limit = 9;
+  // const { page, limit, setTotalPages } = usePaginate();
+  // const limit = 9;
+  const { changingInBatch, SetChangingInBatch } = useBatchContext();
 
   useEffect(() => {
     const loadBatches = async () => {
       try {
         setLoading(true);
-        const newBatches = await fetchBatches(course._id, page, limit);
-        console.log("newBatches :>> ", newBatches);
+        const newBatches = await fetchBatches(course._id);
         setBatches(newBatches.batches);
+        // console.log("batches in adminbatches card", newBatches);
+        // setTotalPages(newBatches.totalPages);
         setLoading(false);
       } catch (error) {
         if (error.response.data.error) {
@@ -38,11 +50,48 @@ const AdminBatchesCard = ({ course }) => {
             message: error.response.data.message,
           });
           setLoading(false);
+        } else {
+          console.log("error in system>", error);
         }
       }
     };
     loadBatches();
-  }, [page]);
+  }, [course]);
+
+  const handleDeleteBatch = async (batchId) => {
+    try {
+      const batchDelete = await deleteBatch(batchId);
+      SetChangingInBatch(() => changingInBatch + 1);
+      toast.success("Batch Deleted.", {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    } catch (error) {
+      if (error.response?.data?.error) {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
+      }
+      toast.error(error.message, {
+        position: "bottom-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    }
+  };
+
   return (
     <div className="">
       {batches?.error ? (
@@ -81,34 +130,44 @@ const AdminBatchesCard = ({ course }) => {
               </CardHeader>
               <CardContent className="pt-4">
                 <div className="space-y-2 text-sm">
-                  <div className="flex items-center justify-between py-1 border-t">
-                    <span className="text-muted-foreground font-medium">
-                      Start Date
-                    </span>
-                    <span className="tabular-nums">
+                  <div className=" py-1 ">
+                    <Badge variant="outline" className="flex justify-between">
+                      <span>Start Date</span>
                       {new Date(batch.createdAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
                       })}
-                    </span>
+                    </Badge>
                   </div>
-                  <div className="flex items-center justify-between py-1 border-t">
-                    <span className="text-muted-foreground font-medium">
-                      End Date
-                    </span>
-                    <span className="tabular-nums">
+                  <div className=" py-1">
+                    <Badge variant="outline" className="flex justify-between">
+                      <span>End Date</span>
                       {new Date(batch.updatedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
                       })}
-                    </span>
+                    </Badge>
                   </div>
                 </div>
               </CardContent>
+              <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
+                <div className="flex space-x-2">
+                  <BatchDetailSheet batchData={batch} />
+                  <UpdateBatchSheet batch={batch} />
+                </div>
+
+                <ConfirmDialog
+                  title="Are you sure?"
+                  description="This action cannot be undone. This will permanently delete the branch and remove the data from our servers."
+                  onConfirm={() => handleDeleteBatch(batch._id)}
+                  triggerText="Delete"
+                />
+              </CardFooter>
             </Card>
           ))}
+          {loading && <Loader />}
         </div>
       )}
     </div>

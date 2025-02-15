@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (!currentUser) {
       const token = Cookies.get("token");
-      console.log("token", token);
       if (token) {
         getUser();
       }

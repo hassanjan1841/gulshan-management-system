@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import CreateAssignmentForm from "./AssignmentForm";
-import { Edit } from "lucide-react";
+import { Edit, Pencil } from "lucide-react";
 
 export default function EditAssignmentButton() {
   const [open, setOpen] = useState(false);
@@ -18,7 +18,7 @@ export default function EditAssignmentButton() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon">
-          <Edit className="h-4 w-4" />
+          <Pencil/>
         </Button>
       </SheetTrigger>
       <SheetContent>

@@ -1,14 +1,13 @@
 import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
-export const getBatches = async (course,page, limit) => {
+export const getBatches = async (course = "") => {
   try {
     const response = await axios.get(
-      `${appRoutes.getBatches}?course=${course}&page=${page}&limit=${limit}`
+      `${appRoutes.getBatches}${course && "?course="+course}`
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetching batches:", error);
     throw error;
   }
 };
@@ -24,6 +23,7 @@ export const getSingleBatch = async (id) => {
 };
 
 export const createBatch = async (batch, token) => {
+  console.log("batch in createbatch", batch);
   try {
     const response = await axios.post(
       appRoutes.createBatch,
@@ -41,9 +41,9 @@ export const createBatch = async (batch, token) => {
   }
 };
 
-export const updateBatch = async (batch) => {
+export const updateBatch = async (id, batch) => {
   try {
-    const response = await axios.put(appRoutes.updateBatch, batch);
+    const response = await axios.put(`${appRoutes.updateBatch}/${id}`, batch);
     return response.data;
   } catch (error) {
     console.error("Error updating batch:", error);
@@ -69,6 +69,63 @@ export const getBatchesByCourseId = async (courseId) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching batch by course ID:", error);
+    throw error;
+  }
+};
+export const getAllCountriesFromBatchWithAdmissionOpen = async () => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getBatches}?admissionOpen=true`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error fetching countries from batches with admission open:",
+      error
+    );
+    throw error;
+  }
+};
+
+export const getAllCitiesByCountry = async (country) => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getBatches}?country=${country}`
+    );
+
+    return response.data; // Return unique cities
+  } catch (error) {
+    console.error("Error fetching cities by country:", error);
+    throw error;
+  }
+};
+
+export const getCoursesByCityAndCountry = async (city, country) => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getBatches}?city=${city}&country=${country}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getBranchesByCountryCityAndCourse = async (
+  country,
+  city,
+  course
+) => {
+  try {
+    const response = await axios.get(
+      `${appRoutes.getBatches}?country=${country}&city=${city}&course=${course}&admissionOpen=true`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error fetching branches by country, city, and course:",
+      error
+    );
     throw error;
   }
 };

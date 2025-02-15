@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useParams } from "react-router-dom";
-import { getSingleCourse } from "../../services/api/courses";
-import { getAllUsers } from "../../services/api/user";
-import Loader from "../Loader";
-import { getBatchesByCourseId } from "../../services/api/batches";
-import { useToast } from "../../hooks/use-toast";
+import { getSingleCourse } from "../../../services/api/courses";
+import { getAllUsers } from "../../../services/api/user";
+import Loader from "../../Loader";
+import { getBatchesByCourseId } from "../../../services/api/batches";
+import { useToast } from "../../../hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const CourseDetails = () => {
@@ -80,15 +80,15 @@ const CourseDetails = () => {
     try {
       if (tab === "students") {
         const response = await getAllUsers("student");
-        setStudents(response);
+        setStudents(response.users);
         console.log("students", response);
       } else if (tab === "teachers") {
         const response = await getAllUsers("teacher");
-        setTeachers(response);
+        setTeachers(response.users);
         console.log("teachers", response);
       } else if (tab === "batches") {
         const response = await getBatchesByCourseId(id);
-        setBatches(response);
+        setBatches(response.batches);
         console.log("batches", response);
       }
     } catch (error) {

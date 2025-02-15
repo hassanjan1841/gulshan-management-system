@@ -1,14 +1,23 @@
 import axios from "axios";
 import { appRoutes } from "../../constant/constant";
 
-export const getCourses = async (page, limit) => {
+export const getCourses = async (page, limit, course) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getCourses}?page=${page}&limit=${limit}`
+      `${appRoutes.getCourses}?page=${page}&limit=${limit}${
+        course && "&course=" + course
+      }`
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
+    throw error;
+  }
+};
+export const getCoursesWithoutLimit = async () => {
+  try {
+    const response = await axios.get(`${appRoutes.getCourses}?allcourses=true`);
+    return response.data;
+  } catch (error) {
     throw error;
   }
 };
@@ -18,12 +27,14 @@ export const getSingleCourse = async (id) => {
     const response = await axios.get(`${appRoutes.getSingleCourse}/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching users:", error);
     throw error;
   }
 };
 
 export const createCourse = async (course, token) => {
+  console.log("course data in createCourse>", course );
+  console.log("course token in createCourse>", token );
+  
   try {
     const response = await axios.post(
       appRoutes.createCourse,
@@ -41,9 +52,9 @@ export const createCourse = async (course, token) => {
   }
 };
 
-export const updateCourse = async (course) => {
+export const updateCourse = async (id,course) => {
   try {
-    const response = await axios.put(appRoutes.updateCourse, course);
+    const response = await axios.put(`${appRoutes.updateCourse}/${id}`, course);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -47,7 +45,7 @@ const NotFound = () => {
         </motion.p>
         <motion.div variants={childVariants}>
           <Button
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
             className="bg-blue-500 text-white hover:bg-green-500 transition-colors duration-300"
           >
             Go Home

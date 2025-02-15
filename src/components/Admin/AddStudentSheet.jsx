@@ -11,6 +11,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import ButtonSpinner from "../../components/ButtonSpinner";
+
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
@@ -100,7 +102,7 @@ function AddStudentSheet({ onAddStudent }) {
         <Button>Add Student</Button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-[400px] p-6 rounded-lg shadow-xl">
+      <SheetContent side="right" className="w-[400px] overflow-y-scroll p-6 rounded-lg shadow-xl">
         <SheetHeader>
           <SheetTitle className="text-xl font-semibold mb-5">
             Add New Student
@@ -240,8 +242,8 @@ function AddStudentSheet({ onAddStudent }) {
               )}
             />
 
-            <Button type="submit" className="mt-4">
-              Add Student
+            <Button className='w-full' type="submit">
+              {form.formState.isSubmitting ? <ButtonSpinner/> : "Add Student"}
             </Button>
           </form>
         </Form>

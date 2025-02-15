@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,24 +12,17 @@ import { Badge } from "@/components/ui/badge";
 import { CalendarIcon, Trophy } from "lucide-react";
 import SubmissionsCards from "./SubmissionsCards";
 import Loader from "../Loader";
+import { getAssignmentById } from "../../services/api/assignment";
 
 const AssignmentDetails = () => {
   const { id } = useParams();
   const [assignment, setAssignment] = useState(null);
-
+  console.log("AssignmentDetails", id);
   useEffect(() => {
     const fetchAssignment = async () => {
-      // Simulating API call
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      setAssignment({
-        id,
-        title: `Assignment ${id}`,
-        description: `This is the description for Assignment ${id}. It contains details about the assignment, its objectives, and any specific instructions for students.`,
-        dueDate: new Date(
-          Date.now() + 7 * 24 * 60 * 60 * 1000
-        ).toLocaleDateString(),
-        totalScore: 100,
-      });
+      const response = await getAssignmentById(id);
+      console.log("response single aass", response);
+      setAssignment(response);
     };
     fetchAssignment();
   }, [id]);
@@ -38,7 +30,11 @@ const AssignmentDetails = () => {
   if (!assignment) {
     return <Loader />;
   }
-
+  console.log(assignment);
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   return (
     <div className=" mx-auto w-full">
       <Card className="w-full mx-auto">
@@ -66,7 +62,7 @@ const AssignmentDetails = () => {
                   <div className="flex items-center space-x-2">
                     <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                     <span className="text-sm font-medium">
-                      Due Date: {assignment.dueDate}
+                      Due Date: {formatDate(assignment.dueDate)}
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -75,9 +71,7 @@ const AssignmentDetails = () => {
                       Total Score: {assignment.totalScore}
                     </span>
                   </div>
-                  <Badge variant="outline" className="mt-2">
-                    Assignment {id}
-                  </Badge>
+                  {/* <Ba/adge> */}
                 </CardContent>
               </Card>
             </TabsContent>

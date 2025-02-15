@@ -33,20 +33,19 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-
-          <Link to={'/login'}>
+          <Link to={"/login"}>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-landing-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
+              className="bg-landing-other-button-dark text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button transition duration-300"
             >
-              Student Portal
+              Student / Teacher
             </motion.button>
           </Link>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-landing-other-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-button-dark transition duration-300"
+            className="bg-landing-other-button text-landing-background px-4 py-2 rounded-md hover:bg-landing-other-button-dark transition duration-300"
           >
             Registration
           </motion.button>

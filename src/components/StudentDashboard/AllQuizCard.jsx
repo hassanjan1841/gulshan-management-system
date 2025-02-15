@@ -1,5 +1,3 @@
-"use client";
-
 import { Eye, Play } from "lucide-react";
 import { useState } from "react";
 

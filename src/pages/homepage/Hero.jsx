@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Award } from "lucide-react";
+import heroImage from "@/assets/images/hero/hero-image.jpg";
+import heroImage2 from "@/assets/images/hero/hero-image-2.jpg";
+import heroImage3 from "@/assets/images/hero/hero-image-3.jpg";
 
 const heroContent = [
   {
     name: "Imran Hassan",
     recentAchievement: "Completed Advanced JavaScript Course",
     reward: "Gold Star Badge",
-    image:
-      "https://scontent.fkhi17-1.fna.fbcdn.net/v/t39.30808-6/462139414_931713878989371_9085431552411796623_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=fc4x50C0mVkQ7kNvgEgj2WQ&_nc_oc=Adg4EMgy6eBMIEC9z4hvaPE3TbEfSmrpjc8iOfYexsD_kqeDFlSji_K15A_18kbnbnQ&_nc_zt=23&_nc_ht=scontent.fkhi17-1.fna&_nc_gid=As9lteRSD5p6hWxBEDYbm3q&oh=00_AYDMwyZfLBIaMvdiqa-ErmCLsj5vBFYpnUoMHbC2vAlhmA&oe=67759555",
+    image: heroImage,
   },
   {
     name: "Abdul Jabbar",
     recentAchievement: "Mastered React Hooks",
     reward: "Silver Star Badge",
-    image:
-      "https://scontent.fkhi17-1.fna.fbcdn.net/v/t39.30808-6/461782521_931713895656036_6951217277629812521_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=WNa5bWrJJOgQ7kNvgF5dInk&_nc_oc=AdjMnuSpumZ8X9QEioffnY3X_8vuKdzuG3qlMbIc-19miGntt8F5rZ1luVt_IlSdDyE&_nc_zt=23&_nc_ht=scontent.fkhi17-1.fna&_nc_gid=AOlHN7veOHeTEDmhtcc3CmZ&oh=00_AYDevuMcmM67QgInfoDKLqmgrEBz5-nY_cYV1FZ2KX0-2Q&oe=677598A9",
+    image: heroImage2,
   },
   {
     name: "Moin ALi",
     recentAchievement: "Built a Full-Stack Application",
     reward: "Bronze Star Badge",
-    image:
-      "https://scontent.fkhi17-1.fna.fbcdn.net/v/t39.30808-6/461870743_931713898989369_4347963954867652394_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=nW0ZdBuYPtQQ7kNvgFvM13s&_nc_oc=Adib_74AZtByCEZ4_xT96E9lmzrhD9BW_ROAP-2fNZe6d6S47gmMl9dGCm8AqyzyWDc&_nc_zt=23&_nc_ht=scontent.fkhi17-1.fna&_nc_gid=AJUNHfHiN5Sgw8ZapKquBwl&oh=00_AYA5adCa53ZcKjzZg8PS2nAxDCN43jUI4EQIhXn6oFyKKA&oe=67757DBD",
+    image: heroImage3,
   },
 ];
 

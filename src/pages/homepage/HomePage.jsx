@@ -19,7 +19,7 @@ const HomePage = () => {
       <Header />
       <Hero />
       <Courses />
-      <Teachers />
+      {/* <Teachers /> */}
       <Management />
       <Reviews />
       <Footer />

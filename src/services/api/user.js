@@ -4,16 +4,21 @@ import { appRoutes } from "../../constant/constant";
 // Get all users
 export const getAllUsers = async (
   role,
-  page,
-  limit,
-  teacher,
-  status,
-  batch,
-  course
+  page = "",
+  limit = "",
+  teacher = "",
+  status = "",
+  batch = "",
+  course = "",
+  search = ""
 ) => {
   try {
     const response = await axios.get(
-      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}&teacher=${teacher}&status=${status}&batch=${batch}&course=${course}`
+      `${appRoutes.getUsers}?role=${role}&page=${page}&limit=${limit}${
+        teacher && "&teacher=" + teacher
+      }${status && "&status=" + status}${batch && "&batch=" + batch}${
+        course && "&course=" + course
+      }${search && "&search=" + search}}`
     );
     return response.data;
   } catch (error) {
@@ -87,3 +92,5 @@ export const deleteUser = async (userId) => {
     throw error;
   }
 };
+
+
